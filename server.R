@@ -39,18 +39,15 @@ shinyServer(function(input, output, session) {
   output$hr_emissions_up <- renderUI({fileInput("hr_emissions_up", "") })
   
   hr.table <- reactive({
-    if(!is.null(input$hr_emissions_up)) {b<-input$hr_emissions_up
-    return(read.csv(b$datapath, stringsAsFactors=F))
-    }
-    if(!is.null(input$hr_emissions)&length(unlist(strsplit(input$hr_emissions,"")))>3){   
-      hr_table <- read.csv(text=input$hr_emissions, header=F, stringsAsFactors=F)
-      names(hr_table)[1:2] <- c("Pollutant", "CAS#")
-      for(N in 3:ncol(hr_table)) names(hr_table)[N] <- paste0("Stack", round(N-2,0), " (lbs/hr)")
-      return(hr_table)   
-    } else data.frame("Pollutant"=c("Arsenic","Benzene"), "CAS#"=c("7440-38-2","71-43-2"), "Stack1 (lbs/hr)"=c(1.0,2.5), "Stack2 (lbs/hr)"=c(2.2,3.1), check.names=F, stringsAsFactors=F)
+    data.frame("Pollutant" = c("Arsenic","Benzene"), 
+               "CAS#" = c("7440-38-2","71-43-2"), 
+               "Stack1 (lbs/hr)" = c(1.0,2.5), 
+               "Stack2 (lbs/hr)" = c(2.2,3.1), 
+               check.names=F, stringsAsFactors=F)
   })
   
-  output$hr_emissions_table <- renderDataTable(hr.table(), options=list(searching=F, paging=F, scrollX=T))
+  output$hr_emissions_table <- renderDataTable(hr.table(), 
+                                               options=list(searching=F, paging=F, scrollX=T))
   
   #output$ann_emissions <- renderUI({textInput("ann_emissions","", ifelse(is.null(input$ann_emissions_up), "Arsenic, 7440-38-2, 1.4, 12 + Benzene, 71-43-2, 1.2, 23", "Reading uploaded file...")) })
   
@@ -76,15 +73,12 @@ shinyServer(function(input, output, session) {
   output$stack_up <- renderUI({fileInput("stack_up", "") })
   
   stack.table <- reactive({
-    if(!is.null(input$stack_up)) {c<-input$stack_up
-    return(read.csv(c$datapath, stringsAsFactors=F))
-    }
-    if(!is.null(input$stacks)&length(unlist(strsplit(input$stacks,"")))>3){   
-      stack_table <- read.csv(text=input$stacks, header=F, stringsAsFactors=F)
-      names(stack_table)[1:3] <- c("Stack Name", "Stack Height (ft)", "Distance To Fenceline (ft)")
-      return(stack_table[ ,1:3])   
-    } else data.frame("Stack Name"=c("Stack1","Stack2"), "Stack Height (ft)"=c(99,80), "Distance To Fenceline (ft)"=c(55,23), check.names=F, stringsAsFactors=F)
+    data.frame("Stack Name" = c("Stack1","Stack2"), 
+               "Stack Height (ft)" = c(99,80), 
+               "Distance To Fenceline (ft)" = c(55,23), 
+               check.names = F, stringsAsFactors = F)
   })
+  
   output$stack_table <- renderDataTable(stack.table(), options=list(searching=F, paging=F, scrollX=T))
   
   # Dispersion factors
@@ -118,17 +112,10 @@ shinyServer(function(input, output, session) {
   # Concentrations
   ################################ 
   # Concentration table
-  output$conc_up <- renderUI({fileInput("conc_up", "") })
+  #output$conc_up <- renderUI({fileInput("conc_up", "") })
   
   conc.table <- reactive({
-    if(!is.null(input$conc_up)) {e <-input$conc_up
-    return(read.csv(e$datapath, stringsAsFactors=F))
-    }
-    if(!is.null(input$concs)&length(unlist(strsplit(input$concs,"")))>3){   
-      conc_table <- read.csv(text=input$concs, header=F, stringsAsFactors=F)
-      names(conc_table)[1:5] <- c("Pollutant", "CAS#", "1-hr Max (ug/m3)", "Highest Month Average (ug/m3)", "Highest Year Average (ug/m3)")
-      return(conc_table[,1:5])   
-    } else {conc.table <- data.frame(Pollutant=arrange(ann.table(), Pollutant)$Pollutant, "CAS#"=as.character(arrange(ann.table(), Pollutant)[ ,"CAS#"]), "1-hr Max (ug/m3)"=1:nrow(ann.table()), "Highest Month Average (ug/m3)"=1:nrow(ann.table()), "Highest Year Average (ug/m3)"=1:nrow(ann.table()), check.names=F, stringsAsFactors=F)
+    conc.table <- data.frame(Pollutant=arrange(ann.table(), Pollutant)$Pollutant, "CAS#"=as.character(arrange(ann.table(), Pollutant)[ ,"CAS#"]), "1-hr Max (ug/m3)"=1:nrow(ann.table()), "Highest Month Average (ug/m3)"=1:nrow(ann.table()), "Highest Year Average (ug/m3)"=1:nrow(ann.table()), check.names=F, stringsAsFactors=F)
     
     conc.table.hr  <- hr.table()
     conc.table.mn  <- ann.table()
@@ -143,7 +130,7 @@ shinyServer(function(input, output, session) {
     conc.table[ ,2] <- as.character(conc.table[ ,2])
     conc.table[,3:5] <- signif(conc.table[,3:5], digits=4)
     return(conc.table[ ,1:5])
-    }})
+    })
   
   output$conc_table <- renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T))
   
@@ -205,13 +192,13 @@ shinyServer(function(input, output, session) {
     content = function(con) {
       out_file=total.risk.table()
       write.csv(out_file, con, row.names=F)
-      
-      #################################
-      # Charts
-      ################################ 
-      
-      
-      
     })
+      
+  output$download_inputs <- downloadHandler(
+        filename = function() { paste("MPCA_RASS_2015_",input$Fname, ".csv", sep="") },
+        content = function(con) {
+                   out_file = total.risk.table()
+                   write.csv(out_file, con, row.names=F)
+   })
   
 })
