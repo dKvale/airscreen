@@ -12,14 +12,14 @@ library(rCharts)
 library(rhandsontable)
 
 #options(scipen=+9999, digits=0)
-tox_values <- read.csv("Air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+tox_values <- read.csv("air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(tox_values)[c(3,7,27,20,15)] <- c("CAS#","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
 #for(name2 in names(tox_values)) {
 #tox_values[ ,name2] <- str_trim(gsub("\xca", "", tox_values[ ,name2]))
 #}
 #write.csv(tox_values, "Air_tox_values.csv", row.names=F)
 
-disp_facts <- read.csv("dispFactors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
+disp_facts <- read.csv("dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
 #mpsf_old <- read.csv("MPSFs_old.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 #names(mpsf_old)[1:2] <- c("CAS#", "Pollutant")
@@ -98,8 +98,8 @@ shinyServer(function(input, output, session) {
     } else if(!is.null(stack.table())) { 
       disp_table <- data.frame("Stack ID" = stack.table()[ ,1], 
                                "1-Hour Max" = 1:nrow(stack.table()), 
-                               "Monthly Maximum" = 1:nrow(stack.table()), 
-                               "Annual Maximum" = 1:nrow(stack.table()), 
+                               "Monthly Max" = 1:nrow(stack.table()), 
+                               "Annual Max" = 1:nrow(stack.table()), 
                                check.names=F, stringsAsFactors=F)
       for (stack in 1:nrow(disp_table)){
       nearD <- min(as.numeric(gsub("X","", names(disp_facts)[3:32]))[as.numeric(gsub("X","",names(disp_facts)[3:32]))>=round(stack.table()[stack, 3]/10,0)*10])
@@ -112,8 +112,8 @@ shinyServer(function(input, output, session) {
     } else { 
       data.frame("Stack ID" = c("Stack1","Stack2"), 
                  "1-Hour Max" = c(89,70), 
-                 "Highest Month Average" = c(20,19), 
-                 "Highest Year Average" = c(12,14), 
+                 "Montly Max" = c(20,19), 
+                 "Annual Max" = c(12,14), 
                  check.names=F, stringsAsFactors=F)
     }
     return(disp_table[ ,1:4])
@@ -121,14 +121,17 @@ shinyServer(function(input, output, session) {
   
   output$disp_table <- renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T))
   
-  #################################
-  # Concentrations
-  ################################ 
+
   # Concentration table
   #output$conc_up <- renderUI({fileInput("conc_up", "") })
   
   conc.table <- reactive({
-    conc.table <- data.frame(Pollutant=arrange(ann.table(), Pollutant)$Pollutant, "CAS#"=as.character(arrange(ann.table(), Pollutant)[ ,"CAS#"]), "1-hr Max (ug/m3)"=1:nrow(ann.table()), "Highest Month Average (ug/m3)"=1:nrow(ann.table()), "Highest Year Average (ug/m3)"=1:nrow(ann.table()), check.names=F, stringsAsFactors=F)
+    conc.table <- data.frame(Pollutant = arrange(ann.table(), Pollutant)$Pollutant, 
+                             "CAS#"    = as.character(arrange(ann.table(), Pollutant)[ ,"CAS#"]), 
+                             "1-hr Max (ug/m3)" = 1:nrow(ann.table()), 
+                             "Monthly Max (ug/m3)" = 1:nrow(ann.table()), 
+                             "Annual Max (ug/m3)" = 1:nrow(ann.table()), 
+                             check.names = F, stringsAsFactors = F)
     
     conc.table.hr  <- hr.table()
     conc.table.mn  <- ann.table()
@@ -146,11 +149,8 @@ shinyServer(function(input, output, session) {
     })
   
   output$conc_table <- renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T))
-  
-  #################################
-  # Risks
-  ################################ 
-  #Risk table
+
+  # Risk table
   risk.table <- reactive({
     if(!is.null(conc.table())){   
       
@@ -197,23 +197,26 @@ shinyServer(function(input, output, session) {
     return(total.risk.table[ ,1:10])
     }})
   
-  output$risk.table <- renderDataTable(risk.table(), options=list(searching=F, paging=F, scrollX=T))
+  output$risk_table <- renderDataTable(risk.table(), options=list(searching=F, paging=F, scrollX=T))
   
-  output$total.risk.table <- renderDataTable(total.risk.table(), options=list(searching=F, paging=F, scrollX=T, digits=2))
+  output$total_risk_table <- renderDataTable(total.risk.table(), options=list(searching=F, paging=F, scrollX=T, digits=2))
   
   #Download Buttons
   output$download <- downloadHandler(
-    filename = function() { paste("MPCA_RASS_2015_",input$Fname, ".csv", sep="") },
+    filename = function() { paste0("RASS_Results_", Sys.Date(), ".csv", sep="") },
     content = function(con) {
-      out_file=total.risk.table()
+      out_file = total.risk.table()
       write.csv(out_file, con, row.names=F)
     })
       
   output$download_inputs <- downloadHandler(
-        filename = function() { paste("MPCA_RASS_2015_",input$Fname, ".csv", sep="") },
+        filename = function() { paste0("RASS_Inputs_2016_.csv", Sys.Date(), ".csv", sep="") },
         content = function(con) {
                    out_file = total.risk.table()
                    write.csv(out_file, con, row.names=F)
    })
+  
+  output$tox_table <- renderDataTable(tox_values, options=list(searching=F, paging=F, scrollX=T))
+  
   
 })
