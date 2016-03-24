@@ -15,30 +15,33 @@ library(shiny)
 library(stringr)
 
 shinyUI(navbarPage("Facility Air Screen",
-                   
+
+tabPanel("Home", 
+    # Collect stack parameters
+    h3("  Select a facility:"), hr(style="margin-top:0px;"),
+     column(8, h4("Enter a new facility:", style="margin-botom:0px; padding-bottom:0px;"), 
+     br(),
+     p("Optional: Select facility.", style="margin-botom:-20px; padding-bottom:-10px;")
+     )),
+                                      
 tabPanel("Stacks", 
         # Collect stack parameters
         h3("  Stack Parameters"), hr(style="margin-top:0px;"),
         column(8, h4("Input height and distance from fenceline", style="margin-botom:0px; padding-bottom:0px;"), 
                p("Enter height and distance in feet.", style="font-style: italic;"), br(),
                dataTableOutput("stack_table"), hr(), 
-               p("Optional: Upload stack infromation as a comma seperated text file (.CSV).", style="margin-botom:-20px; padding-bottom:-10px;"), 
+               p("Optional: Upload stack infromation as an Excel file (.xlsx) or comma seperated text file (.csv).", style="margin-botom:-20px; padding-bottom:-10px;"), 
                uiOutput("stack_up"), hr())
         ),
                    
 tabPanel("Dispersion", 
          # Collect dispersion factors
          h3("  Dispersion Factors"), hr(style="margin-top:0px;"),
-         column(8, h4("Input air dispersion factors", style="margin-botom:0px; padding-bottom:0px;"), p("When dispersion factors are left blank they will be calculated based on stack height and fenceline distance.", style="font-style: italic;"), 
-         p("Option 1: Use comma separated text to enter modeled disperson factors."), 
-         p(" ", style="height:12px;"),   
-         p("| Stack Name | 1-Hour Max | Highest Month Average | Highest Year Average |"),
-         tags$textarea(id='disps', placeholder='Stack1,89,20,12', rows=5, 'Stack1,89,20,12\nStack2,70,19,14'),  
-         tags$head(tags$style(type="text/css", "#disps {width:98%; background-color:#e6e6e6;}")), hr(), 
-         p("Optional: Upload dispersion factors as a comma seperated text file (.CSV).", style="margin-botom:-20px; padding-bottom:0px;"), 
-         uiOutput("disp_up"), hr(),
-         h4("Dispersion factors", style="margin:0px; padding:0px;"), 
-         dataTableOutput("disp_table"))
+         column(8, h4("Input air dispersion factors", style="margin-botom:0px; padding-bottom:0px;"), 
+                p("If dispersion factors are left blank they will be calculated based on stack height and fenceline distance.", style="font-style: italic;"), 
+                dataTableOutput("disp_table"), hr(), 
+                p("Optional: Upload dispersion factors as an Excel file (.xlsx) or comma seperated text file (.csv).", style="margin-botom:-20px; padding-bottom:0px;"), 
+                uiOutput("disp_up"), hr())
          ),
                    
                    
@@ -46,33 +49,32 @@ tabPanel("Emissions",
          # Collect emission information        
          h3("  Emissions"), hr(style="margin-top:0px;"),
          # Pollutant Reference
-         fluidRow(column(1, h4("CAS# Reference: ", style="margin-top:2px; padding:0px; margin-right: 100px; padding-right: 90px; width: 90%; margin-bottom:0px;")), 
-                  column(4, uiOutput("pollutants"), tags$head(tags$style(type="text/css", "#pollutants {margin:0px; margin-top: -16px; padding:0px; padding-left:30px; width: 90%;"))), 
+         fluidRow(column(3, h4("Add pollutant: ", style="margin-top:13px; padding:0px; margin-right: 20px; padding-right: 0px; width: 100%; margin-bottom:0px;")), 
+                  column(4, uiOutput("pollutants"), tags$head(tags$style(type="text/css", "#pollutants {margin:0px; margin-top: -16px; padding:0px; margin-left:-100px; width: 90%;"))), 
                   column(7)),
+         
          tabsetPanel(          
          # Hourly emission rate 
          tabPanel("Hourly Emissions",
-           column(8, br(),
-                p("Enter maximum hourly emissions in pounds per hour. Add additional pollutants on a new line. For stacks not emitting a pollutant enter zero."), 
-                dataTableOutput("hr_emissions_table")),
-                p("  ", style="height: 1px; width:20px"), 
-                p("Optional: Upload hourly emissions as a comma separated text file (.CSV).", style="margin-botom:-20px; padding-bottom:0px;"),
-                uiOutput("hr_emissions_up"), hr()),
+           column(12, br(),
+                p("Enter maximum hourly emissions in lbs/hr. Add additional pollutants on a new line."), 
+                br(),
+                dataTableOutput("hr_emissions_table"),
+                hr(), 
+                p("Optional: Upload hourly emissions as an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-20px; padding-bottom:0px;"),
+                uiOutput("hr_emissions_up"), hr())),
                        
           # Annual emission rate
           tabPanel("Annual Emissions",
             column(8, br(),
-                 p("Option 1: Use comma separated text to enter the years total emissions in tons per year. Add additional pollutants on a new line. For stacks not emitting a pollutant enter zero."), 
-                 p("| Pollutant | CAS# | Stack1 (tons/yr) | Stack2 (tons/yr) | Stack3..."), 
-                 tags$textarea(id='ann_emissions', placeholder='Arsenic,7440-38-2,28,15', rows=5, 'Arsenic,7440-38-2,28,15\nBenzene,71-43-2,42,16'), 
-                 tags$head(tags$style(type="text/css", "#ann_emissions {width:98%; background-color:#e6e6e6;}")), hr(),
-                 p("  ", style="height:1px; width:20px"), 
-                 p("Option 2: Upload annual emissions as a comma seperated text file (.CSV).", style="margin-botom:-20px; padding-bottom: 0px;"), 
-                 uiOutput("ann_emissions_up"), hr(),
-                 h4("Annual emissions", style="margin:0px; padding:0px;"),
-                 dataTableOutput("ann_emissions_table")),
-          column(1, p(" ", style="height: 12px; width:45px; margin-right:25px; padding-right:15px;"))
-          ))),
+                 p("Enter maximum annual emissions in tons/year. Add additional pollutants on a new line."),
+                 br(),
+                 dataTableOutput("ann_emissions_table"),
+                 hr(),
+                 p("Optional: Upload annual emissions as an Excel file (.xlsx) or comma seperated text file (.csv).", style="margin-botom:-20px; padding-bottom: 0px;"), 
+                 uiOutput("ann_emissions_up"), hr()))
+           )
+         ),
               
               
 tabPanel("Air Concentrations", 
@@ -82,12 +84,19 @@ tabPanel("Air Concentrations",
          ),
               
  
-tabPanel("Risks", 
+tabPanel("Risk Summary", 
          # Show risk results 
-         h3("  Risk Estimates"), hr(style="margin-top:0px;"), 
-         h4("Total Facility Risks", style="margin:0px; padding:0px; margin-bottom:-25px;"), dataTableOutput("total.risk.table"),
-         hr(style="margin-top:5px;"),
-         h4("Pollutant Risks", style="margin:0px; padding:0px; margin-bottom:-25px;"), dataTableOutput("risk.table")),
+         h3("  Risk Summary"), hr(style="margin-top:0px;"), 
+         tabsetPanel(
+         tabPanel("Total Facility Risk", 
+                  dataTableOutput("total.risk.table"),
+                  hr(style="margin-top:5px;")
+                  ),
+         tabPanel("Pollutant Specific Risk", 
+                  dataTableOutput("risk.table"),
+                  hr(style="margin-top:5px;")
+                  )
+         )),
               
 
 tabPanel("Download / Save",
