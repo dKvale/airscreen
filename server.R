@@ -9,7 +9,7 @@ library(shiny)
 library(dplyr)
 library(stringr)
 library(rCharts)
-library(rhandsontable)
+#library(rhandsontable)
 
 #options(scipen=+9999, digits=0)
 tox_values <- read.csv("air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
@@ -31,12 +31,12 @@ pol_list <- paste0(tox_values$Pollutant.Name," (", tox_values[ ,"CAS#"], ")")
 
 shinyServer(function(input, output, session) {
   
-  output$pollutants <- renderUI({selectInput("pollutant","", choices = pol_list) })
+  output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list) })
   
   #################################
   # Emissions
   ################################
-  output$hr_emissions_up <- renderUI({fileInput("hr_emissions_up", "") })
+  output$hr_emissions_up <- renderUI({fileInput("hr_emissions_up", "Upload: ") })
   
   hr.table <- reactive({
     
@@ -54,9 +54,9 @@ shinyServer(function(input, output, session) {
                check.names=F, stringsAsFactors=F)
   })
   
-  output$hr_emissions_table <- renderDataTable(hr.table(), options=list(searching=F, paging=F, scrollX=T))
+  output$hr_emissions_table <- renderDataTable(hr.table(), options=list(searching=F, paging=F, scrollX=F))
   
-  output$ann_emissions_up <- renderUI({fileInput("ann_emissions_up", "") })
+  output$ann_emissions_up <- renderUI({fileInput("ann_emissions_up", "Upload: ") })
   
   ann.table <- reactive({
     if(!is.null(input$ann_emissions_up)) {
