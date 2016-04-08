@@ -7,36 +7,79 @@
 # March 27th, 2015
 library(shiny)
 library(dplyr)
-library(stringr)
 library(rCharts)
-#library(rhandsontable)
 
-#options(scipen=+9999, digits=0)
 tox_values <- read.csv("air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-names(tox_values)[c(3,7,27,20,15)] <- c("CAS#","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
-#for(name2 in names(tox_values)) {
-#tox_values[ ,name2] <- str_trim(gsub("\xca", "", tox_values[ ,name2]))
-#}
-#write.csv(tox_values, "Air_tox_values.csv", row.names=F)
+names(tox_values) <- c("CAS#","Pollutant","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
+
+endpoints <- read.csv("tox_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+names(endpoints) <- c("CAS#", "Pollutant", "Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Non-cancer Endpoints")
 
 disp_facts <- read.csv("dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
-#mpsf_old <- read.csv("MPSFs_old.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-#names(mpsf_old)[1:2] <- c("CAS#", "Pollutant")
 mpsf <- read.csv("MPSFs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(mpsf)[1:2] <- c("CAS#", "Pollutant")
-#mpsf[is.na(mpsf)] <-0
 
-pol_list <- paste0(tox_values$Pollutant.Name," (", tox_values[ ,"CAS#"], ")")
+pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS#"], ")")
 
 shinyServer(function(input, output, session) {
   
   output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list) })
+
+  #################################
+  # Stacks
+  ################################
   
+  output$stack_up <- renderUI({fileInput("stack_up", label=NULL) })
+  
+  stack.table <- reactive({
+    data.frame("Stack ID" = c("Stack1","Stack2"), 
+               "Stack Height" = c(99,80), 
+               "Distance To Fenceline" = c(55,23), 
+               check.names = F, stringsAsFactors = F)
+  })
+  
+  output$stack_table <- renderDataTable(stack.table(), options=list(searching=F, paging=F, scrollX=T))
+  
+  ######################
+  # Dispersion factors
+  ######################
+  output$disp_up <- renderUI({fileInput("disp_up", label=NULL) })
+  
+  disp.table <- reactive({
+    if(!is.null(input$disp_up)) {
+      d <- input$disp_up
+      return(read.csv(d$datapath, stringsAsFactors=F))
+    } else if(!is.null(stack.table())) { 
+      disp_table <- data.frame("Stack ID" = stack.table()[ ,1], 
+                               "1-Hour Max" = 1:nrow(stack.table()), 
+                               "Monthly Max" = 1:nrow(stack.table()), 
+                               "Annual Max" = 1:nrow(stack.table()), 
+                               check.names=F, stringsAsFactors=F)
+      for (stack in 1:nrow(disp_table)){
+        nearD <- min(as.numeric(gsub("X","", names(disp_facts)[3:32]))[as.numeric(gsub("X","",names(disp_facts)[3:32]))>=round(stack.table()[stack, 3]/10,0)*10])
+        if(stack.table()[stack, 3]>=10000) nearD <- 10000
+        nearH <- min(round(stack.table()[stack, 2], 0), 99)
+        disp_table[stack, 2:4] <- c(disp_facts[disp_facts$"Averaging.Time"=="1-hr" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)],
+                                    disp_facts[disp_facts$"Averaging.Time"=="monthly" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)],
+                                    disp_facts[disp_facts$"Averaging.Time"=="annual" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)])
+      }
+    } else { 
+      data.frame("Stack ID" = c("Stack1","Stack2"), 
+                 "1-Hour Max" = c(89,70), 
+                 "Montly Max" = c(20,19), 
+                 "Annual Max" = c(12,14), 
+                 check.names=F, stringsAsFactors=F)
+    }
+    return(disp_table[ ,1:4])
+  })
+  
+  output$disp_table <- renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T))
+
   #################################
   # Emissions
   ################################
-  output$hr_emissions_up <- renderUI({fileInput("hr_emissions_up", "Upload: ") })
+  output$hr_emissions_up <- renderUI({fileInput("hr_emissions_up", label=NULL) })
   
   hr.table <- reactive({
     
@@ -56,7 +99,7 @@ shinyServer(function(input, output, session) {
   
   output$hr_emissions_table <- renderDataTable(hr.table(), options=list(searching=F, paging=F, scrollX=F))
   
-  output$ann_emissions_up <- renderUI({fileInput("ann_emissions_up", "Upload: ") })
+  output$ann_emissions_up <- renderUI({fileInput("ann_emissions_up", label=NULL) })
   
   ann.table <- reactive({
     if(!is.null(input$ann_emissions_up)) {
@@ -73,71 +116,22 @@ shinyServer(function(input, output, session) {
   
   output$ann_emissions_table <- renderDataTable(ann.table(), options=list(searching=F, paging=F, scrollX=T))
   
-  #################################
-  # Stacks
-  ################################
   
-  output$stack_up <- renderUI({fileInput("stack_up", "") })
-  
-  stack.table <- reactive({
-    data.frame("Stack ID" = c("Stack1","Stack2"), 
-               "Stack Height (ft)" = c(99,80), 
-               "Distance To Fenceline (ft)" = c(55,23), 
-               check.names = F, stringsAsFactors = F)
-  })
-  
-  output$stack_table <- renderDataTable(stack.table(), options=list(searching=F, paging=F, scrollX=T))
-  
-  # Dispersion factors
-  output$disp_up <- renderUI({fileInput("disp_up", "") })
-  
-  disp.table <- reactive({
-    if(!is.null(input$disp_up)) {
-      d <- input$disp_up
-      return(read.csv(d$datapath, stringsAsFactors=F))
-    } else if(!is.null(stack.table())) { 
-      disp_table <- data.frame("Stack ID" = stack.table()[ ,1], 
-                               "1-Hour Max" = 1:nrow(stack.table()), 
-                               "Monthly Max" = 1:nrow(stack.table()), 
-                               "Annual Max" = 1:nrow(stack.table()), 
-                               check.names=F, stringsAsFactors=F)
-      for (stack in 1:nrow(disp_table)){
-      nearD <- min(as.numeric(gsub("X","", names(disp_facts)[3:32]))[as.numeric(gsub("X","",names(disp_facts)[3:32]))>=round(stack.table()[stack, 3]/10,0)*10])
-      if(stack.table()[stack, 3]>=10000) nearD <- 10000
-      nearH <- min(round(stack.table()[stack, 2], 0), 99)
-      disp_table[stack, 2:4] <- c(disp_facts[disp_facts$"Averaging.Time"=="1-hr" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)],
-                                  disp_facts[disp_facts$"Averaging.Time"=="monthly" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)],
-                                  disp_facts[disp_facts$"Averaging.Time"=="annual" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)])
-      }
-    } else { 
-      data.frame("Stack ID" = c("Stack1","Stack2"), 
-                 "1-Hour Max" = c(89,70), 
-                 "Montly Max" = c(20,19), 
-                 "Annual Max" = c(12,14), 
-                 check.names=F, stringsAsFactors=F)
-    }
-    return(disp_table[ ,1:4])
-  })
-  
-  output$disp_table <- renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T))
-  
-
   # Concentration table
   #output$conc_up <- renderUI({fileInput("conc_up", "") })
-  
   conc.table <- reactive({
     conc.table <- data.frame(Pollutant = arrange(ann.table(), Pollutant)$Pollutant, 
                              "CAS#"    = as.character(arrange(ann.table(), Pollutant)[ ,"CAS#"]), 
-                             "1-hr Max (ug/m3)" = 1:nrow(ann.table()), 
-                             "Monthly Max (ug/m3)" = 1:nrow(ann.table()), 
-                             "Annual Max (ug/m3)" = 1:nrow(ann.table()), 
+                             "1-hr Max" = 1:nrow(ann.table()), 
+                             "Monthly Max" = 1:nrow(ann.table()), 
+                             "Annual Max" = 1:nrow(ann.table()), 
                              check.names = F, stringsAsFactors = F)
     
     conc.table.hr  <- hr.table()
     conc.table.mn  <- ann.table()
     conc.table.ann <- ann.table()
     
-    for(stack in 3:ncol(hr.table())) conc.table.hr[ ,stack] <- arrange(hr.table(), Pollutant)[ ,stack]*disp.table()[stack-2, 2]*453.592/3600
+    for(stack in 3:ncol(hr.table()))  conc.table.hr[ ,stack] <- arrange(hr.table(), Pollutant)[ ,stack]*disp.table()[stack-2, 2]*453.592/3600
     for(stack in 3:ncol(ann.table())) conc.table.mn[ ,stack] <- arrange(ann.table(), Pollutant)[ ,stack]*disp.table()[stack-2, 3]*2000*453.592/3600/8765.81
     for(stack in 3:ncol(ann.table())) conc.table.ann[ ,stack] <- arrange(ann.table(), Pollutant)[ ,stack]*disp.table()[stack-2, 4]*2000*453.592/3600/8765.81
     for(pollutant in 1:nrow(conc.table)) conc.table[pollutant, 3] <- sum(conc.table.hr[pollutant,-c(1:2)], na.rm=T)
@@ -217,6 +211,8 @@ shinyServer(function(input, output, session) {
    })
   
   output$tox_table <- renderDataTable(tox_values, options=list(searching=F, paging=F, scrollX=T))
+  
+  output$tox_points <- renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T))
   
   
 })
