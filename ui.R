@@ -16,34 +16,33 @@ tabPanel("Home",
            hr())
     ),
                                       
-tabPanel("Stacks", 
-        # Collect stack parameters
-        h3("    Stack parameters"), hr(),
-        column(8, #h4("Upload stack height and fenceline distance", style="margin-botom:0px; padding-bottom:0px;"), 
-               p("Select units"), 
-               selectizeInput('st_units', label=NULL, choices=c("Feet", "Meters"), selected="Feet"), 
-               p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom:-10px;"), 
-               uiOutput('stack_up'),
-               dataTableOutput('stack_table'))
-        ),
-
 tabPanel("Dispersion", 
-         # Collect dispersion factors
          h3("    Dispersion factors"), hr(),
+         tabsetPanel(
+         tabPanel("Stack parameters",
+         column(8, h4("Upload stack height and fenceline distance", style="margin-botom:0px; padding-bottom:0px;"), 
+                p("Select units"), 
+                selectizeInput('st_units', label=NULL, choices=c("Feet", "Meters"), selected="Feet"), 
+                p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom:-10px;"), 
+                uiOutput('stack_up'),
+                dataTableOutput('stack_table'))
+),
+        tabPanel("Unit dispersion", 
+        # Collect dispersion factors
          column(8, h4("Upload unit dispersion factors", style="margin-botom:0px; padding-bottom:0px;"), 
                 p("If left blank default dispersion factors are generated based on a stack's height and fenceline distance.", style="font-style: italic;"), 
                 p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom:-10px;"), 
                 uiOutput("disp_up"),
                 dataTableOutput("disp_table"))
-),
+))),
 
 tabPanel("Emissions",
          # Collect emission information        
          h3("    Emissions"), hr(),
          # Pollutant Reference
          fluidRow(
-           column(4, uiOutput("pollutants")),
-           column(3, actionButton("add_btn", " Add pollutant ", icon("plus")))), 
+         column(5, uiOutput("pollutants")),
+         column(3, actionButton("add_btn", " Add pollutant ", icon("plus")))), 
          br(),
          
          tabsetPanel(          
@@ -70,7 +69,7 @@ tabPanel("Emissions",
 tabPanel("Air concentrations", 
          # Show concentrations 
          h3("    Maximum air concentrations"), hr(),
-         p("All units in (ug/m3).", style="font-style: italic;"),
+         p("All units displayed in (ug/m3).", style="font-style: italic;"),
          dataTableOutput("conc_table")
 ),
 

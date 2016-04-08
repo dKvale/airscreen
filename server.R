@@ -9,22 +9,22 @@ library(shiny)
 library(dplyr)
 library(rCharts)
 
-tox_values <- read.csv("air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+tox_values <- read.csv("data//air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(tox_values) <- c("CAS#","Pollutant","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
 
-endpoints <- read.csv("tox_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+endpoints <- read.csv("data//air_tox_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(endpoints) <- c("CAS#", "Pollutant", "Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Non-cancer Endpoints")
 
-disp_facts <- read.csv("dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
+disp_facts <- read.csv("data//dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
-mpsf <- read.csv("MPSFs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+mpsf <- read.csv("data//MPSFs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(mpsf)[1:2] <- c("CAS#", "Pollutant")
 
 pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS#"], ")")
 
 shinyServer(function(input, output, session) {
   
-  output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list) })
+  output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list, selected = "Acrolein (107-02-8)") })
 
   #################################
   # Stacks
