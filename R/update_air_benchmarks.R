@@ -19,7 +19,7 @@ HBVs <- risk_vals[ , c(4:5,8,16,21)]
 names(HBVs)[2] <- "Pollutant"
 
 # Load subchronic
-sub_chron <- read.csv("data\\subchronic_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+sub_chron <- read.csv("data\\subchronic_benchmarks.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 
 sub_chron[ ,1] <- str_trim(gsub("\xca","", sub_chron[,1]))
 sub_chron[ ,2] <- str_trim(gsub("\xca","", sub_chron[,2]))
@@ -49,6 +49,6 @@ HBVs[ , 5] <- signif(HBVs[ , 5] , 2)
 HBVs[ , 6] <- signif(HBVs[ , 6] , 2)
 
 # SAVE RESULTS
-write.csv(HBVs, "data\\air_tox_values.csv", row.names = FALSE)
+write.csv(HBVs, "data\\air_benchmarks.csv", row.names = FALSE)
 
 

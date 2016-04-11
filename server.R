@@ -7,18 +7,18 @@
 # March 27th, 2015
 library(shiny)
 library(dplyr)
-library(rCharts)
+#library(rCharts)
 
 tox_values <- read.csv("data//air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-names(tox_values) <- c("CAS#","Pollutant","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
+names(tox_values) <- c("CAS","Pollutant","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
 
 endpoints <- read.csv("data//air_tox_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-names(endpoints) <- c("CAS#", "Pollutant", "Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Non-cancer Endpoints")
+names(endpoints) <- c("CAS", "Pollutant", "Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Non-cancer Endpoints")
 
 disp_facts <- read.csv("data//dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
 mpsf <- read.csv("data//MPSFs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-names(mpsf)[1:2] <- c("CAS#", "Pollutant")
+names(mpsf)[1:2] <- c("CAS", "Pollutant")
 
 pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS#"], ")")
 
@@ -33,9 +33,9 @@ shinyServer(function(input, output, session) {
   output$stack_up <- renderUI({fileInput("stack_up", label=NULL) })
   
   stack.table <- reactive({
-    data.frame("Stack ID" = c("Stack1","Stack2"), 
-               "Stack Height" = c(99,80), 
-               "Distance To Fenceline" = c(55,23), 
+    data.frame("Stack ID" = c("Stack-1","Stack-2"), 
+               "Stack Height" = c(99, 80), 
+               "Distance To Fenceline" = c(55, 23), 
                check.names = F, stringsAsFactors = F)
   })
   
@@ -51,7 +51,7 @@ shinyServer(function(input, output, session) {
       d <- input$disp_up
       return(read.csv(d$datapath, stringsAsFactors=F))
     } else if(!is.null(stack.table())) { 
-      disp_table <- data.frame("Stack ID" = stack.table()[ ,1], 
+      disp_table <- data.frame("Stack ID" = stack.table()[ , 1], 
                                "1-Hour Max" = 1:nrow(stack.table()), 
                                "Monthly Max" = 1:nrow(stack.table()), 
                                "Annual Max" = 1:nrow(stack.table()), 
@@ -65,10 +65,10 @@ shinyServer(function(input, output, session) {
                                     disp_facts[disp_facts$"Averaging.Time"=="annual" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)])
       }
     } else { 
-      data.frame("Stack ID" = c("Stack1","Stack2"), 
-                 "1-Hour Max" = c(89,70), 
-                 "Montly Max" = c(20,19), 
-                 "Annual Max" = c(12,14), 
+      data.frame("Stack ID" = c("Stack-1","Stack-2"), 
+                 "1-Hour Max" = c(1,2), 
+                 "Montly Max" = c(.2,.34), 
+                 "Annual Max" = c(.06,.15), 
                  check.names=F, stringsAsFactors=F)
     }
     return(disp_table[ ,1:4])
@@ -79,85 +79,85 @@ shinyServer(function(input, output, session) {
   #################################
   # Emissions
   ################################
-  output$hr_emissions_up <- renderUI({fileInput("hr_emissions_up", label=NULL) })
+  output$emissions_up <- renderUI({fileInput("emissions_up", label=NULL) })
   
-  hr.table <- reactive({
+  em.table <- reactive({
     
     print(input$pollutant)
     
-    if(!is.null(input$hr_emissions_up)) {
-      b <- input$hr_emissions_up
+    if(!is.null(input$emissions_up)) {
+      b <- input$emissions_up
       return(read.csv(b$datapath, stringsAsFactors = F))
     }
     
-    data.frame("Pollutant" = c("Arsenic","Benzene"), 
-               "CAS#" = c("7440-38-2","71-43-2"), 
-               "Stack 1 (lbs/hr)" = c(1.0,2.5), 
-               "Stack 2 (lbs/hr)" = c(2.2,3.1), 
+    data.frame("Stack ID" = rep(c('Stack-1', 'Stack-2'), each = 2),
+               "Pollutant" = rep(c("Arsenic","Benzene"), 2), 
+               "CAS" = rep(c("7440-38-2","71-43-2"), 2), 
+               "1-hr PTE Emissions (lbs/hr)" = c(1.0, 1.1, 2.2, 2.5),
+               "Annual PTE Emissions (tons/yr)" = c(8, 10, 15, 19),
                check.names=F, stringsAsFactors=F)
   })
   
-  output$hr_emissions_table <- renderDataTable(hr.table(), options=list(searching=F, paging=F, scrollX=F))
+  output$emissions_table <- renderDataTable(em.table(), options=list(searching=F, paging=F, scrollX=F))
   
-  output$ann_emissions_up <- renderUI({fileInput("ann_emissions_up", label=NULL) })
-  
-  ann.table <- reactive({
-    if(!is.null(input$ann_emissions_up)) {
-      a <- input$ann_emissions_up
-      return(read.csv(a$datapath, stringsAsFactors = F))
-    }
-    
-    data.frame("Pollutant" = c("Arsenic","Benzene"), 
-               "CAS#" = c("7440-38-2","71-43-2"), 
-               "Stack 1 (tons/yr)" = c(28,42), 
-               "Stack 2 (tons/yr)" = c(12,16), 
-               check.names = F, stringsAsFactors = F)
-  })
-  
-  output$ann_emissions_table <- renderDataTable(ann.table(), options=list(searching=F, paging=F, scrollX=T))
-  
-  
-  # Concentration table
+  #######################
+  # Concentration tables
+  #######################
   #output$conc_up <- renderUI({fileInput("conc_up", "") })
-  conc.table <- reactive({
-    conc.table <- data.frame(Pollutant = arrange(ann.table(), Pollutant)$Pollutant, 
-                             "CAS#"    = as.character(arrange(ann.table(), Pollutant)[ ,"CAS#"]), 
-                             "1-hr Max" = 1:nrow(ann.table()), 
-                             "Monthly Max" = 1:nrow(ann.table()), 
-                             "Annual Max" = 1:nrow(ann.table()), 
-                             check.names = F, stringsAsFactors = F)
+  st.conc.table <- reactive({
     
-    conc.table.hr  <- hr.table()
-    conc.table.mn  <- ann.table()
-    conc.table.ann <- ann.table()
+    st.conc.table <- left_join(em.table(), disp.table())
     
-    for(stack in 3:ncol(hr.table()))  conc.table.hr[ ,stack] <- arrange(hr.table(), Pollutant)[ ,stack]*disp.table()[stack-2, 2]*453.592/3600
-    for(stack in 3:ncol(ann.table())) conc.table.mn[ ,stack] <- arrange(ann.table(), Pollutant)[ ,stack]*disp.table()[stack-2, 3]*2000*453.592/3600/8765.81
-    for(stack in 3:ncol(ann.table())) conc.table.ann[ ,stack] <- arrange(ann.table(), Pollutant)[ ,stack]*disp.table()[stack-2, 4]*2000*453.592/3600/8765.81
-    for(pollutant in 1:nrow(conc.table)) conc.table[pollutant, 3] <- sum(conc.table.hr[pollutant,-c(1:2)], na.rm=T)
-    for(pollutant in 1:nrow(conc.table)) conc.table[pollutant, 4] <- sum(conc.table.mn[pollutant,-c(1:2)], na.rm=T)
-    for(pollutant in 1:nrow(conc.table)) conc.table[pollutant, 5] <- sum(conc.table.ann[pollutant,-c(1:2)], na.rm=T)
-    conc.table[ ,2] <- as.character(conc.table[ ,2])
-    conc.table[,3:5] <- signif(conc.table[,3:5], digits=4)
-    return(conc.table[ ,1:5])
+    names(st.conc.table) <- c("Stack", "Pollutant", "CAS", "hr_PTE", "an_PTE", "hr_disp", "mon_disp", "an_disp")
+    
+    print(st.conc.table)
+    
+    st.conc.table <- group_by(st.conc.table, Stack, Pollutant, CAS) %>%
+                     summarize(hr_max = sum(hr_PTE * hr_disp, na.rm=T),
+                               month_max = sum(hr_PTE * mon_disp, na.rm=T),
+                               annual_max = sum(an_PTE * an_disp, na.rm=T))
+    
+    names(st.conc.table) <- c("Stack ID", "Pollutant", "CAS", "1-hr Max", "Month Max", "Annual Max")
+  
+    st.conc.table
     })
   
+  output$st_conc_table <- renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T))
+  
+  
+  conc.table <- reactive({
+    
+    conc.table <- st.conc.table()
+    
+    names(conc.table) <- c("Stack", "Pollutant", "CAS", "hr", "mon", "an")
+    
+    conc.table <- group_by(conc.table, Pollutant, CAS) %>%
+                  summarize("1-hr Max" = sum(hr, na.rm=T),
+                            "Month Max" = sum(mon, na.rm=T),
+                            "Annual Max" = sum(an, na.rm=T))
+    
+    #names(conc.table) <- c("Pollutant", "CAS#", "1-hr Max", "Month Max", "Annual Max")
+  })
+  
   output$conc_table <- renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T))
-
-  # Risk table
-  risk.table <- reactive({
+   
+  ####################
+  # Risk tables
+  ####################
+  st.risk.table <- reactive({
     if(!is.null(conc.table())){   
       
       #print(as.character(conc.table()[,"CAS#"]) %in% as.character(tox_values[,"CAS#"]))
-      risk.table <- left_join(conc.table(), tox_values[ ,c(3,7,27,20,15)], by="CAS#")
-      risk.table <- left_join(risk.table, mpsf[,-2], by="CAS#")
+      risk.table <- left_join(st.conc.table(), tox_values)
+      
+      risk.table <- left_join(risk.table, mpsf[,-2])
       #risk.table[ ,3:15] <- lapply(risk.table[ ,3:15], function(x) as.numeric(as.character(x)))
       
-      risk.table2 <- data.frame("Pollutant"=as.character(risk.table$Pollutant), "CAS#"=as.character(risk.table[ ,2]), 
-                                "Acute 1-hr Hazard Quotient (Inhalation only)"= signif(risk.table[ ,3]/risk.table[ ,6], digits=3),
-                                "Subchronic Hazard Quotient (Inhalation only)"= signif(risk.table[ ,4]/risk.table[ ,7], digits=3),
-                                "Longterm Hazard Quotient (Inhalation only)"= signif(risk.table[ ,5]/risk.table[ ,8], digits=3),
-                                "Longterm Cancer Risk (Inhalation only)"= signif(risk.table[ ,5]/risk.table[ ,9]/100000, digits=2), check.names=F, stringsAsFactors=F)
+      rrisk.table <- mutate(risk.table, 
+                            "Acute 1-hr Hazard Quotient (Inhalation only)"= signif(risk.table[ ,3]/risk.table[ ,6], digits=3),
+                            "Subchronic Hazard Quotient (Inhalation only)"= signif(risk.table[ ,4]/risk.table[ ,7], digits=3),
+                            "Longterm Hazard Quotient (Inhalation only)"= signif(risk.table[ ,5]/risk.table[ ,8], digits=3),
+                            "Longterm Cancer Risk (Inhalation only)"= signif(risk.table[ ,5]/risk.table[ ,9]/100000, digits=2), check.names=F, stringsAsFactors=F)
       
       risk.table2 <- mutate(risk.table2,
                             "Resident Longterm Hazard Quotient (All media)"= signif(risk.table2[ ,5]*(1+risk.table[ ,12]), digits=3),
@@ -167,8 +167,10 @@ shinyServer(function(input, output, session) {
                             "Farmer Hazard Quotient (All media)"= signif(risk.table2[ ,5]*(1+risk.table[ ,10]), digits=3),
                             "Farmer Longterm Cancer Risk (All media)"= format(signif(risk.table2[ ,6]*(1+risk.table[ ,11]),digits=2), scientific=T)) 
       risk.table2[ ,6] <- format(risk.table2[ ,6], scientific=T)
-    } else {risk.table2 <- data.frame("Pollutant", "CAS#", "Acute 1-hr Hazard Quotient (Inhalation only)", "Subchronic Hazard Quotient (Inhalation only)", "Longterm Hazard Quotient (Inhalation only)", "Longterm Cancer Risk (Inhalation only)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)", check.names=F)
+    } else {
+      risk.table <- data.frame("Pollutant", "CAS#", "Acute 1-hr Hazard Quotient (Inhalation only)", "Subchronic Hazard Quotient (Inhalation only)", "Longterm Hazard Quotient (Inhalation only)", "Longterm Cancer Risk (Inhalation only)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)", check.names=F)
     }
+    
     return(risk.table2[ ,1:12])
   })
   

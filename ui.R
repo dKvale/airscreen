@@ -44,33 +44,23 @@ tabPanel("Emissions",
          column(5, uiOutput("pollutants")),
          column(3, actionButton("add_btn", " Add pollutant ", icon("plus")))), 
          br(),
-         
-         tabsetPanel(          
-           # Hourly emission rate 
-           tabPanel("Hourly emissions",
-                    br(),
-                    p("Enter maximum hourly emissions in lbs/hr.", style="font-style: italic;"), 
-                    p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom:0px;"),
-                    uiOutput("hr_emissions_up"), 
-                    dataTableOutput("hr_emissions_table"),
-                    hr()),
-           
-           # Annual emission rate
-           tabPanel("Annual emissions",
-                    br(),
-                    p("Enter maximum annual emissions in tons/year.", style="font-style: italic;"),
-                    p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom: 0px;"), 
-                    uiOutput("ann_emissions_up"),
-                    dataTableOutput("ann_emissions_table"),
-                    hr())
-         )
+         fluidRow(column(9, p("Upload potential 1-hour emissions in lbs/hr and annual emission in tons/yr. Assume startup and worst-case fuel conditions for 1-hr emissions. Assume maximum capacity for annual emissions.", style="font-style: italic;"))), 
+         p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom:0px;"),
+         uiOutput("emissions_up"), 
+         dataTableOutput("emissions_table"),
+         hr()
 ),
 
 tabPanel("Air concentrations", 
          # Show concentrations 
          h3("    Maximum air concentrations"), hr(),
-         p("All units displayed in (ug/m3).", style="font-style: italic;"),
-         dataTableOutput("conc_table")
+         tabsetPanel(
+           tabPanel("Facility combined", br(),
+                    column(9, p("  All concentrations shown in (ug/m3).", style="font-style: italic;"),
+                           dataTableOutput("conc_table"))),
+           tabPanel("Stack specific", br(),
+             column(9, p("  All concentrations shown in (ug/m3).", style="font-style: italic;"),
+             dataTableOutput("st_conc_table"))))
 ),
 
 tabPanel("Risk summary", 
