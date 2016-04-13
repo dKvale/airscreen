@@ -21,6 +21,11 @@ tox <- risk_vals[ , c(4:5,9,22)]
 # Load subchronic
 sub_chron <- read.csv("data\\subchronic_benchmarks.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 
+# Load PBT and MDH ceiling value groups
+category <- read.csv("data\\air_groups.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+
+sub_chron <- cbind(sub_chron, category[ , 3:5])
+
 # Join endpoints
 tox <- left_join(tox, sub_chron[ , c(1,5)])
 
@@ -28,10 +33,8 @@ tox <- left_join(tox, sub_chron[ , c(1,5)])
 tox <- tox[ , c(1:3,5,4)]
 
 # Clean names
-names(tox) <- c("CAS#", "Pollutant", "Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Non-cancer Endpoints")
+names(tox) <- c("CAS", "Pollutant", "Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Non-cancer Endpoints")
 
-# Load PBT and MDH ceiling value groups
-category <- read.csv("data\\air_groups_PBTs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 
 for(i in 3:6) {
   category[ , i] <- category[ , i] == "X"

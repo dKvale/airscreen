@@ -1,0 +1,440 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,700");
+/*!
+ * bootswatch v3.3.6
+ * Homepage: http://bootswatch.com
+ * Copyright 2012-2016 Thomas Park
+ * Licensed under MIT
+ * Based on Bootstrap
+*/
+/*!
+ * Bootstrap v3.3.6 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+[hidden],
+template {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  line-height: 1.1;
+  color: inherit;
+}
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small,
+.h1 small,
+.h2 small,
+.h3 small,
+.h4 small,
+.h5 small,
+.h6 small,
+h1 .small,
+h2 .small,
+h3 .small,
+h4 .small,
+h5 .small,
+h6 .small,
+.h1 .small,
+.h2 .small,
+.h3 .small,
+.h4 .small,
+.h5 .small,
+.h6 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #b3b3b3;
+}
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3 {
+  margin-top: 22px;
+  margin-bottom: 11px;
+}
+h1 small,
+.h1 small,
+h2 small,
+.h2 small,
+h3 small,
+.h3 small,
+h1 .small,
+.h1 .small,
+h2 .small,
+.h2 .small,
+h3 .small,
+.h3 .small {
+  font-size: 65%;
+}
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  margin-top: 11px;
+  margin-bottom: 11px;
+}
+h4 small,
+.h4 small,
+h5 small,
+.h5 small,
+h6 small,
+.h6 small,
+h4 .small,
+.h4 .small,
+h5 .small,
+.h5 .small,
+h6 .small,
+.h6 .small {
+  font-size: 75%;
+}
+h1,
+.h1 {
+  font-size: 41px;
+}
+h2,
+.h2 {
+  font-size: 34px;
+}
+h3,
+.h3 {
+  font-size: 28px;
+}
+h4,
+.h4 {
+  font-size: 20px;
+}
+h5,
+.h5 {
+  font-size: 16px;
+}
+h6,
+.h6 {
+  font-size: 14px;
+}
+a {
+  background-color: transparent;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b,
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+mark {
+  background: #ff0;
+  color: #000;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+img {
+  border: 0;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+figure {
+  margin: 1em 40px;
+}
+hr {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+  height: 0;
+}
+pre {
+  overflow: auto;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+#Fname { 
+  background-color: 'lightgrey'; 
+  margin-left: 40px; 
+  margin-top: 7px; 
+  padding-right: 0px;}
+  
+#Fname2 { 
+  background-color: 'lightgrey'; 
+  margin-left: 40px; 
+  margin-top: 7px; 
+  padding-right: 0px;}
+
+#pollutants { 
+  margin-left: 0px; 
+  margin-top: -24px; 
+  padding-right: 0px;
+  padding-top: 0px;
+}
+
+
+.btn {
+  background-color: steelblue;
+  margin-top: 6px;
+  margin-left: 0px;
+  font-weight: 50;
+}
+
+
+
+.navbar-brand:hover{
+  text-decoration: none;
+  color: white;
+}
+.nav navbar-nav {
+  color: white;
+}
+
+.header, .navbar, header a {
+  background-color: #428bca;
+  color: white;
+  margin-bottom: 5px;
+  height: 50px;
+  border-radius: 0;
+  border: none;
+}
+
+
+@media (max-width: 991px) {
+.header {
+    margin-bottom: 12px;
+  }
+}
+.brand, .navbar-brand {
+  font-size: 30px;
+  margin-left: 30px;
+  color: white;
+}
+.brand {
+  max-width: 1000px;
+  margin-left: 30px;
+  padding-top: 2px;
+  padding-bottom: 4px;
+}
+.brand #credits {
+  font-weight: 200;
+  font-size: 14px;
+}
+
+
+.btn-default {
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #dddddd;
+}
+
+.btn-default:focus,
+.btn-default.focus {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #9d9d9d;
+}
+.btn-default:hover {
+  color: #bebebe;
+  background-color: steelblue;
+  border-color: #bebebe;
+}
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #bebebe;
+}
+hr { margin-top: 0px;}
+
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #333333;
+  background-color: #ffffff;
+}
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+a {
+  color: #4582ec;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #134fb8;
+  text-decoration: underline;
+}
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+figure {
+  margin: 0;
+}
+
+p {
+  margin: 0 0 11px;
+}
+.lead {
+  margin-bottom: 22px;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.navbar {
+  position: relative;
+  min-height: 51px;
+  margin-bottom: 22px;
+  border: 1px solid transparent;
+}
+.brand a, a.navbar-brand {
+  color: white;
+  text-decoration: none;
+  padding-top: 92px;
+  padding-bottom: 4px;
+}
+
+.navbar-default {
+  margin-left: 0px;  
+}
+
+.navbar-brand {
+  color: white;  
+  float: left;
+  padding: 5px 10px;
+  font-size: 33px;
+  line-height: 33px;
+  height: 50px;
+  padding-left: -10px;
+  margin-left: -180px;
+  
+}
+
+@media(min-width:768px){.navbar-text{float:left;margin-right:15px;margin-left:0px}
+.navbar-text.navbar-right:last-child{margin-right:0}}
+.navbar-default{background-color:#f8f8f8; border-color:#e7e7e7}
+.navbar-default .navbar-brand{
+  color: black; font-weight: bold;
+}
+.navbar-default .navbar-brand:hover,.navbar-default .navbar-brand:focus{
+  color:black; background-color:transparent}

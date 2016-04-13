@@ -7,39 +7,71 @@
 # March 27th, 2015
 library(shiny)
 library(dplyr)
+library(leaflet)
+library(DT)
 #library(rCharts)
 
-tox_values <- read.csv("data//air_tox_values.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+tox_values <- read.csv("data//air_benchmarks.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(tox_values) <- c("CAS","Pollutant","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
 
-endpoints <- read.csv("data//air_tox_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-names(endpoints) <- c("CAS", "Pollutant", "Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Non-cancer Endpoints")
-
+endpoints <- read.csv("data//air_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+endpoints[,9] <- NULL
+#names(endpoints) <- gsub("_", " ", names(endpoints))
+                         
 disp_facts <- read.csv("data//dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
 mpsf <- read.csv("data//MPSFs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(mpsf)[1:2] <- c("CAS", "Pollutant")
 
-pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS#"], ")")
+pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS"], ")")
+
+# Create table for coordinates
+coords <- read.csv(textConnection("
+lat,long
+46.29015, -96.063"))
+
+facility <- "Murphy`s Vaccuum Cleaners"
 
 shinyServer(function(input, output, session) {
   
   output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list, selected = "Acrolein (107-02-8)") })
 
   #################################
+  # Facility Map
+  ################################
+  output$fac_map <- renderLeaflet({
+
+    if(!is.null(input$lat) & nchar(input$lat) > 1) coords[1, 1] <- as.numeric(input$lat)
+    if(!is.null(input$long) & nchar(input$long) > 1) coords[1, 2] <- as.numeric(input$long)
+    
+    if(!is.null(input$coords) & nchar(input$facility) > 1) facility <- input$facility
+    
+    print("New:")
+    print(coords[1, 1])
+    print(coords[1, 2])
+    
+    leaflet() %>% 
+    addTiles() %>% 
+    addMarkers(data=coords, popup=facility) %>%
+    addCircles(data=coords, weight = 1,
+                 radius = min(stack.table()$"Distance To Fenceline", na.rm=T), popup = "Estimated property")
+    })
+  
+  output$inputs_up <- renderUI({fileInput("inputs_up", label=NULL) })
+  
+  #################################
   # Stacks
   ################################
-  
   output$stack_up <- renderUI({fileInput("stack_up", label=NULL) })
   
   stack.table <- reactive({
     data.frame("Stack ID" = c("Stack-1","Stack-2"), 
-               "Stack Height" = c(99, 80), 
-               "Distance To Fenceline" = c(55, 23), 
+               "Stack Height" = c(80, 99), 
+               "Distance To Fenceline" = c(55, 38), 
                check.names = F, stringsAsFactors = F)
   })
   
-  output$stack_table <- renderDataTable(stack.table(), options=list(searching=F, paging=F, scrollX=T))
+  output$stack_table <- renderDataTable(stack.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
   ######################
   # Dispersion factors
@@ -51,30 +83,38 @@ shinyServer(function(input, output, session) {
       d <- input$disp_up
       return(read.csv(d$datapath, stringsAsFactors=F))
     } else if(!is.null(stack.table())) { 
-      disp_table <- data.frame("Stack ID" = stack.table()[ , 1], 
-                               "1-Hour Max" = 1:nrow(stack.table()), 
-                               "Monthly Max" = 1:nrow(stack.table()), 
-                               "Annual Max" = 1:nrow(stack.table()), 
+      
+      stacks <- stack.table()
+      
+      n_stacks <- nrow(stacks)
+      
+      disp_table <- data.frame("Stack ID" = stacks[ , 1], 
+                               "1-Hour Max"  = 1:n_stacks, 
+                               "Monthly Max" = 1:n_stacks, 
+                               "Annual Max"  = 1:n_stacks, 
                                check.names=F, stringsAsFactors=F)
-      for (stack in 1:nrow(disp_table)){
-        nearD <- min(as.numeric(gsub("X","", names(disp_facts)[3:32]))[as.numeric(gsub("X","",names(disp_facts)[3:32]))>=round(stack.table()[stack, 3]/10,0)*10])
-        if(stack.table()[stack, 3]>=10000) nearD <- 10000
-        nearH <- min(round(stack.table()[stack, 2], 0), 99)
-        disp_table[stack, 2:4] <- c(disp_facts[disp_facts$"Averaging.Time"=="1-hr" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)],
-                                    disp_facts[disp_facts$"Averaging.Time"=="monthly" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)],
-                                    disp_facts[disp_facts$"Averaging.Time"=="annual" & disp_facts$"Stack.Height.meters"==nearH, paste0("X", nearD)])
+      
+      if(input$st_units == "Feet") stacks$'Stack Height' <- stacks$'Stack Height' * 0.3048
+      
+      for(stack in 1:n_stacks) {
+        nearD <- min(as.numeric(gsub("X","", names(disp_facts)[3:32]))[as.numeric(gsub("X", "", names(disp_facts)[3:32])) >= floor(stacks[stack, 3]/10)*10])
+        if(stacks[stack, 3]>=10000) nearD <- 10000
+        nearH <- min(round(stacks[stack, 2], 0), 99)
+        disp_table[stack, 2:4] <- c(disp_facts[disp_facts$"Averaging.Time"=="1-hr" & disp_facts$"Stack.Height.meters" == nearH, paste0("X", nearD)],
+                                    disp_facts[disp_facts$"Averaging.Time"=="monthly" & disp_facts$"Stack.Height.meters" == nearH, paste0("X", nearD)],
+                                    disp_facts[disp_facts$"Averaging.Time"=="annual" & disp_facts$"Stack.Height.meters" == nearH, paste0("X", nearD)])
       }
     } else { 
       data.frame("Stack ID" = c("Stack-1","Stack-2"), 
-                 "1-Hour Max" = c(1,2), 
-                 "Montly Max" = c(.2,.34), 
-                 "Annual Max" = c(.06,.15), 
+                 "1-Hour Max" = c(1, 2), 
+                 "Montly Max" = c(.2, .34), 
+                 "Annual Max" = c(.06, .15), 
                  check.names=F, stringsAsFactors=F)
     }
     return(disp_table[ ,1:4])
   })
   
-  output$disp_table <- renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T))
+  output$disp_table <- renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
 
   #################################
   # Emissions
@@ -90,15 +130,15 @@ shinyServer(function(input, output, session) {
       return(read.csv(b$datapath, stringsAsFactors = F))
     }
     
-    data.frame("Stack ID" = rep(c('Stack-1', 'Stack-2'), each = 2),
-               "Pollutant" = rep(c("Arsenic","Benzene"), 2), 
-               "CAS" = rep(c("7440-38-2","71-43-2"), 2), 
-               "1-hr PTE Emissions (lbs/hr)" = c(1.0, 1.1, 2.2, 2.5),
-               "Annual PTE Emissions (tons/yr)" = c(8, 10, 15, 19),
+    data.frame("Stack ID" = rep(c('Stack-1', 'Stack-2'), each = 4),
+               "Pollutant" = rep(c("Acrolein","Benzene", "Lead", "Diisopropyl Ether"), 2), 
+               "CAS" = rep(c("107-02-8","71-43-2", "7439-92-1", "108-20-3"), 2), 
+               "1-hr PTE Emissions (lbs/hr)" = c(0.3, 0.02, 0.1, 0.5, 0.4, 0.03, 0.1, 0.5),
+               "Annual PTE Emissions (tons/yr)" = c(1, 0.15, 0.01, 2, 1, 0.4, 0.01, 2),
                check.names=F, stringsAsFactors=F)
   })
   
-  output$emissions_table <- renderDataTable(em.table(), options=list(searching=F, paging=F, scrollX=F))
+  output$emissions_table <- renderDataTable(em.table(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
   
   #######################
   # Concentration tables
@@ -110,19 +150,17 @@ shinyServer(function(input, output, session) {
     
     names(st.conc.table) <- c("Stack", "Pollutant", "CAS", "hr_PTE", "an_PTE", "hr_disp", "mon_disp", "an_disp")
     
-    print(st.conc.table)
-    
     st.conc.table <- group_by(st.conc.table, Stack, Pollutant, CAS) %>%
-                     summarize(hr_max = sum(hr_PTE * hr_disp, na.rm=T),
-                               month_max = sum(hr_PTE * mon_disp, na.rm=T),
-                               annual_max = sum(an_PTE * an_disp, na.rm=T))
+                     summarize(hr_max = signif(hr_PTE * hr_disp * 453.592 / 3600, 4),
+                               month_max = signif(an_PTE * mon_disp * 2000 * 453.592 / 8760 / 3600, 4),
+                               annual_max = signif(an_PTE * an_disp * 2000 * 453.592 / 8760 / 3600, 4))
     
     names(st.conc.table) <- c("Stack ID", "Pollutant", "CAS", "1-hr Max", "Month Max", "Annual Max")
   
     st.conc.table
     })
   
-  output$st_conc_table <- renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T))
+  output$st_conc_table <- renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
   
   conc.table <- reactive({
@@ -131,72 +169,158 @@ shinyServer(function(input, output, session) {
     
     names(conc.table) <- c("Stack", "Pollutant", "CAS", "hr", "mon", "an")
     
-    conc.table <- group_by(conc.table, Pollutant, CAS) %>%
-                  summarize("1-hr Max" = sum(hr, na.rm=T),
-                            "Month Max" = sum(mon, na.rm=T),
-                            "Annual Max" = sum(an, na.rm=T))
+    group_by(conc.table, Pollutant, CAS) %>%
+        summarize("1-hr Max" = sum(hr, na.rm=T),
+                  "Month Max" = sum(mon, na.rm=T),
+                  "Annual Max" = sum(an, na.rm=T))
     
     #names(conc.table) <- c("Pollutant", "CAS#", "1-hr Max", "Month Max", "Annual Max")
   })
   
-  output$conc_table <- renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T))
+  output$conc_table <- renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
    
   ####################
   # Risk tables
   ####################
-  st.risk.table <- reactive({
+  risk.table <- reactive({
     if(!is.null(conc.table())){   
       
-      #print(as.character(conc.table()[,"CAS#"]) %in% as.character(tox_values[,"CAS#"]))
-      risk.table <- left_join(st.conc.table(), tox_values)
+      risk_table <- left_join(conc.table(), tox_values)
       
-      risk.table <- left_join(risk.table, mpsf[,-2])
-      #risk.table[ ,3:15] <- lapply(risk.table[ ,3:15], function(x) as.numeric(as.character(x)))
+      risk_table <- left_join(risk_table, mpsf[ ,-2])
+  
+      risk_table$"Acute 1-hr Hazard Quotient (Air)" <- (risk_table[ ,3]/risk_table[ ,6])[[1]]
+      risk_table$"Subchronic Hazard Quotient (Air)" <- (risk_table[ ,4]/risk_table[ ,7])[[1]]
+      risk_table$"Longterm Hazard Quotient (Air)"   <- (risk_table[ ,5]/risk_table[ ,8])[[1]]
+      risk_table$"Longterm Cancer Risk (Air)"       <- (risk_table[ ,5]/risk_table[ ,9])[[1]]
       
-      rrisk.table <- mutate(risk.table, 
-                            "Acute 1-hr Hazard Quotient (Inhalation only)"= signif(risk.table[ ,3]/risk.table[ ,6], digits=3),
-                            "Subchronic Hazard Quotient (Inhalation only)"= signif(risk.table[ ,4]/risk.table[ ,7], digits=3),
-                            "Longterm Hazard Quotient (Inhalation only)"= signif(risk.table[ ,5]/risk.table[ ,8], digits=3),
-                            "Longterm Cancer Risk (Inhalation only)"= signif(risk.table[ ,5]/risk.table[ ,9]/100000, digits=2), check.names=F, stringsAsFactors=F)
+      risk_table <- risk_table[ , c(1:2,16:19,10:15)]
       
-      risk.table2 <- mutate(risk.table2,
-                            "Resident Longterm Hazard Quotient (All media)"= signif(risk.table2[ ,5]*(1+risk.table[ ,12]), digits=3),
-                            "Resdident Longterm Cancer Risk (All media)"= format(signif(risk.table2[ ,6]*(1+risk.table[ ,13]),digits=2), scientific=T),
-                            "Urban Gardener Longterm Hazard Quotient (All media)"= signif(risk.table2[ ,5]*(1+risk.table[ ,14]), digits=3),
-                            "Urban Gardener Longterm Cancer Risk (All media)"= format(signif(risk.table2[ ,6]*(1+risk.table[ ,15]),digits=2), scientific=T),
-                            "Farmer Hazard Quotient (All media)"= signif(risk.table2[ ,5]*(1+risk.table[ ,10]), digits=3),
-                            "Farmer Longterm Cancer Risk (All media)"= format(signif(risk.table2[ ,6]*(1+risk.table[ ,11]),digits=2), scientific=T)) 
-      risk.table2[ ,6] <- format(risk.table2[ ,6], scientific=T)
+      # Multi-media
+      risk_table$"Resident Longterm Hazard Quotient (All media)" <- (risk_table[ ,5]*(1+risk_table[ ,7]))[[1]]
+      risk_table$"Resdident Longterm Cancer Risk (All media)"    <- (risk_table[ ,6]*(1+risk_table[ ,8]))[[1]]
+      risk_table$"Urban Gardener Longterm Hazard Quotient (All media)" <- (risk_table[ ,5]*(1+risk_table[ ,9]))[[1]]
+      risk_table$"Urban Gardener Longterm Cancer Risk (All media)" <- (risk_table[ ,6]*(1+risk_table[ ,10]))[[1]]
+      risk_table$"Farmer Hazard Quotient (All media)" <- (risk_table[ ,5]*(1+risk_table[ ,11]))[[1]]
+      risk_table$"Farmer Longterm Cancer Risk (All media)" <- (risk_table[ ,6]*(1+risk_table[ ,12]))[[1]]
+      
+      risk_table <- risk_table[ , -c(7:12)]
+      
     } else {
-      risk.table <- data.frame("Pollutant", "CAS#", "Acute 1-hr Hazard Quotient (Inhalation only)", "Subchronic Hazard Quotient (Inhalation only)", "Longterm Hazard Quotient (Inhalation only)", "Longterm Cancer Risk (Inhalation only)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)", check.names=F)
+      risk_table <- data.frame("Pollutant", "CAS", "Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", "Longterm Cancer Risk (Air)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)", check.names=F)
     }
     
-    return(risk.table2[ ,1:12])
+    return(risk_table)
   })
   
-  #Total risk table
+  # Pollutant risk table
+  pollutant.risk.table <- reactive({
+    pol_risk <- risk.table()
+    
+    for(i in c(3:5,7,9,11)) {pol_risk[ ,i] <- round(pol_risk[ ,i], digits=2)}
+    
+    for(i in c(6,8,10,12)) {pol_risk[ ,i] <- format(signif(pol_risk[ ,i], digits=2), scientific=T)}
+    
+    pol_risk
+    
+  })
+  
+  output$air_risk_table <- renderDataTable(pollutant.risk.table()[ ,1:6], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE, class="compact")
+  output$media_risk_table <- renderDataTable(pollutant.risk.table()[ ,c(1:2,7:12)], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  
+  # Total risk table
   total.risk.table <- reactive({
-    risk.table <- risk.table()
-    if(!is.null(risk.table())){   
-      total.risk.table <- data.frame(
-        "Acute 1-hr Hazard Quotient (Air)"=round(sum(risk.table[ ,3], na.rm=T), digits=2), 
-        "Subchronic Hazard Quotient (Air)"=round(sum(risk.table[ ,4], na.rm=T), digits=2), 
-        "Longterm Hazard Quotient (Air)"=round(sum(risk.table[ ,5], na.rm=T), digits=2),
-        "Longterm Cancer Risk (Air)"=format(signif(sum(as.numeric(risk.table[ ,6]), na.rm=T), digits=2), scientific=T), 
-        "Resident Longterm Hazard Quotient (All media)"=round(sum(risk.table[ ,7], na.rm=T), digits=2), 
-        "Resdident Longterm Cancer Risk (All media)"=format(signif(sum(as.numeric(risk.table[ ,8]), na.rm=T), digits=2), scientific=T),
-        "Urban Gardener Longterm Hazard Quotient (All media)"=round(sum(risk.table[ ,9], na.rm=T), digits=2),
-        "Urban Gardener Longterm Cancer Risk (All media)"=format(signif(sum(as.numeric(risk.table[ ,10]), na.rm=T), digits=2), scientific=T),
-        "Farmer Hazard Quotient (All media)"=round(sum(risk.table[ ,11], na.rm=T), digits=2), 
-        "Farmer Longterm Cancer Risk (All media)"=format(signif(sum(as.numeric(risk.table[ ,12]), na.rm=T), digits=2), scientific=T), check.names=F)   
-    } else {total.risk.table <- data.frame("Acute 1-hr Hazard Quotient (Inhalation only)", "Subchronic Hazard Quotient (Inhalation only)", "Longterm Hazard Quotient (Inhalation only)", "Longterm Cancer Risk (Inhalation only)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)", check.names=F)
-    return(total.risk.table[ ,1:10])
-    }})
+    
+    total_risk <- risk.table()
+    
+    if(!is.null(total_risk)){   
+      total_risk <- data.frame(
+        "Acute 1-hr Hazard Quotient (Air)" = sum(total_risk[ ,3], na.rm=T), 
+        "Subchronic Hazard Quotient (Air)" = sum(total_risk[ ,4], na.rm=T), 
+        "Longterm Hazard Quotient (Air)"   = sum(total_risk[ ,5], na.rm=T), 
+        "Longterm Cancer Risk (Air)"       = sum(total_risk[ ,6], na.rm=T), 
+        "Resident Longterm Hazard Quotient (All media)"       = sum(total_risk[ ,7], na.rm=T),
+        "Resdident Longterm Cancer Risk (All media)"          = sum(total_risk[ ,8], na.rm=T),
+        "Urban Gardener Longterm Hazard Quotient (All media)" = sum(total_risk[ ,9], na.rm=T),
+        "Urban Gardener Longterm Cancer Risk (All media)"     = sum(total_risk[ ,10], na.rm=T),
+        "Farmer Hazard Quotient (All media)"                  = sum(total_risk[ ,11], na.rm=T), 
+        "Farmer Longterm Cancer Risk (All media)"             = sum(total_risk[ ,12], na.rm=T), 
+        check.names=F)  
+      
+      for(i in c(1:3,5,7,9)) {total_risk[ ,i] <- round(total_risk[ ,i], digits=2)}
+      
+      for(i in c(4,6,8,10)) {total_risk[ ,i] <- format(signif(total_risk[ ,i], digits=2), scientific=T)}
+      
+    } else {total_risk <- data.frame("Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", "Longterm Cancer Risk (Air)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)", check.names=F)}
+    
+    return(total_risk)
+    })
+
+  output$total_air_risk_table <- renderDataTable(total.risk.table()[ ,1:4], options=list(searching=F, paging=F, scrollX=F, digits=2), rownames = FALSE)
+  output$total_media_risk_table <- renderDataTable(total.risk.table()[ ,5:10], options=list(searching=F, paging=F, scrollX=F, digits=2), rownames = FALSE)
   
-  output$risk_table <- renderDataTable(risk.table(), options=list(searching=F, paging=F, scrollX=T))
+  # Endpoint risk table
+  endpoint.risk.table <- reactive({
+    
+    endpoint_risks <- data.frame(left_join(risk.table()[ ,1:5], endpoints), stringsAsFactors = F, check.names=F)
+    
+    print(endpoint_risks)
+    print(!is.null(endpoint_risks) && nrow(endpoint_risks) > 0)
+    
+    if(!is.null(endpoint_risks) && nrow(endpoint_risks) > 0) {   
+      end_risks <- data.frame("Endpoint" = c(
+        "Auditory",
+        "Blood/ hematological",
+        "Bone & teeth",
+        "Cardiovascular",
+        "Digestive",
+        "Ethanol specific",
+        "Eyes",
+        "Kidney",
+        "Liver",
+        "Neurological",
+        "Reproductive/ developmental / endocrine",
+        "Respiratory",
+        "Skin"))
+      
+      end_risks$End_short <- substring(end_risks$Endpoint, 1, 4)
+      
+      for(i in 1:nrow(end_risks)) {
+        end_risks$"Acute 1-hr Hazard Quotient (Air)"[i] <- sum(filter(endpoint_risks, grepl(end_risks$End_short[i], Acute_Toxic_Endpoints) | Acute_Toxic_Endpoints == "Systemic")$"Acute 1-hr Hazard Quotient (Air)", na.rm=T) 
+        end_risks$"Subchronic Hazard Quotient (Air)"[i] <- sum(filter(endpoint_risks, grepl(end_risks$End_short[i], Subchronic_Toxic_Endpoints) | Subchronic_Toxic_Endpoints == "Systemic")$"Subchronic Hazard Quotient (Air)", na.rm=T) 
+        end_risks$"Longterm Hazard Quotient (Air)"[i]   <- sum(filter(endpoint_risks, grepl(end_risks$End_short[i], Chronic_Noncancer_Endpoints) | Chronic_Noncancer_Endpoints == "Systemic")$"Longterm Hazard Quotient (Air)", na.rm=T) 
+      }
+      
+      end_risks[ ,2] <- NULL
+      
+      for(i in 2:3) {
+        end_risks[ ,i] <- round(end_risks[ ,i], digits = 2)
+        end_risks[ ,i] <- ifelse(as.numeric(end_risks[ ,i]) < 0.0001, NA, end_risks[ ,i])
+      }
+      
+      end_risks[ ,4] <- format(signif(end_risks[ ,4], digits=2), scientific=T)
+      end_risks[ ,4] <- ifelse(as.numeric(end_risks[ ,4]) < 0.0001, NA, end_risks[ ,4])
+      
+    } else {end_risks  <- data.frame("Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", check.names=F)}
+    
+    return(end_risks)
+  })
   
-  output$total_risk_table <- renderDataTable(total.risk.table(), options=list(searching=F, paging=F, scrollX=T, digits=2))
+  output$endpoint_risk_table <- renderDataTable(endpoint.risk.table(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+ 
+  # Pollutants of concern
+  pbts <- reactive({
+    pbt_table <- left_join(em.table(), endpoints[ ,-c(3:5)])
+    
+    pbt_table <- filter(pbt_table, Persistent_Bioaccumulative_Toxicants > 0)[ , 2:3]
+    
+    #if(nrow(pbt_table) < 1) pbt_table[1, ] <- " "
+    pbt_table
+    
+  })
   
+  output$pbts <- renderDataTable(pbts(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+    
   #Download Buttons
   output$download <- downloadHandler(
     filename = function() { paste0("RASS_Results_", Sys.Date(), ".csv", sep="") },
@@ -214,7 +338,7 @@ shinyServer(function(input, output, session) {
   
   output$tox_table <- renderDataTable(tox_values, options=list(searching=F, paging=F, scrollX=T))
   
-  output$tox_points <- renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T))
+  output$endpoints <- renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T))
   
   
 })
