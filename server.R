@@ -32,6 +32,12 @@ lat,long
 
 facility <- "Murphy`s Vaccuum Cleaners"
 
+
+inFile2 <- function(conn){
+  
+}
+
+
 shinyServer(function(input, output, session) {
   
   #output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list, selected = "Acrolein (107-02-8)") })
@@ -53,11 +59,11 @@ shinyServer(function(input, output, session) {
     leaflet() %>% 
     addTiles() %>% 
     addMarkers(data=coords, popup=facility) %>%
-    addCircles(data=coords, weight = 1,
-                 radius = min(stack.table()$"Distance to Fenceline", na.rm=T), popup = "Estimated property")
+      addCircles(data=coords, weight = 1, fillColor= "orange", color="darkorange",
+                 radius = 2000, popup = "2km impact radius") %>%
+      addCircles(data=coords, weight = 1,
+                 radius = min(stack.table()$"Distance to Fenceline", na.rm=T), popup = "Estimated property boundary")
     })
-  
-  output$inputs_up <- renderUI({fileInput("inputs_up", label=NULL) })
   
   #################################
   # Stacks
