@@ -11,19 +11,19 @@ library(leaflet)
 library(DT)
 #library(rCharts)
 
+version <- "4/14/2016"
+
 tox_values <- read.csv("data//air_benchmarks.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-names(tox_values) <- c("CAS","Pollutant","Acute Reference Conc. (ug/m3)", "Subchronic Non-cancer Reference Conc. (ug/m3)", "Chronic Non-cancer Reference Conc. (ug/m3)", "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
 
 endpoints <- read.csv("data//air_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-endpoints[,9] <- NULL
-#names(endpoints) <- gsub("_", " ", names(endpoints))
-                         
+names(endpoints) <- gsub(" ", "_", names(endpoints))
+
 disp_facts <- read.csv("data//dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
 mpsf <- read.csv("data//MPSFs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 names(mpsf)[1:2] <- c("CAS", "Pollutant")
 
-pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS"], ")")
+#pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS"], ")")
 
 # Create table for coordinates
 coords <- read.csv(textConnection("
@@ -34,7 +34,7 @@ facility <- "Murphy`s Vaccuum Cleaners"
 
 shinyServer(function(input, output, session) {
   
-  output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list, selected = "Acrolein (107-02-8)") })
+  #output$pollutants <- renderUI({selectizeInput("pollutant","", choices = pol_list, selected = "Acrolein (107-02-8)") })
 
   #################################
   # Facility Map
@@ -143,7 +143,9 @@ shinyServer(function(input, output, session) {
   #######################
   # Concentration tables
   #######################
-  #output$conc_up <- renderUI({fileInput("conc_up", "") })
+  
+  output$conc_up <- renderUI({fileInput("conc_up", "") })
+  
   st.conc.table <- reactive({
     
     st.conc.table <- left_join(em.table(), disp.table())
@@ -315,14 +317,18 @@ shinyServer(function(input, output, session) {
     pbt_table <- filter(pbt_table, Persistent_Bioaccumulative_Toxicants > 0)[ , 2:3]
     
     #if(nrow(pbt_table) < 1) pbt_table[1, ] <- " "
-    pbt_table
+    unique(pbt_table)
     
   })
   
   output$pbts <- renderDataTable(pbts(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
     
+  ########################
+  # SAVE
+  ########################
+  
   #Download Buttons
-  output$download <- downloadHandler(
+  output$download_risk <- downloadHandler(
     filename = function() { paste0("RASS_Results_", Sys.Date(), ".csv", sep="") },
     content = function(con) {
       out_file = total.risk.table()
@@ -336,9 +342,12 @@ shinyServer(function(input, output, session) {
                    write.csv(out_file, con, row.names=F)
    })
   
-  output$tox_table <- renderDataTable(tox_values, options=list(searching=F, paging=F, scrollX=T))
+  ########################
+  # MORE
+  #######################
+  output$tox_table <- renderDataTable(tox_values, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
-  output$endpoints <- renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T))
+  output$endpoints <- renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
   
 })

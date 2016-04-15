@@ -19,7 +19,7 @@ HBVs <- risk_vals[ , c(4:5,8,16,21)]
 names(HBVs)[2] <- "Pollutant"
 
 # Load subchronic
-sub_chron <- read.csv("data\\subchronic_benchmarks.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+sub_chron <- read.csv("data\\subchronic_benchmarks.csv", header=T,  stringsAsFactors=F, nrows=500, check.names=F)
 
 sub_chron[ ,1] <- str_trim(gsub("\xca","", sub_chron[,1]))
 sub_chron[ ,2] <- str_trim(gsub("\xca","", sub_chron[,2]))
@@ -34,12 +34,12 @@ HBVs <- unique(HBVs)
 HBVs <- HBVs[ , c(1,2,3,6,5,4)]
 
 # Clean names
-names(HBVs) <- c("CAS#", 
+names(HBVs) <- c("CAS", 
                  "Pollutant", 
-                 "Acute Reference Conc. (ug/m3)", 
-                 "Subchronic Non-cancer Reference Conc. (ug/m3)", 
-                 "Chronic Non-cancer Reference Conc. (ug/m3)", 
-                 "Chronic cancer risk of 1E-5 Air Conc.(ug/m3)")
+                 "Acute Reference Conc (ug/m3)", 
+                 "Subchronic Non-cancer Reference Conc (ug/m3)", 
+                 "Chronic Non-cancer Reference Conc (ug/m3)", 
+                 "Chronic cancer risk of 1E-5 Air Conc (ug/m3)")
 
 HBVs <- arrange(HBVs, Pollutant)
 
