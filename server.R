@@ -54,7 +54,7 @@ shinyServer(function(input, output, session) {
     addTiles() %>% 
     addMarkers(data=coords, popup=facility) %>%
     addCircles(data=coords, weight = 1,
-                 radius = min(stack.table()$"Distance To Fenceline", na.rm=T), popup = "Estimated property")
+                 radius = min(stack.table()$"Distance to Fenceline", na.rm=T), popup = "Estimated property")
     })
   
   output$inputs_up <- renderUI({fileInput("inputs_up", label=NULL) })
@@ -62,16 +62,30 @@ shinyServer(function(input, output, session) {
   #################################
   # Stacks
   ################################
-  output$stack_up <- renderUI({fileInput("stack_up", label=NULL) })
   
   stack.table <- reactive({
+    
+    if(!is.null(input$stack_up)){
+      inFile <- input$stack_up
+      
+      file.rename(inFile$datapath, paste0(inFile$datapath, ".xlsx"))
+      
+      stack_up <- read_excel(paste0(inFile$datapath, ".xlsx"), 2)
+      
+      names(stack_up) <- c("Stack ID", "Stack Height", "Distance to Fenceline")
+      
+      stack_up
+      
+    } else {
+    
     data.frame("Stack ID" = c("Stack-1","Stack-2"), 
                "Stack Height" = c(80, 99), 
-               "Distance To Fenceline" = c(55, 38), 
+               "Distance to Fenceline" = c(55, 38), 
                check.names = F, stringsAsFactors = F)
+    }
   })
   
-  output$stack_table <- renderDataTable(stack.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$stack_table <- DT::renderDataTable(stack.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
   ######################
   # Dispersion factors
@@ -114,7 +128,7 @@ shinyServer(function(input, output, session) {
     return(disp_table[ ,1:4])
   })
   
-  output$disp_table <- renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$disp_table <- DT::renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
 
   #################################
   # Emissions
@@ -138,7 +152,7 @@ shinyServer(function(input, output, session) {
                check.names=F, stringsAsFactors=F)
   })
   
-  output$emissions_table <- renderDataTable(em.table(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  output$emissions_table <- DT::renderDataTable(em.table(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
   
   #######################
   # Concentration tables
@@ -162,7 +176,7 @@ shinyServer(function(input, output, session) {
     st.conc.table
     })
   
-  output$st_conc_table <- renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$st_conc_table <- DT::renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
   
   conc.table <- reactive({
@@ -179,7 +193,7 @@ shinyServer(function(input, output, session) {
     #names(conc.table) <- c("Pollutant", "CAS#", "1-hr Max", "Month Max", "Annual Max")
   })
   
-  output$conc_table <- renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$conc_table <- DT::renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
    
   ####################
   # Risk tables
@@ -227,8 +241,8 @@ shinyServer(function(input, output, session) {
     
   })
   
-  output$air_risk_table <- renderDataTable(pollutant.risk.table()[ ,1:6], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE, class="compact")
-  output$media_risk_table <- renderDataTable(pollutant.risk.table()[ ,c(1:2,7:12)], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  output$air_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,1:6], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE, class="compact")
+  output$media_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,c(1:2,7:12)], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
   
   # Total risk table
   total.risk.table <- reactive({
@@ -258,8 +272,8 @@ shinyServer(function(input, output, session) {
     return(total_risk)
     })
 
-  output$total_air_risk_table <- renderDataTable(total.risk.table()[ ,1:4], options=list(searching=F, paging=F, scrollX=F, digits=2), rownames = FALSE)
-  output$total_media_risk_table <- renderDataTable(total.risk.table()[ ,5:10], options=list(searching=F, paging=F, scrollX=F, digits=2), rownames = FALSE)
+  output$total_air_risk_table <- DT::renderDataTable(total.risk.table()[ ,1:4], options=list(searching=F, paging=F, scrollX=F, digits=2), rownames = FALSE)
+  output$total_media_risk_table <- DT::renderDataTable(total.risk.table()[ ,5:10], options=list(searching=F, paging=F, scrollX=F, digits=2), rownames = FALSE)
   
   # Endpoint risk table
   endpoint.risk.table <- reactive({
@@ -308,7 +322,7 @@ shinyServer(function(input, output, session) {
     return(end_risks)
   })
   
-  output$endpoint_risk_table <- renderDataTable(endpoint.risk.table(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  output$endpoint_risk_table <- DT::renderDataTable(endpoint.risk.table(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
  
   # Pollutants of concern
   pbts <- reactive({
@@ -316,13 +330,43 @@ shinyServer(function(input, output, session) {
     
     pbt_table <- filter(pbt_table, Persistent_Bioaccumulative_Toxicants > 0)[ , 2:3]
     
+    names(pbt_table)[1] <- "PBT Pollutants"
+    
     #if(nrow(pbt_table) < 1) pbt_table[1, ] <- " "
     unique(pbt_table)
     
   })
   
-  output$pbts <- renderDataTable(pbts(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  output$pbt_table <- DT::renderDataTable(pbts(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  
+  # Developmental
+  develop.tox <- reactive({
+    develop_tox <- left_join(em.table(), endpoints[ ,-c(3:5)])
     
+    develop_tox <- filter(develop_tox, Developmental_Toxicants > 0)[ , 2:3]
+    
+    names(develop_tox)[1] <- "Developmental Pollutant"
+    
+    unique(develop_tox)
+    
+  })
+  
+  output$develop_table <- DT::renderDataTable(develop.tox(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  
+  # Sensitizers
+  sensitive.tox <- reactive({
+    sensitive_tox <- left_join(em.table(), endpoints[ ,-c(3:5)])
+    
+    sensitive_tox <- filter(sensitive_tox, Developmental_Toxicants > 0)[ , 2:3]
+    
+    names(sensitive_tox)[1] <- "Respiratory sensitizing pollutants"
+    
+    unique(sensitive_tox)
+    
+  })
+  
+  output$sensitive_table <- DT::renderDataTable(sensitive.tox(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+   
   ########################
   # SAVE
   ########################
@@ -345,9 +389,9 @@ shinyServer(function(input, output, session) {
   ########################
   # MORE
   #######################
-  output$tox_table <- renderDataTable(tox_values, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$tox_table <- DT::renderDataTable(tox_values, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
-  output$endpoints <- renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$endpoints <- DT::renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
   
 })

@@ -5,7 +5,7 @@ library(leaflet)
 shinyUI(navbarPage("Facility Air Screen", 
                    theme = "bootstrap_custom.css", 
 
-tabPanel("Facility", br(), 
+tabPanel("Facility",
     fluidRow(column(12, h3("Facility information"), hr())),
     fluidRow(column(4,
            p("Facility name"),
@@ -18,60 +18,59 @@ tabPanel("Facility", br(),
            fluidRow(column(1), 
                     column(5, textInput('lat', label=NULL, placeholder='46.29')),
                     column(5, textInput('long', label=NULL, placeholder='-96.063'))),
-           p("Upload all facility inputs as Excel file"),
-           uiOutput('inputs_up'),
+           p("Upload stack, emissions and dispersion inputs", style="margin-top:5px;"),
+           #uiOutput('inputs_up', style="margin-left: 36px"),
+           fluidRow(column(1), column(10, fileInput("inputs_up", label=NULL))), 
            #p("See example input file", style="margin-top:-25px; margin-bottom:5px;"),
            a(href = 'https://github.com/dKvale/fair-screen/raw/master/data/fair_screen_template.xlsx',
                   class = "btn", icon("download"),
-                  style="margin-top:-25px;", 
+                  style="margin-top:-20px;", 
                   target="_blank", ' Download input templates'),
            br(), br()
-           #p("Pollutant reference"),
-           #uiOutput("pollutants")
            ),
-    
-    column(6,
+    fluidRow(column(6,
            p("Facility location"),
-           leafletOutput("fac_map")), hr()
+           leafletOutput("fac_map")), hr())
     )),
                                       
 tabPanel("Dispersion", 
          fluidRow(column(12, h3("Dispersion factors"), hr())),
          tabsetPanel(
          tabPanel("Stack parameters",
-         column(8, h4("Upload stack height and fenceline distance", style="margin-botom:0px; padding-bottom:0px;"), 
+         fluidRow(
+           column(8, h4("Upload stack height and fenceline distance", style="margin-botom:0px; padding-bottom:0px;"), 
                 p("Select units"), 
-                selectizeInput('st_units', label=NULL, choices=c("Feet", "Meters"), selected="Feet"), 
-                p("Select an Excel file (.xlsx) or comma separated text file (.csv)."), 
-                uiOutput('stack_up'),
-                dataTableOutput('stack_table'))
+                selectizeInput('st_units', label=NULL, choices=c("Feet", "Meters"), selected="Feet"))), 
+                #p("Select an Excel file (.xlsx) or comma separated text file (.csv)."), 
+                #uiOutput("stack_up", style="margin-left: 30px"), 
+         fluidRow(column(1), column(4, fileInput("stack_up", label=NULL))),
+         fluidRow(column(1), column(7,
+                p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-top: -22px; padding-top:0; padding-bottom:10px; font-style: italic;"))),
+                dataTableOutput('stack_table')
 ),
         tabPanel("Unit dispersion", 
-        # Collect dispersion factors
          column(8, h4("Upload unit dispersion factors", style="margin-botom:0px; padding-bottom:0px;"), 
                 p("If left blank default dispersion factors are generated based on a stack's height and fenceline distance.", style="font-style: italic;"), 
-                p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom:-10px;"), 
-                uiOutput("disp_up"),
+                #p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-botom:-40px; padding-bottom:-10px;"), 
+                uiOutput("disp_up", style="margin-left: 30px"), p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-top: -22px; margin-left:31px; padding-top:0; padding-bottom:10px; font-style: italic;"),
                 dataTableOutput("disp_table"))
 ))),
 
-tabPanel("Emissions",
-         # Collect emission information        
+tabPanel("Emissions",      
          fluidRow(column(12, h3("Emissions"), hr())),
          fluidRow(column(9, p("Upload potential 1-hour emissions in lbs/hr and annual emission in tons/yr. 
                               Assume startup and worst-case fuel conditions for 1-hr emissions. Assume maximum capacity for annual emissions.", style="font-style: italic;"))), 
-         uiOutput("emissions_up", style="margin-left: 30px"), p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-top: -28px; margin-left:30px; padding-top:0; padding-bottom:10px;"),
+         uiOutput("emissions_up", style="margin-left: 30px"), p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-top: -22px; margin-left:31px; padding-top:0; padding-bottom:10px; font-style: italic;"),
          dataTableOutput("emissions_table"),
          hr()
 ),
 
-tabPanel("Air concentrations", 
-         # Show concentrations 
+tabPanel("Air concentrations",          
          fluidRow(column(12, h3("Maximum air concentrations"), hr())),
          tabsetPanel(
            tabPanel("Total facility", br(),
            fluidRow(column(9, p("Optional: Upload maximum Aermod concentration results for the total facilty.", style="font-style: italic; margin-bottom: -30px"))), 
-           uiOutput("conc_up", style="margin-left: 30px"), p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-top: -28px; margin-left:30px; padding-top:0; padding-bottom:10px;"),
+           uiOutput("conc_up", style="margin-left: 30px"), p("Select an Excel file (.xlsx) or comma separated text file (.csv).", style="margin-top: -22px; margin-left:31px; padding-top:0; padding-bottom:10px; font-style: italic;"),
            h4("Total facility"),
            p("All concentrations shown in (ug/m3).", style="font-style: italic; font-size: 1em;"),
            dataTableOutput("conc_table")),
@@ -85,48 +84,40 @@ tabPanel("Air concentrations",
 ),
 
 tabPanel("Risk summary", 
-         # Show risk results 
          fluidRow(column(12, h3("Risk summary"), hr())), 
          tabsetPanel(
            
            tabPanel("Total facility", br(),
-                    fluidRow(column(11, 
-                                    p("Inhalation only risk table", style="font-style: italic; font-size: 1.1em;"),
-                                    dataTableOutput("total_air_risk_table"),
-                                    hr(), br(), 
-                                    p("Multi-media longterm risk table", style="font-style: italic; font-size: 1.1em;"),
-                                    dataTableOutput("total_media_risk_table"),
-                                    hr()))
+                    fluidRow(column(11, p("Inhalation only risk table", style="font-style: italic; font-size: 1.1em;")),
+                             column(11, dataTableOutput("total_air_risk_table"),  hr(), br()),
+                             column(11, p("Multi-media longterm risk table", style="font-style: italic; font-size: 1.1em;")),
+                             column(11, dataTableOutput("total_media_risk_table"), hr()))
            ),
            
            tabPanel("Pollutant specific", br(), 
-                    fluidRow(column(11, 
-                                    p("Inhalation only risk table", style="font-style: italic; font-size: 1.1em;"),
-                                    dataTableOutput("air_risk_table"),
-                                    hr(), br(),
-                                    p("Multi-media longterm risk table", style="font-style: italic; font-size: 1.1em;"),
-                                    dataTableOutput("media_risk_table"),
-                                    hr()))
+                    fluidRow(column(11, p("Inhalation only risk table", style="font-style: italic; font-size: 1.1em;")),
+                             column(11, dataTableOutput("air_risk_table"), hr(), br()),
+                             column(11, p("Multi-media longterm risk table", style="font-style: italic; font-size: 1.1em;")),
+                             column(11, dataTableOutput("media_risk_table"), hr()))
            ),
            
            tabPanel("Risk by health endpoint", br(), 
-                    fluidRow(column(11, 
-                    dataTableOutput("endpoint_risk_table"),
-                    hr(style="margin-top:5px;")))
+                    fluidRow(column(11, dataTableOutput("endpoint_risk_table"),
+                    hr()))
            ),
            
            tabPanel("Pollutants of concern", br(),
                     fluidRow(column(11, 
-                    p("Persistent Bioaccumulative Toxicants", style="font-style: italic; font-size: 1.1em;"),
-                    dataTableOutput("pbts"),
+                    p("Persistent bioaccumulative toxins (PBTs)", style="font-style: italic; font-size: 1.1em;"),
+                    dataTableOutput("pbt_table"),
                     br(),
-                    p("Developmental toxicants with MDH ceiling values", style="font-style: italic; font-size: 1.1em;"),
-                    hr(),
-                    dataTableOutput(""),
+                    p("Developmental pollutants with MDH ceiling values", style="font-style: italic; font-size: 1.1em;"),
+                    #hr(),
+                    dataTableOutput("develop_table"),
                     br(),
                     p("Respiratory sensitizers", style="font-style: italic; font-size: 1.1em;"),
-                    hr(),
-                    dataTableOutput("")))
+                    #hr(),
+                    dataTableOutput("sensitive_table")))
            ))),
            
            tabPanel("Save",
