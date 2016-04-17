@@ -50,7 +50,7 @@ shinyServer(function(input, output, session) {
     if(!is.null(input$lat) & nchar(input$lat) > 1) coords[1, 1] <- as.numeric(input$lat)
     if(!is.null(input$long) & nchar(input$long) > 1) coords[1, 2] <- as.numeric(input$long)
     
-    if(!is.null(input$coords) & nchar(input$facility) > 1) facility <- input$facility
+    if(!is.null(input$facility) & nchar(input$facility) > 0) facility <- input$facility
     
     print("New:")
     print(coords[1, 1])
@@ -247,7 +247,7 @@ shinyServer(function(input, output, session) {
     
   })
   
-  output$air_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,1:6], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE, class="compact")
+  output$air_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,1:6], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
   output$media_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,c(1:2,7:12)], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
   
   # Total risk table
