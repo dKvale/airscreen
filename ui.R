@@ -14,7 +14,7 @@ tabPanel("Welcome",
         fluidRow(column(8, h4("First time users"),
          p("Begin by downloading the master template file below and entering the relevant facility and dispersion
            parameters. 
-           When complete, move on to the next step to upload your inputs.
+           When complete, move down to the next step to upload your inputs.
            Alternatively, the menu above may be used to upload inputs individually."))),
         fluidRow(column(1), 
                  column(6,
