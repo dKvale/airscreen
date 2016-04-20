@@ -10,25 +10,22 @@ library(dplyr)
 library(leaflet)
 library(DT)
 library(readxl)
+library(XLConnect)
 
 version <- "4/14/2016"
 
-tox_values <- read.csv("data//air_benchmarks.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
+cancer_guideline <- 1e-05
 
-endpoints <- read.csv("data//air_endpoints.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-#names(endpoints) <- gsub(" ", "_", names(endpoints))
+tox_values <- read.csv("data//air_benchmarks.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
+endpoints <- read.csv("data//air_endpoints.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
 endpoints_list <- c('Auditory', 'Blood/ hematological', 'Bone & teeth', 'Cardiovascular', 'Digestive', 'Ethanol specific', 'Eyes', 'Kidney', 'Liver', 'Neurological', 'Reproductive/ developmental / endocrine', 'Respiratory', 'Skin')
-
 endpoints_list <- data.frame("Endpoint" = endpoints_list)
-
 endpoints_list$End_short <- substring(endpoints_list$Endpoint, 1, 4)
 
 disp_facts <- read.csv("data//dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
-mpsf <- read.csv("data//MPSFs.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
-
-#pol_list <- paste0(tox_values$Pollutant," (", tox_values[ ,"CAS"], ")")
+mpsf <- read.csv("data//MPSFs.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
 risk_table_names <- c("Pollutant", "CAS", "Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", "Longterm Cancer Risk (Air)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)")
 
@@ -37,8 +34,8 @@ coords <- read.csv(textConnection("
 lat,long
 46.29015, -96.063"))
 
-facility <- "Murphy`s Vaccuum Cleaners"
 
+address <- "431 Broom St. North, Murphy Town"
 
 in.file <- function(conn, tab=1, n_col, col_names) {
   
@@ -64,22 +61,56 @@ shinyServer(function(input, output, session) {
   #################################
   # Facility Map
   ################################
-  output$fac_map <- renderLeaflet({
-
-    if(!is.null(input$lat)  & nchar(input$lat) > 1) coords[1, 1] <- as.numeric(input$lat)
-    if(!is.null(input$long) & nchar(input$long) > 1) coords[1, 2] <- as.numeric(input$long)
+  fac.info <- reactive({
     
-    if(!is.null(input$facility) & nchar(input$facility) > 0) facility <- input$facility
+    if(is.null(input$inputs_up)) return(NULL)
+    
+    col_names <- c("Facility Name",	"Facility ID#",	"Facility Address",	"Latitude",	"Longitude")
+    
+    return(in.file(input$inputs_up, 2, 5, col_names))
+      
+  })
+ 
+  output$fac_name_UI <- renderUI({
+    textInput('fac_name', label=NULL, placeholder="Example Facility (#123456)", value=NULL)
+  })
+  
+  output$address_UI <- renderUI({
+    textInput('address', label=NULL, placeholder='431 Broom St. North, Murphy Town')
+  })
+  
+  output$fac_lat_UI <- renderUI({
+    textInput('lat', label=NULL, placeholder='46.29', value = '46.29')
+  })
+  
+  output$fac_long_UI <- renderUI({
+    textInput('long', label=NULL, placeholder='-96.063', value='-96.063')
+  })
+  
+  observeEvent(input$inputs_up, {
+    facility <<- as.character(fac.info()[1, 1])[[1]]
+    
+    updateTextInput(session, 'fac_name', value=facility)
+    updateTextInput(session, 'address', value=fac.info()[1, 3][[1]])
+    updateTextInput(session, 'lat', value=fac.info()[1, 4][[1]])
+    updateTextInput(session, 'long', value=fac.info()[1, 5][[1]])
+  })
+  
+  output$fac_map <- renderLeaflet({
+   
+    coords[1, 1] <- as.numeric(input$lat)
+    coords[1, 2] <- as.numeric(input$long)
     
     print("New:")
+    #print(facility)
     print(coords[1, 1])
     print(coords[1, 2])
     
     leaflet() %>% 
     addTiles() %>% 
-    addMarkers(data=coords, popup=facility) %>%
+    addMarkers(data=coords, popup=input$fac_name) %>%
       addCircles(data=coords, weight = 1, fillColor= "orange", color="darkorange",
-                 radius = 2000, popup = "2km impact radius") %>%
+                 radius = 1500, popup = "1.5km impact radius") %>%
       addCircles(data=coords, weight = 1,
                  radius = min(stack.table()$"Distance to Fenceline", na.rm=T), popup = "Estimated property boundary")
     })
@@ -94,7 +125,7 @@ shinyServer(function(input, output, session) {
     
     if(!is.null(input$stack_up)) { return(in.file(input$stack_up, 1, 3, col_names)) }
       
-    if(!is.null(input$inputs_up)) {  return(in.file(input$inputs_up, 2, 3, col_names)) }
+    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, 3, 3, col_names)) }
     
     data.frame("Stack ID" = c("Stack-1","Stack-2"), 
                "Stack Height" = c(80, 99), 
@@ -115,7 +146,7 @@ shinyServer(function(input, output, session) {
     
     if(!is.null(input$disp_up)) { return(in.file(input$disp_up, tab=1, n_col=4, col_names)) } 
       
-    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=3, n_col=4, col_names)) }
+    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=4, n_col=4, col_names)) }
       
     if(!is.null(stack.table())) { 
       
@@ -163,7 +194,7 @@ shinyServer(function(input, output, session) {
     
     if(!is.null(input$emissions_up)) { return(in.file(input$emissions_up, tab=1, n_col=5, col_names)) }
       
-    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=4, n_col=5, col_names)) }
+    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=5, n_col=5, col_names)) }
     
     data.frame("Stack ID" = rep(c('Stack-1', 'Stack-2'), each = 4),
                "Pollutant" = rep(c("Acrolein","Benzene", "Lead", "Diisopropyl Ether"), 2), 
@@ -197,13 +228,19 @@ shinyServer(function(input, output, session) {
   
   output$st_conc_table <- DT::renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T,  digits=1), rownames = FALSE)
   
-  col_names <- c("Pollutant", "CAS", "1-hr Max", "Month Max", "Annual Max")
+  
   
   conc.table <- reactive({
     
+    col_names <- c("Pollutant", "CAS", "1-hr Max", "Month Max", "Annual Max")
+    
     if(!is.null(input$conc_up)) { return(in.file(input$conc_up, tab=1, n_col=5, col_names)) } 
     
-    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=5, n_col=5, col_names)) }
+    if(!is.null(input$inputs_up)) { 
+      conc_table <- in.file(input$inputs_up, tab=6, n_col=5, col_names)
+      
+      if(nrow(conc_table) >= length(unique(em.table()$Pollutant))) return(conc_table)
+       }
     
     conc.table <- st.conc.table()
     
@@ -233,17 +270,17 @@ shinyServer(function(input, output, session) {
       risk_table$"Acute (Air)"            <- risk_table[ ,3]/risk_table[ ,6]
       risk_table$"Subchronic (Air)"       <- risk_table[ ,4]/risk_table[ ,7]
       risk_table$"Longterm Hazard (Air)"  <- risk_table[ ,5]/risk_table[ ,8]
-      risk_table$"Longterm Cancer (Air)"  <- risk_table[ ,5]/risk_table[ ,9]
+      risk_table$"Longterm Cancer (Air)"  <- risk_table[ ,5]/risk_table[ ,9] * cancer_guideline
       
       risk_table <- risk_table[ , c(1:2,16:19,10:15)]
       
       # Multi-media
       risk_table$"Resident Hazard (All media)"  <- risk_table[ ,5]*(1+risk_table[ ,7])
-      risk_table$"Resdident Cancer (All media)" <- risk_table[ ,6]*(1+risk_table[ ,8])
+      risk_table$"Resdident Cancer (All media)" <- risk_table[ ,6]*(1+risk_table[ ,8]) 
       risk_table$"Gardener Hazard (All media)"  <- risk_table[ ,5]*(1+risk_table[ ,9])
-      risk_table$"Gardener Cancer (All media)"  <- risk_table[ ,6]*(1+risk_table[ ,10])
+      risk_table$"Gardener Cancer (All media)"  <- risk_table[ ,6]*(1+risk_table[ ,10]) 
       risk_table$"Farmer Hazard (All media)"    <- risk_table[ ,5]*(1+risk_table[ ,11])
-      risk_table$"Farmer Cancer (All media)"    <- risk_table[ ,6]*(1+risk_table[ ,12])
+      risk_table$"Farmer Cancer (All media)"    <- risk_table[ ,6]*(1+risk_table[ ,12]) 
       
       risk_table <- risk_table[ , -c(7:12)]
       
@@ -386,19 +423,21 @@ shinyServer(function(input, output, session) {
   ########################
   
   #Download Buttons
-  output$download_risk <- downloadHandler(
-    filename = function() { paste0("RASS_Results_", Sys.Date(), ".csv", sep="") },
-    content = function(con) {
-      out_file = total.risk.table()
-      write.csv(out_file, con, row.names=F)
-    })
-      
   output$download_inputs <- downloadHandler(
-        filename = function() { paste0("RASS_Inputs_2016_.csv", Sys.Date(), ".csv", sep="") },
-        content = function(con) {
-                   out_file = total.risk.table()
-                   write.csv(out_file, con, row.names=F)
+        filename = function() { paste0("RASS_Inputs_", Sys.Date(), ".xlsx", sep="") },
+        content = function(file) {
+         # fname <- paste(file,"xlsx",sep=".")
+          wb <- loadWorkbook(file, create = TRUE)
+          createSheet(wb, name = "Sheet1")
+          writeWorksheet(wb, c(1:3), sheet = "Sheet1") 
+          
+          createSheet(wb, name = "Sheet2")
+          writeWorksheet(wb, c(1:13), sheet = "Sheet2") 
+          
+          saveWorkbook(wb, file)
+          #file.rename(fname,file)
    })
+  
   
   ########################
   # MORE
@@ -407,5 +446,6 @@ shinyServer(function(input, output, session) {
   
   output$endpoints <- DT::renderDataTable(endpoints, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
+  output$mpsf      <- DT::renderDataTable(mpsf, options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
 })

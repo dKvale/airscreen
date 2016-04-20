@@ -6,7 +6,7 @@ library(stringr)
 
 options(scipen=+9999, digits=15)
 
-risk_connect <- odbcConnectAccess2007("X:\\Programs\\Air_Quality_Programs\\Air Monitoring Data and Risks\\4 Concentration to Risk Estimate Database\\Air Toxics Risks Estimates.accdb")
+risk_connect <- odbcConnectAccess2007("X:\\Programs\\Air_Quality_Programs\\Air Monitoring Data and Risks\\4 Concentration to Risk Estimate Database\\Air Toxics Risks Estimates_updates2015.accdb")
 
 # Get data from a table or query in the database
 risk_vals <- sqlQuery(risk_connect, paste ("select * from [Toxicity]"), stringsAsFactors=F)
