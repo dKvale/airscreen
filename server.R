@@ -27,7 +27,7 @@ disp_facts <- read.csv("data//dispersion_factors.csv", header=T, stringsAsFactor
 
 mpsf <- read.csv("data//MPSFs.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
-risk_table_names <- c("Pollutant", "CAS", "Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", "Longterm Cancer Risk (Air)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)")
+risk_table_names <- c("Pollutant", "CAS", "Acute 1-hr Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", "Longterm Cancer Risk (Air)", "Resident Longterm Hazard Quotient (All media)", "Resdident Longterm Cancer Risk (All media)", "Urban Gardener Longterm Hazard Quotient (All media)", "Urban Gardener Longterm Cancer Risk (All media)","Farmer Hazard Quotient (All media)", "Farmer Longterm Cancer Risk (All media)")
 
 # Create table for coordinates
 coords <- read.csv(textConnection("
@@ -142,11 +142,11 @@ shinyServer(function(input, output, session) {
 
   disp.table <- reactive({
     
-    col_names <- c("Stack ID", "1-Hour Max", "Montly Max", "Annual Max")
+    col_names <- c("Stack ID", "1-Hour Max", "Annual Max")
     
-    if(!is.null(input$disp_up)) { return(in.file(input$disp_up, tab=1, n_col=4, col_names)) } 
+    if(!is.null(input$disp_up)) { return(in.file(input$disp_up, tab=1, n_col=3, col_names)) } 
       
-    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=4, n_col=4, col_names)) }
+    if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=4, n_col=3, col_names)) }
       
     if(!is.null(stack.table())) { 
       
@@ -156,7 +156,6 @@ shinyServer(function(input, output, session) {
       
       disp_table <- data.frame("Stack ID" = stacks[ , 1], 
                                "1-Hour Max"  = 1:n_stacks, 
-                               "Monthly Max" = 1:n_stacks, 
                                "Annual Max"  = 1:n_stacks, 
                                check.names=F, stringsAsFactors=F)
       
@@ -167,19 +166,17 @@ shinyServer(function(input, output, session) {
         if(stacks[stack, 3]>=10000) nearD <- 10000
         nearH <- min(round(stacks[stack, 2], 0), 99)
         disp_table[stack, 2:4] <- c(disp_facts[disp_facts$"Averaging.Time"=="1-hr" & disp_facts$"Stack.Height.meters" == nearH, paste0("X", nearD)],
-                                    disp_facts[disp_facts$"Averaging.Time"=="monthly" & disp_facts$"Stack.Height.meters" == nearH, paste0("X", nearD)],
                                     disp_facts[disp_facts$"Averaging.Time"=="annual" & disp_facts$"Stack.Height.meters" == nearH, paste0("X", nearD)])
       }
     } else { 
       disp_table <- 
         data.frame("Stack ID" = c("Stack-1","Stack-2"), 
-                  "1-Hour Max" = c(1, 2), 
-                   "Montly Max" = c(.2, .34), 
+                   "1-Hour Max" = c(1, 2), 
                    "Annual Max" = c(.06, .15), 
-                    check.names=F, stringsAsFactors=F)
+                   check.names=F, stringsAsFactors=F)
     }
       
-    return(disp_table[ , 1:4])
+    return(disp_table[ , 1:3])
   })
   
   output$disp_table <- DT::renderDataTable(disp.table(), options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
@@ -214,41 +211,37 @@ shinyServer(function(input, output, session) {
     
     st.conc.table <- left_join(em.table(), disp.table())
     
-    names(st.conc.table) <- c("Stack", "Pollutant", "CAS", "hr_PTE", "an_PTE", "hr_disp", "mon_disp", "an_disp")
+    names(st.conc.table) <- c("Stack", "Pollutant", "CAS", "hr_PTE", "an_PTE", "hr_disp", "an_disp")
     
     st.conc.table <- group_by(st.conc.table, Stack, Pollutant, CAS) %>%
                      summarize(hr_max = signif(hr_PTE * hr_disp * 453.592 / 3600, 4),
-                               month_max = signif(an_PTE * mon_disp * 2000 * 453.592 / 8760 / 3600, 4),
                                annual_max = signif(an_PTE * an_disp * 2000 * 453.592 / 8760 / 3600, 4))
     
-    names(st.conc.table) <- c("Stack ID", "Pollutant", "CAS", "1-hr Max", "Month Max", "Annual Max")
+    names(st.conc.table) <- c("Stack ID", "Pollutant", "CAS", "1-hr Max", "Annual Max")
   
     st.conc.table
     })
   
   output$st_conc_table <- DT::renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T,  digits=1), rownames = FALSE)
   
-  
-  
   conc.table <- reactive({
     
-    col_names <- c("Pollutant", "CAS", "1-hr Max", "Month Max", "Annual Max")
+    col_names <- c("Pollutant", "CAS", "1-hr Max", "Annual Max")
     
-    if(!is.null(input$conc_up)) { return(in.file(input$conc_up, tab=1, n_col=5, col_names)) } 
+    if(!is.null(input$conc_up)) { return(in.file(input$conc_up, tab=1, n_col=4, col_names)) } 
     
     if(!is.null(input$inputs_up)) { 
-      conc_table <- in.file(input$inputs_up, tab=6, n_col=5, col_names)
+      conc_table <- in.file(input$inputs_up, tab=6, n_col=4, col_names)
       
       if(nrow(conc_table) >= length(unique(em.table()$Pollutant))) return(conc_table)
        }
     
     conc.table <- st.conc.table()
     
-    names(conc.table) <- c("Stack", "Pollutant", "CAS", "hr", "mon", "an")
+    names(conc.table) <- c("Stack", "Pollutant", "CAS", "hr", "an")
     
     group_by(conc.table, Pollutant, CAS) %>%
         summarize("1-hr Max" = sum(hr, na.rm=T),
-                  "Month Max" = sum(mon, na.rm=T),
                   "Annual Max" = sum(an, na.rm=T))
   })
   
@@ -263,26 +256,23 @@ shinyServer(function(input, output, session) {
       risk_table <- data.frame(left_join(ungroup(conc.table()), tox_values),
                                check.names=F, stringsAsFactors = F)
       
-      print(str(risk_table))
-      
       risk_table <- left_join(risk_table, mpsf[ ,-2])
   
-      risk_table$"Acute (Air)"            <- risk_table[ ,3]/risk_table[ ,6]
-      risk_table$"Subchronic (Air)"       <- risk_table[ ,4]/risk_table[ ,7]
-      risk_table$"Longterm Hazard (Air)"  <- risk_table[ ,5]/risk_table[ ,8]
-      risk_table$"Longterm Cancer (Air)"  <- risk_table[ ,5]/risk_table[ ,9] * cancer_guideline
+      risk_table$"Acute (Air)"            <- risk_table[ ,3]/risk_table[ ,5]
+      risk_table$"Longterm Hazard (Air)"  <- risk_table[ ,4]/risk_table[ ,7]
+      risk_table$"Longterm Cancer (Air)"  <- risk_table[ ,4]/risk_table[ ,8] * cancer_guideline
       
-      risk_table <- risk_table[ , c(1:2,16:19,10:15)]
+      risk_table <- risk_table[ , c(1:2,15:17,9:14)]
       
       # Multi-media
-      risk_table$"Resident Hazard (All media)"  <- risk_table[ ,5] * (1 + risk_table[ ,7])
-      risk_table$"Resdident Cancer (All media)" <- risk_table[ ,6] * (1 + risk_table[ ,8]) 
-      risk_table$"Gardener Hazard (All media)"  <- risk_table[ ,5] * (1 + risk_table[ ,9])
-      risk_table$"Gardener Cancer (All media)"  <- risk_table[ ,6] * (1 + risk_table[ ,10]) 
-      risk_table$"Farmer Hazard (All media)"    <- risk_table[ ,5] * (1 + risk_table[ ,11])
-      risk_table$"Farmer Cancer (All media)"    <- risk_table[ ,6] * (1 + risk_table[ ,12]) 
+      risk_table$"Resident Hazard (All media)"  <- risk_table[ ,4] * (1 + risk_table[ ,6])
+      risk_table$"Resdident Cancer (All media)" <- risk_table[ ,5] * (1 + risk_table[ ,7]) 
+      risk_table$"Gardener Hazard (All media)"  <- risk_table[ ,4] * (1 + risk_table[ ,8])
+      risk_table$"Gardener Cancer (All media)"  <- risk_table[ ,5] * (1 + risk_table[ ,9]) 
+      risk_table$"Farmer Hazard (All media)"    <- risk_table[ ,4] * (1 + risk_table[ ,10])
+      risk_table$"Farmer Cancer (All media)"    <- risk_table[ ,5] * (1 + risk_table[ ,11]) 
       
-      risk_table <- risk_table[ , -c(7:12)]
+      risk_table <- risk_table[ , -c(6:11)]
       
     } else {
       risk_table <- data.frame(matrix(NA, nrow=1, ncol=12), check.names=F, stringsAsFactors = F)
@@ -297,19 +287,18 @@ shinyServer(function(input, output, session) {
   pollutant.risk.table <- reactive({
     pol_risk <- risk.table()
     
-    for(i in c(3:5,7,9,11)) {
-      pol_risk[ ,i] <- round(pol_risk[ ,i], digits=2)
+    for(i in c(3:4,6,8,10)) {
+      pol_risk[ ,i] <- round(pol_risk[ ,i], digits=3)
       pol_risk[is.na(pol_risk[ ,i]), i] <- ""
       pol_risk[grepl("NA", pol_risk[ ,i]), i] <- ""
     }
     
-    for(i in c(6,8,10,12)) {
+    for(i in c(5,7,9,11)) {
       pol_risk[ ,i] <- format(signif(pol_risk[ ,i], digits=2), scientific=T)
       pol_risk[is.na(pol_risk[ ,i]), i] <- ""
       pol_risk[grepl("NA", pol_risk[ ,i]), i] <- ""
     }
     
-    print(pol_risk[1,6])
     pol_risk
     
   })
@@ -326,20 +315,19 @@ shinyServer(function(input, output, session) {
       
       total_risk <- data.frame(
         "Acute  (Air)"                 = sum(total_risk[ ,3], na.rm=T), 
-        "Subchronic  (Air)"            = sum(total_risk[ ,4], na.rm=T), 
-        "Longterm Hazard (Air)"        = sum(total_risk[ ,5], na.rm=T), 
-        "Longterm Cancer (Air)"        = sum(total_risk[ ,6], na.rm=T), 
-        "Resident Hazard (All media)"  = sum(total_risk[ ,7], na.rm=T),
-        "Resdident Cancer (All media)" = sum(total_risk[ ,8], na.rm=T),
-        "Gardener Hazard (All media)"  = sum(total_risk[ ,9], na.rm=T),
-        "Gardener Cancer (All media)"  = sum(total_risk[ ,10], na.rm=T),
-        "Farmer Hazard (All media)"    = sum(total_risk[ ,11], na.rm=T), 
-        "Farmer Cancer (All media)"    = sum(total_risk[ ,12], na.rm=T), 
+        "Longterm Hazard (Air)"        = sum(total_risk[ ,4], na.rm=T), 
+        "Longterm Cancer (Air)"        = sum(total_risk[ ,5], na.rm=T), 
+        "Resident Hazard (All media)"  = sum(total_risk[ ,6], na.rm=T),
+        "Resdident Cancer (All media)" = sum(total_risk[ ,7], na.rm=T),
+        "Gardener Hazard (All media)"  = sum(total_risk[ ,8], na.rm=T),
+        "Gardener Cancer (All media)"  = sum(total_risk[ ,9], na.rm=T),
+        "Farmer Hazard (All media)"    = sum(total_risk[ ,10], na.rm=T), 
+        "Farmer Cancer (All media)"    = sum(total_risk[ ,11], na.rm=T), 
         check.names=F)  
       
-      for(i in c(1:3,5,7,9)) {total_risk[ ,i] <- round(total_risk[ ,i], digits=2)}
+      for(i in c(1,2,4,6,8)) {total_risk[ ,i] <- round(total_risk[ ,i], digits=2)}
       
-      for(i in c(4,6,8,10)) {total_risk[ ,i] <- format(signif(total_risk[ ,i], digits=2), scientific=T)}
+      for(i in c(3,5,7,9)) {total_risk[ ,i] <- format(signif(total_risk[ ,i], digits=2), scientific=T)}
       
     } else {
       total_risk <- data.frame(matrix(NA, nrow=1, ncol=10), check.names=F, stringsAsFactors = F)
@@ -356,26 +344,25 @@ shinyServer(function(input, output, session) {
   # Endpoint risk table
   endpoint.risk.table <- reactive({
     
-    endpoint_risks <- data.frame(left_join(risk.table()[ ,1:5], endpoints), stringsAsFactors = F, check.names=F)
+    endpoint_risks <- data.frame(left_join(risk.table()[ ,1:4], endpoints), stringsAsFactors = F, check.names=F)
     
     if(!is.null(endpoint_risks) && nrow(endpoint_risks) > 0) {   
       end_risks <- endpoints_list
       
       for(i in 1:nrow(end_risks)) {
         end_risks$"Acute 1-hr Hazard Quotient (Air)"[i] <- sum(filter(endpoint_risks, grepl(end_risks$End_short[i], Acute_Toxic_Endpoints) | Acute_Toxic_Endpoints == "Systemic")$"Acute 1-hr Hazard Quotient (Air)", na.rm=T) 
-        end_risks$"Subchronic Hazard Quotient (Air)"[i] <- sum(filter(endpoint_risks, grepl(end_risks$End_short[i], Subchronic_Toxic_Endpoints) | Subchronic_Toxic_Endpoints == "Systemic")$"Subchronic Hazard Quotient (Air)", na.rm=T) 
         end_risks$"Longterm Hazard Quotient (Air)"[i]   <- sum(filter(endpoint_risks, grepl(end_risks$End_short[i], Chronic_Noncancer_Endpoints) | Chronic_Noncancer_Endpoints == "Systemic")$"Longterm Hazard Quotient (Air)", na.rm=T) 
       }
       
       end_risks[ ,2] <- NULL
       
-      for(i in 2:3) {
-        end_risks[ ,i] <- round(end_risks[ ,i], digits = 2)
-        end_risks[ ,i] <- ifelse(as.numeric(end_risks[ ,i]) < 0.0001, NA, end_risks[ ,i])
-      }
+      # Round acute risk
+      end_risks[ ,2] <- round(end_risks[ ,2], digits = 2)
+      end_risks[ ,2] <- ifelse(as.numeric(end_risks[ ,2]) < 0.0001, NA, end_risks[ ,2])
       
-      end_risks[ ,4] <- format(signif(end_risks[ ,4], digits=2), scientific=T)
-      end_risks[ ,4] <- ifelse(as.numeric(end_risks[ ,4]) < 0.0001, NA, end_risks[ ,4])
+      # Set cancer digits
+      end_risks[ ,3] <- format(signif(end_risks[ ,3], digits=2), scientific=T)
+      end_risks[ ,3] <- ifelse(as.numeric(end_risks[ ,3]) < 0.0001, NA, end_risks[ ,3])
       
     } else {end_risks  <- data.frame("Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", check.names=F)}
     

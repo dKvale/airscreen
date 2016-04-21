@@ -128,7 +128,7 @@ tabPanel("Air concentrations",
            tabPanel("Stack specific", br(),
              fluidRow(column(9, h4("Stack specific air concentrations"),
                     p("All concentrations shown in (ug/m3).", class='subtitle'),
-                    dataTableOutput("st_conc_table"))))
+                    div(dataTableOutput("st_conc_table"), style = "font-size:80%"))))
            )
 ),
 

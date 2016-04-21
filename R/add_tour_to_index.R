@@ -16,13 +16,17 @@ add_css<- readLines(textConnection(
 ))
 index <- c(index[1:(grep("</head>", index)-1)], 
            add_css, 
-           index[grep("</head>", index):length(index)])
+           index[grep("</head>", index):length(index)]
+           )
 
 # Add tour IDs
 add_tour_id21 <- "welcomebox"
 add_tour_id2 <- "tour2"
 
-index <- c()
+index <- c(index[1:(grep('data-value="Dispersion"', index)-1)
+           '<li id="tour2">',
+           index[1:(grep('data-value="Dispersion"', index):length(index))
+           )
 
 add_tour <- readLines(textConnection('<!-- TOUR -->
    <div id = "tour" class = "tour" style = "top: 100px; left:140px;display: block;">

@@ -19,7 +19,7 @@ netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for facili
 })
 
 netAssess.tour.makeSlide({title: "Menu bar",
-                          text: "<p>Use the menu bar above to select individual inputs and review modeled risk results. </p><p>You can check the 'Don't show again' box below to prevent this tour from opening the next time you visit the app. You can always reopen it by selecting 'Help' from the 'More' section of the menu bar.",
+                          text: "<p>Use the menu bar above to select individual inputs and review modeled risk results. </p><p>You can check the 'Don't show again' box below to prevent this tour from opening the next time you visit the app. You can always reopen it by selecting 'Help' from the 'More' section of the menu bar.</p>",
                           target: "#tour2",
                           position: "below"
                          
