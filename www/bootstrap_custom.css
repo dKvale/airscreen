@@ -417,8 +417,6 @@ hr { margin-top: 0px;}
   margin-left: 6px;
 }
 
-
-
 @media(min-width:768px){.navbar-text{float:left;margin-right:15px;margin-left:0px}
 .navbar-text.navbar-right:last-child{margin-right:0}}
 .navbar-default{background-color:#f8f8f8; border-color:#e7e7e7}
@@ -475,3 +473,5 @@ hr { margin-top: 0px;}
 }
 
 .subtitle { font-style: italic; font-size: 1em;}
+
+.label { font-style: italic; font-size: 1em;}

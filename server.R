@@ -72,7 +72,7 @@ shinyServer(function(input, output, session) {
   })
  
   output$fac_name_UI <- renderUI({
-    textInput('fac_name', label=NULL, placeholder="Example Facility (#123456)", value=NULL)
+    textInput('fac_name', label=NULL, placeholder="Example Facility (#123456)", value="Example Facility (#123456)")
   })
   
   output$address_UI <- renderUI({
@@ -88,9 +88,7 @@ shinyServer(function(input, output, session) {
   })
   
   observeEvent(input$inputs_up, {
-    facility <<- as.character(fac.info()[1, 1])[[1]]
-    
-    updateTextInput(session, 'fac_name', value=facility)
+    updateTextInput(session, 'fac_name', value= as.character(fac.info()[1, 1])[[1]])
     updateTextInput(session, 'address', value=fac.info()[1, 3][[1]])
     updateTextInput(session, 'lat', value=fac.info()[1, 4][[1]])
     updateTextInput(session, 'long', value=fac.info()[1, 5][[1]])
@@ -98,6 +96,8 @@ shinyServer(function(input, output, session) {
   
   output$fac_map <- renderLeaflet({
    
+    if(is.null(input$fac_name)) return(leaflet())
+    
     coords[1, 1] <- as.numeric(input$lat)
     coords[1, 2] <- as.numeric(input$long)
     
@@ -275,12 +275,12 @@ shinyServer(function(input, output, session) {
       risk_table <- risk_table[ , c(1:2,16:19,10:15)]
       
       # Multi-media
-      risk_table$"Resident Hazard (All media)"  <- risk_table[ ,5]*(1+risk_table[ ,7])
-      risk_table$"Resdident Cancer (All media)" <- risk_table[ ,6]*(1+risk_table[ ,8]) 
-      risk_table$"Gardener Hazard (All media)"  <- risk_table[ ,5]*(1+risk_table[ ,9])
-      risk_table$"Gardener Cancer (All media)"  <- risk_table[ ,6]*(1+risk_table[ ,10]) 
-      risk_table$"Farmer Hazard (All media)"    <- risk_table[ ,5]*(1+risk_table[ ,11])
-      risk_table$"Farmer Cancer (All media)"    <- risk_table[ ,6]*(1+risk_table[ ,12]) 
+      risk_table$"Resident Hazard (All media)"  <- risk_table[ ,5] * (1 + risk_table[ ,7])
+      risk_table$"Resdident Cancer (All media)" <- risk_table[ ,6] * (1 + risk_table[ ,8]) 
+      risk_table$"Gardener Hazard (All media)"  <- risk_table[ ,5] * (1 + risk_table[ ,9])
+      risk_table$"Gardener Cancer (All media)"  <- risk_table[ ,6] * (1 + risk_table[ ,10]) 
+      risk_table$"Farmer Hazard (All media)"    <- risk_table[ ,5] * (1 + risk_table[ ,11])
+      risk_table$"Farmer Cancer (All media)"    <- risk_table[ ,6] * (1 + risk_table[ ,12]) 
       
       risk_table <- risk_table[ , -c(7:12)]
       
@@ -297,16 +297,25 @@ shinyServer(function(input, output, session) {
   pollutant.risk.table <- reactive({
     pol_risk <- risk.table()
     
-    for(i in c(3:5,7,9,11)) {pol_risk[ ,i] <- round(pol_risk[ ,i], digits=2)}
+    for(i in c(3:5,7,9,11)) {
+      pol_risk[ ,i] <- round(pol_risk[ ,i], digits=2)
+      pol_risk[is.na(pol_risk[ ,i]), i] <- ""
+      pol_risk[grepl("NA", pol_risk[ ,i]), i] <- ""
+    }
     
-    for(i in c(6,8,10,12)) {pol_risk[ ,i] <- format(signif(pol_risk[ ,i], digits=2), scientific=T)}
+    for(i in c(6,8,10,12)) {
+      pol_risk[ ,i] <- format(signif(pol_risk[ ,i], digits=2), scientific=T)
+      pol_risk[is.na(pol_risk[ ,i]), i] <- ""
+      pol_risk[grepl("NA", pol_risk[ ,i]), i] <- ""
+    }
     
+    print(pol_risk[1,6])
     pol_risk
     
   })
   
-  output$air_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,1:6], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
-  output$media_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,c(1:2,7:12)], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  output$pollutant_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  #output$media_risk_table <- DT::renderDataTable(pollutant.risk.table()[ ,c(1:2,7:12)], options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
   
   # Total risk table
   total.risk.table <- reactive({
@@ -381,9 +390,7 @@ shinyServer(function(input, output, session) {
     
     pbt_table <- filter(pbt_table, Persistent_Bioaccumulative_Toxicants > 0)[ , 2:3]
     
-    names(pbt_table)[1] <- "PBT Pollutants"
-    
-    #if(nrow(pbt_table) < 1) pbt_table[1, ] <- " "
+    #names(pbt_table)[1] <- "PBT Pollutants"
     unique(pbt_table)
     
   })
@@ -396,10 +403,9 @@ shinyServer(function(input, output, session) {
     
     develop_tox <- filter(develop_tox, Developmental_Toxicants > 0)[ , 2:3]
     
-    names(develop_tox)[1] <- "Developmental Pollutant"
-    
+    #names(develop_tox)[1] <- "Developmental Pollutant"
     unique(develop_tox)
-    
+
   })
   
   output$develop_table <- DT::renderDataTable(develop.tox(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
@@ -408,12 +414,10 @@ shinyServer(function(input, output, session) {
   sensitive.tox <- reactive({
     sensitive_tox <- left_join(em.table(), endpoints[ ,-c(3:5)])
     
-    sensitive_tox <- filter(sensitive_tox, Developmental_Toxicants > 0)[ , 2:3]
+    sensitive_tox <- filter(sensitive_tox, Respiratory_Sensitizers > 0)[ , 2:3]
     
-    names(sensitive_tox)[1] <- "Respiratory sensitizing pollutants"
-    
+    #names(sensitive_tox)[1] <- "Respiratory sensitizing pollutants"
     unique(sensitive_tox)
-    
   })
   
   output$sensitive_table <- DT::renderDataTable(sensitive.tox(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
