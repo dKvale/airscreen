@@ -3,11 +3,12 @@
 index <- readLines("www/index.html")
 
 add_css<- readLines(textConnection(
-  '<link type = "text/css" rel = "stylesheet" href = "css/tour.css" />
-  <link type = "text/css" rel = "stylesheet" href = "css/floaters.css" />
-  <link type = "text/css" rel = "stylesheet" href = "css/font-awesome.min.css" />
-  <link rel="stylesheet" type="text/css" href="bootstrap.min.css"/>
-  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  '<script src="shared/jquery.js" type="text/javascript"></script>
+   <script src="shared/shiny.js" type="text/javascript"></script>
+   <link type = "text/css" rel = "stylesheet" href = "css/tour.css" />
+   <link type = "text/css" rel = "stylesheet" href = "css/floaters.css" />
+   <link type = "text/css" rel = "stylesheet" href = "css/font-awesome.min.css" />
+   <script src="shared/bootstrap/js/bootstrap.min.js"></script>
 
  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto+Condensed:400,700" rel="stylesheet" type="text/css" />
     
@@ -17,15 +18,20 @@ index <- c(index[1:(grep("</head>", index)-1)],
            add_css, 
            index[grep("</head>", index):length(index)])
 
+# Add tour IDs
+add_tour_id21 <- "welcomebox"
+add_tour_id2 <- "tour2"
+
+index <- c()
 
 add_tour <- readLines(textConnection('<!-- TOUR -->
-   <div id = "tour" class = "tour" style = "display: none;">
+   <div id = "tour" class = "tour" style = "top: 100px; left:140px;display: block;">
       <div class = "tour-body">
         <div class = "header">Welcome to Fair Screen!</div>
         <div class = "content"></div>
         <div class = "tourCookie">
           <input type = "checkbox" id = "tourGone" />
-          <label for = "tourGone">Hide this screen</label>
+          <label for = "tourGone">Don`t show again</label>
         </div>
         <button id = "tourNext" disabled = disabled>Next</button>
         <div class = "navigation">
@@ -40,7 +46,9 @@ index <- c(index[1:grep("</nav>", index)],
            add_tour, 
            index[(grep("</nav>", index)+1):length(index)])
 
-add_script <- '<script src = "js/tour.js"></script>'
+add_script <- 
+'<script>var netAssess = {}</script>
+ <script src = "js/tour.js"></script>'
 
 index <- c(index[1:(grep("</html>", index)-1)], 
                 add_script, 

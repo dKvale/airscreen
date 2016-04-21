@@ -11,21 +11,7 @@ shinyUI(navbarPage("Facility Air Screen",
 
 tabPanel("Welcome",
         fluidRow(column(12, h3("Welcome!"), hr())),
-        fluidRow(column(8, h4("First time users"),
-         p("Begin by downloading the master template file below and entering the relevant facility and dispersion
-           parameters. 
-           When complete, move down to the next step to upload your inputs.
-           Alternatively, the menu above may be used to upload inputs individually."))),
-        fluidRow(column(1), 
-                 column(6,
-                        p("Download the master input template.", class = 'upload_text'),
-                        a(href = 'https://github.com/dKvale/fair-screen/raw/master/data/fair-screen input template (MPCA).xlsx',
-                          class = "btn", 
-                          icon("download"), 
-                          target="_blank", 
-                          'Download templates'), class = 'upload_box')),
-        br(),
-        fluidRow(column(8, h4("1. Upload inputs"), hr(),
+        fluidRow(column(8, h3("Upload inputs"), hr(),
          p("Use the window below to upload a facility's inputs as
            a multi-tabbed Excel file. For a template file is available here: ", 
            a("fair-screen input template.xlsx", 
@@ -38,7 +24,7 @@ tabPanel("Welcome",
                             style="margin-bottom:-15px;"),
                         class = 'upload_box')),
         br(),
-        fluidRow(column(8, h4("2. Save results"), hr(),
+        fluidRow(column(8, h3("Save results"), hr(),
         p("Save the facility's risk screening results as an Excel file 
           to be included with the modeling protocol submission."))),
         fluidRow(column(1), 

@@ -1,12 +1,12 @@
-netAssess.tour = {slides: [], slideCount: 0, width: 450, height: 350, active: true}
+netAssess.tour = {slides: [], slideCount: 0, width: 450, height: 420, active: true}
 
 netAssess.tour.makeSlide = function(options) {
   
   options = $.extend({
     position: "center",
-    title: "Welcome to F-air Screen!",
-    text: "Welcome to F-air Screen!",
-    target: "#welcomebox",
+    title: "Welcome to Fair Screen!",
+    text: "Welcome to Fair Screen!",
+    target: "#tab-9818-1",
     runbefore: function() {},
     runafter: function() {}
   }, options)
@@ -15,11 +15,13 @@ netAssess.tour.makeSlide = function(options) {
   
 }
 
-netAssess.tour.makeSlide({text: "<p>This tool... </p><p>First time users can begin by downloading the master template file here and entering the relevant facility and dispersion parameters. When complete, move down to the next step to upload your inputs. Alternatively, the navigation bar in the tool allows for uploading inputs individually.</p><p>You can also refer to MPCA's <a href = 'http://ladco.github.io/NetAssessApp/' target='_blank'>AERA documentation site</a> for more details about this risk screening tool.</p>"
+netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for facility air emissions.</p><p>First time users can begin by downloading the master template file and entering relevant facility and dispersion parameters.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/fair-screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When complete, close this window to upload your inputs. Press 'Next' to continue the tour.</p>"
 })
 
 netAssess.tour.makeSlide({title: "Menu bar",
-                          text: "Use the menu options to view your inputs and review the modeled risk results. This concludes the tour. If you find a bug in this tool, please <a href = 'http://ladco.github.io/NetAssessApp/contact.html' target = '_blank'>let us know</a>.<p>You can check the 'Don't show again' box below to prevent this tour from opening automatically the next time you visit the app. You can always reopen it by selecting 'Help' from the 'More' section of the menu.",
+                          text: "<p>Use the menu bar above to select individual inputs and review modeled risk results. </p><p>You can check the 'Don't show again' box below to prevent this tour from opening the next time you visit the app. You can always reopen it by selecting 'Help' from the 'More' section of the menu bar.",
+                          target: "#tour2",
+                          position: "below"
                          
 })
 
@@ -106,7 +108,7 @@ netAssess.tour.setPosition = function(target, position) {
       arrowPos.top = -20;
       arrowPos.left = (netAssess.tour.width / 2) - 10;
       arrowPos.display = "block";
-      arrowPos["border-bottom-color"] = "#EFEFEF";
+      arrowPos["border-bottom-color"] = "#B2CBD7";
       var arrowBorderPos = {};
       $.extend(arrowBorderPos, arrowPos);
       arrowBorderPos.top = arrowBorderPos.top - 2.5
