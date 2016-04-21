@@ -15,7 +15,7 @@ tabPanel("Welcome",
          p("Use the window below to upload a facility's inputs as
            a multi-tabbed Excel file. For a template file is available here: ", 
            a("fair-screen input template.xlsx", 
-             href="data/fair-screen input template (MPCA).xlsx", 
+             href="data/Fair screen input template (MPCA).xlsx", 
              style="color: #2A5DB0; font-style: italic;")))),
         fluidRow(column(1), 
                  column(6, 

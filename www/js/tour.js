@@ -15,7 +15,7 @@ netAssess.tour.makeSlide = function(options) {
   
 }
 
-netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for facility air emissions.</p><p>First time users can begin by downloading the master template file and entering relevant facility and dispersion parameters.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/fair-screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When complete, close this window to upload your inputs. Press 'Next' to continue the tour.</p>"
+netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for facility air emissions.</p><p>First time users can begin by downloading the master template file and entering relevant facility and dispersion parameters.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When complete, close this window to upload your inputs. Press 'Next' to continue the tour.</p>"
 })
 
 netAssess.tour.makeSlide({title: "Menu bar",
