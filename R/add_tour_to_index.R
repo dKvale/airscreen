@@ -5,18 +5,18 @@ index <- readLines("www/index.html")
 add_css<- readLines(textConnection(
   '<script src="shared/jquery.js" type="text/javascript"></script>
    <script src="shared/shiny.js" type="text/javascript"></script>
-   <link type = "text/css" rel = "stylesheet" href = "css/tour.css" />
-   <link type = "text/css" rel = "stylesheet" href = "css/floaters.css" />
-   <link type = "text/css" rel = "stylesheet" href = "css/font-awesome.min.css" />
    <script src="shared/bootstrap/js/bootstrap.min.js"></script>
-
- <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto+Condensed:400,700" rel="stylesheet" type="text/css" />
-    
+   
+   <link type = "text/css" rel = "stylesheet" href = "css/tour.css" />
+   <link type = "text/css" rel = "stylesheet" href = "css/font-awesome.min.css" />
+   <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+   <link type="text/css" rel="stylesheet" href="css/fairscreen.css" />
   '
 ))
-index <- c(index[1:(grep("</head>", index)-1)], 
+
+index <- c(index[1:(grep("fairscreen.css", index)-1)], 
            add_css, 
-           index[grep("</head>", index):length(index)]
+           index[(grep("fairscreen.css", index)+1):length(index)]
            )
 
 # Add tour IDs

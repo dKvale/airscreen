@@ -7,10 +7,10 @@ helper_text <-  "Select an Excel file (.xlsx) or comma separated text file (.csv
 file_types <- c('.xlsx', '.xls', '.csv', 'text/.csv', 'text/csv')
 
 shinyUI(navbarPage("Facility Air Screen", 
-                   theme = "bootstrap_custom.css", 
+                   theme = "css/fairscreen.css", 
 
 tabPanel("Welcome",
-        fluidRow(column(12, h3("Welcome!"), hr())),
+        fluidRow(column(12, h3("Welcome!"), hr()), id="welcome"),
         fluidRow(column(8, h3("Upload inputs"), hr(),
          p("Use the window below to upload a facility's inputs as
            a multi-tabbed Excel file. For a template file is available here: ", 
@@ -128,7 +128,7 @@ tabPanel("Air concentrations",
            tabPanel("Stack specific", br(),
              fluidRow(column(9, h4("Stack specific air concentrations"),
                     p("All concentrations shown in (ug/m3).", class='subtitle'),
-                    div(dataTableOutput("st_conc_table"), style = "font-size:80%"))))
+                    div(dataTableOutput("st_conc_table"), style="font-size:80%"))))
            )
 ),
 
@@ -149,7 +149,7 @@ tabPanel("Risk summary",
            
            tabPanel("Risk by health endpoint", br(), 
                     fluidRow(column(11, h4("Inhalation results by health endpoint")),
-                      column(11, dataTableOutput("endpoint_risk_table")))
+                             column(11, dataTableOutput("endpoint_risk_table")))
            ),
            
            tabPanel("Pollutants of concern", br(),
@@ -171,13 +171,11 @@ tabPanel("Risk summary",
                                
                       tabPanel("Pollutant endpoints",
                                fluidRow(column(12, h3("Pollutant health endpoints"), hr())),
-                               fluidRow(column(11,
-                                      dataTableOutput("endpoints")))),
+                               fluidRow(column(11,dataTableOutput("endpoints")))),
                       
                       tabPanel("Multi-pathway risk factors",
                                fluidRow(column(12, h3("Pollutant multi-pathway risk factors"), hr())),
-                               fluidRow(column(11,
-                                               dataTableOutput("mpsf")))),
+                               fluidRow(column(11, dataTableOutput("mpsf")))),
 
                       tabPanel("References",
                                fluidRow(column(12, h3("References"), hr())),

@@ -5,6 +5,7 @@
 # Example code in package build process
 *-Ex.R
 
+
 # RStudio files
 .Rproj.user/
 .Rproj
@@ -14,3 +15,5 @@ fair-screen.Rproj
 vignettes/*.html
 vignettes/*.pdf
 .Rproj.user
+
+data/fair-screen inputs template (MPCA).xlsx

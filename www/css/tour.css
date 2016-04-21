@@ -10,7 +10,6 @@ border: solid 2px black;
 background-color: #B2CBD7;
   }
 
-
 #tour .close {
 position:absolute;
 top: 10px;
@@ -26,20 +25,19 @@ font-size: 1.13em;
   }
 
 #tour .header {
-font-family: 'Roboto Condensed', sans-serif;
 position: absolute;
 left: 10px;
 top: 15px;
 height:28px;
 width: 370px;
-    color: #2C3E50;
-    font-weight: 700;
-    font-size: 1.2em;
-    line-height: 1.2em;
-    margin-bottom: 0px;
-    margin-left:5px;
-    padding-bottom: 2px;
-    border-bottom: 1px solid;
+color: #2C3E50;
+font-weight: 700;
+font-size: 1.2em;
+line-height: 1.2em;
+margin-bottom: 0px;
+margin-left:5px;
+padding-bottom: 2px;
+border-bottom: 1px solid;
 
 }
 
