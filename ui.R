@@ -12,25 +12,26 @@ shinyUI(navbarPage("Facility Air Screen",
 tabPanel("Home",
         fluidRow(column(12, id="welcome")),
         fluidRow(column(8, h3("Upload inputs"), hr(),
-         p("Use the window below to upload all facility inputs as
-           a multi-tabbed Excel file. A template file is available ", 
+         p("The box below allows for the uploading of all facility inputs as
+           a single multi-tabbed Excel file. A example template is available ", 
            a("here", 
              href="data/Fair screen input template (MPCA).xlsx", 
-             style="color: #2A5DB0; font-style: italic;"), "."))),
+             style="color: #2A5DB0; font-style: italic;"),". The menu bar 
+           above may be used to update individual inputs."))),
         fluidRow(column(1), 
                  column(6, 
-                        p("Master input file.", class='upload_text'),    
-                        div(fileInput("inputs_up", label=NULL, width="400px", accept=c('.xlsx')), 
+                        #p("Master input file.", class='upload_text'),    
+                        div(fileInput("inputs_up", label=NULL, width="80%", accept=c('.xlsx')), 
                             style="margin-bottom:-15px;"), 
                         p("Select a multi-tab Excel (.xlsx) file", class = 'help_text'),
                         class = 'upload_box')),
-        br(),
+        
         fluidRow(column(8, h3("Save results"), hr(),
         p("Save the facility's risk screening results as an Excel file 
           to be included with a modeling protocol submission."))),
         fluidRow(column(1), 
                  column(6, 
-                        p('Risk summary file.', class='upload_text'),
+                        #p('Risk summary file.', class='upload_text'),
                         #textInput('Fname', label=NULL,  placeholder='"Risk Summary 2016-04-22.xlsx"'),
                         downloadButton("download_inputs", 
                                        label = "Download risk summary", 
@@ -53,11 +54,11 @@ tabPanel("Facility",
            fluidRow(column(1),
                     column(4, uiOutput('fac_lat_UI'), style="margin-left:-35px;"),
                     column(4, uiOutput('fac_long_UI'), style="margin-left:0;")
-                    ),
-           br()),
+                    )
+           ),
     column(6,
            p("Facility location"),
-           leafletOutput("fac_map")))
+           leafletOutput("fac_map", height=340)))
 ),
                                       
 tabPanel("Dispersion", 
@@ -80,11 +81,11 @@ tabPanel("Dispersion",
         tabPanel("Unit dispersion", br(),
           fluidRow(column(1), 
                    column(7, 
-                          p("Upload unit dispersion factors. If left blank, default dispersion 
-                             factors are generated based on each stack's height and fenceline 
+                          p("Upload unit dispersion factors. When left blank dispersion 
+                             factors will be generated based on each stack's height and fenceline 
                              distance.", class='upload_text'),    
                           fileInput("disp_up", 
-                                    label=NULL, 
+                                    label=NULL,
                                     accept=file_types), 
                           p(helper_text, class = "help_text"),
                           class = 'upload_box')),
@@ -153,7 +154,7 @@ tabPanel("Risk summary",
                                     br(), hr()))
            ),
            
-           tabPanel("Risk by health endpoint", br(), 
+           tabPanel("Endpoint specific", br(), 
                     fluidRow(column(11, h4("Inhalation results by health endpoint")),
                       column(11, dataTableOutput("endpoint_risk_table")))
            ),
@@ -175,12 +176,12 @@ tabPanel("Risk summary",
                                fluidRow(column(12, h3("Health benchmarks"), hr())),
                                fluidRow(column(11, dataTableOutput("tox_table")))),
                                
-                      tabPanel("Pollutant endpoints",
-                               fluidRow(column(12, h3("Pollutant health endpoints"), hr())),
+                      tabPanel("Pollutant health endpoints",
+                               fluidRow(column(12, h3("Health endpoints"), hr())),
                                fluidRow(column(11, dataTableOutput("endpoints")))),
                       
                       tabPanel("Multi-pathway risk factors",
-                               fluidRow(column(12, h3("Pollutant multi-pathway risk factors"), hr())),
+                               fluidRow(column(12, h3("Multi-pathway risk factors"), hr())),
                                fluidRow(column(11, dataTableOutput("mpsf")))),
 
                       tabPanel("References",

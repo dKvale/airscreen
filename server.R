@@ -20,7 +20,7 @@ tox_values <- read.csv("data//air_benchmarks.csv", header=T, stringsAsFactors=F,
 endpoints <- read.csv("data//air_endpoints.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
 endpoints_list <- c('Auditory', 'Blood/ hematological', 'Bone & teeth', 'Cardiovascular', 'Digestive', 'Ethanol specific', 'Eyes', 'Kidney', 'Liver', 'Neurological', 'Reproductive/ developmental / endocrine', 'Respiratory', 'Skin')
-endpoints_list <- data.frame("Endpoint" = endpoints_list)
+endpoints_list <- data.frame("Endpoint" = endpoints_list, stringsAsFactors = F)
 endpoints_list$End_short <- substring(endpoints_list$Endpoint, 1, 4)
 
 disp_facts <- read.csv("data//dispersion_factors.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
@@ -32,7 +32,7 @@ risk_table_names <- c("Pollutant", "CAS", "Acute 1-hr Hazard Quotient (Air)", "L
 # Create table for coordinates
 coords <- read.csv(textConnection("
 lat,long
-46.29015, -96.063"))
+46.29015, -96.063"), stringsAsFactors=F)
 
 
 address <- "431 Broom St. North, Murphy Town"
@@ -49,6 +49,8 @@ in.file <- function(conn, tab=1, n_col, col_names) {
     
     in_file <- read.csv(conn$datapath, stringsAsFactors=F)[ , 1:n_col]
   }
+  
+  in_file <- data.frame(in_file, stringsAsFactors = F, check.names=F)
   
   names(in_file) <- col_names
   
@@ -101,13 +103,13 @@ shinyServer(function(input, output, session) {
     coords[1, 1] <- as.numeric(input$lat)
     coords[1, 2] <- as.numeric(input$long)
     
-    print("New:")
+    #print("New:")
     facility <- fac.info()[1, 1]
     print(coords[1, 1])
-    print(coords[1, 2])
+    #print(coords[1, 2])
     
     leaflet() %>% 
-    addTiles() %>% 
+    addProviderTiles("Stamen") %>% 
     addMarkers(data=coords, popup=input$fac_name) %>%
       addCircles(data=coords, weight = 1, fillColor= "orange", color="darkorange",
                  radius = 1500, popup = "1.5km impact radius") %>%
@@ -208,7 +210,6 @@ shinyServer(function(input, output, session) {
   #######################
   # Concentration tables
   #######################
-  
   st.conc.table <- reactive({
     
     st.conc.table <- left_join(em.table(), disp.table())
@@ -221,7 +222,7 @@ shinyServer(function(input, output, session) {
     
     names(st.conc.table) <- c("Stack ID", "Pollutant", "CAS", "1-hr Max", "Annual Max")
   
-    st.conc.table
+    data.frame(st.conc.table, stringsAsFactors = F, check.names = F)
     })
   
   output$st_conc_table <- DT::renderDataTable(st.conc.table(), options=list(searching=F, paging=F, scrollX=T,  digits=1), rownames = FALSE)
@@ -242,9 +243,11 @@ shinyServer(function(input, output, session) {
     
     names(conc.table) <- c("Stack", "Pollutant", "CAS", "hr", "an")
     
-    group_by(conc.table, Pollutant, CAS) %>%
-        summarize("1-hr Max" = sum(hr, na.rm=T),
-                  "Annual Max" = sum(an, na.rm=T))
+    conc.table <- group_by(conc.table, Pollutant, CAS) %>%
+                    summarize("1-hr Max" = sum(hr, na.rm=T),
+                              "Annual Max" = sum(an, na.rm=T))
+    
+    data.frame(conc.table, stringsAsFactors = F, check.names = F)
   })
   
   output$conc_table <- DT::renderDataTable(conc.table(), options=list(searching=F, paging=F, scrollX=T, digits=2), rownames = FALSE)
@@ -255,10 +258,10 @@ shinyServer(function(input, output, session) {
   risk.table <- reactive({
     if(!is.null(conc.table())){   
       
-      risk_table <- data.frame(left_join(ungroup(conc.table()), tox_values),
-                               check.names=F, stringsAsFactors = F)
+      risk_table <- left_join(ungroup(conc.table()), tox_values)
       
-      risk_table <- left_join(risk_table, mpsf[ ,-2])
+      risk_table <- data.frame(left_join(risk_table, mpsf[ ,-2]),
+                               check.names=F, stringsAsFactors = F)
   
       risk_table$"Acute (Air)"            <- risk_table[ ,3]/risk_table[ ,5]
       risk_table$"Longterm Hazard (Air)"  <- risk_table[ ,4]/risk_table[ ,7]
@@ -277,7 +280,7 @@ shinyServer(function(input, output, session) {
       risk_table <- risk_table[ , -c(6:11)]
       
     } else {
-      risk_table <- data.frame(matrix(NA, nrow=1, ncol=12), check.names=F, stringsAsFactors = F)
+      risk_table <- data.frame(matrix(NA, nrow=1, ncol=12), check.names=F, stringsAsFactors=F)
     }
     
     names(risk_table) <- risk_table_names
@@ -346,7 +349,7 @@ shinyServer(function(input, output, session) {
   # Endpoint risk table
   endpoint.risk.table <- reactive({
     
-    endpoint_risks <- data.frame(left_join(risk.table()[ ,1:4], endpoints), stringsAsFactors = F, check.names=F)
+    endpoint_risks <- left_join(risk.table()[ ,1:4], endpoints)
     
     if(!is.null(endpoint_risks) && nrow(endpoint_risks) > 0) {   
       end_risks <- endpoints_list
@@ -366,12 +369,12 @@ shinyServer(function(input, output, session) {
       end_risks[ ,3] <- format(signif(end_risks[ ,3], digits=2), scientific=T)
       end_risks[ ,3] <- ifelse(as.numeric(end_risks[ ,3]) < 0.0001, NA, end_risks[ ,3])
       
-    } else {end_risks  <- data.frame("Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", check.names=F)}
+    } else {end_risks  <- data.frame("Acute 1-hr Hazard Quotient (Air)", "Subchronic Hazard Quotient (Air)", "Longterm Hazard Quotient (Air)", check.names=F, stringsAsFactors = F)}
     
-    return(end_risks)
+    return(data.frame(end_risks, stringsAsFactors = F, check.names = F))
   })
   
-  output$endpoint_risk_table <- DT::renderDataTable(endpoint.risk.table(), options=list(searching=F, paging=F, scrollX=F, columnDefs=list(list(targets=3:4, class="dt-right"))), rownames = FALSE)
+  output$endpoint_risk_table <- DT::renderDataTable(endpoint.risk.table(), options=list(searching=F, paging=F, scrollX=F, columnDefs=list(list(targets=0:2, class="dt-right"))), rownames = FALSE)
  
   # Pollutants of concern
   pbts <- reactive({
@@ -380,7 +383,7 @@ shinyServer(function(input, output, session) {
     pbt_table <- filter(pbt_table, `Persistent Bioaccumulative Toxicants` > 0)[ , 2:3]
     
     #names(pbt_table)[1] <- "PBT Pollutants"
-    unique(pbt_table)
+    data.frame(unique(pbt_table), check.names=F, stringsAsFactors = F)
     
   })
   
@@ -393,7 +396,7 @@ shinyServer(function(input, output, session) {
     develop_tox <- filter(develop_tox, `Developmental Toxicants` > 0)[ , 2:3]
     
     #names(develop_tox)[1] <- "Developmental Pollutant"
-    unique(develop_tox)
+    data.frame(unique(develop_tox), check.names=F, stringsAsFactors = F)
 
   })
   
@@ -406,7 +409,7 @@ shinyServer(function(input, output, session) {
     sensitive_tox <- filter(sensitive_tox, `Respiratory Sensitizers` > 0)[ , 2:3]
     
     #names(sensitive_tox)[1] <- "Respiratory sensitizing pollutants"
-    unique(sensitive_tox)
+    data.frame(unique(sensitive_tox), check.names=F, stringsAsFactors = F)
   })
   
   output$sensitive_table <- DT::renderDataTable(sensitive.tox(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
@@ -417,7 +420,7 @@ shinyServer(function(input, output, session) {
   
   # Download Buttons
   output$download_inputs <- downloadHandler(
-        filename = function() { paste0("RASS_Inputs_", Sys.Date(), ".xlsx", sep="") },
+        filename = function() { paste0("Fair screen summary - ", Sys.Date(), ".xlsx", sep="") },
         content = function(file) {
          # fname <- paste(file,"xlsx",sep=".")
           wb <- loadWorkbook(file, create = TRUE)
@@ -444,26 +447,29 @@ shinyServer(function(input, output, session) {
           writeWorksheet(wb, risk.table(), sheet = "Pollutant risk")
           
           createSheet(wb, name = "Endpoint risk")
-          writeWorksheet(wb, endpoint.risk.table, sheet = "Endpoint risk")
+          writeWorksheet(wb, endpoint.risk.table(), sheet = "Endpoint risk")
           
           createSheet(wb, name = "Pollutants of concern")
           writeWorksheet(wb, 
-                         data.frame('PBTs' = pbts()[1,],
-                                    'Developmental Pollutants' = develop.tox()[1,],
-                                    'Respiratory Sensitizers' = sensitive.tox()[1,]), 
+                         data.frame('PBTs' = pbts()[,1],
+                                    'Developmental Pollutants' = develop.tox()[,1],
+                                    'Respiratory Sensitizers' = sensitive.tox()[,1],
+                                    stringsAsFactors = F,
+                                    check.names=F), 
                          sheet = "Pollutants of concern")
           
           createSheet(wb, name = "Time stamp")
           writeWorksheet(wb, 
                          data.frame('Fair Screen version#' = version,
-                                    'Run date' = Sys.Date()), 
-                         sheet = "Pollutants of concern")
+                                    'Run date' = Sys.Date(),
+                                    stringsAsFactors = F,
+                                    check.names = F), 
+                         sheet = "Time stamp")
           
           
           saveWorkbook(wb, file)
           #file.rename(fname,file)
    })
-  
   
   ########################
   # MORE
