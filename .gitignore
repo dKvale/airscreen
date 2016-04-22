@@ -8,10 +8,8 @@
 
 # RStudio files
 .Rproj.user/
-.Rproj
-fair-screen.Rproj
+*.Rproj
 
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
-.Rproj.user
