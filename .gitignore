@@ -15,5 +15,3 @@ fair-screen.Rproj
 vignettes/*.html
 vignettes/*.pdf
 .Rproj.user
-
-data/fair-screen inputs template (MPCA).xlsx
