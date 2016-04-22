@@ -5,7 +5,7 @@ library(readr)
 library(stringr)
 
 
-risk_connect <- odbcConnectAccess2007("X:\\Programs\\Air_Quality_Programs\\Air Monitoring Data and Risks\\4 Concentration to Risk Estimate Database\\Air Toxics Risks Estimates.accdb")
+risk_connect <- odbcConnectAccess2007("X:\\Programs\\Air_Quality_Programs\\Air Monitoring Data and Risks\\4 Concentration to Risk Estimate Database\\Air Toxics Risks Estimates_update2015.accdb")
 
 # Get data from a table or query in the database
 risk_vals <- sqlQuery(risk_connect, paste ("select * from [Toxicity]"), stringsAsFactors=F)
@@ -36,7 +36,7 @@ tox <- tox[ , c(1:3,5,4,6:8)]
 # Clean names
 names(tox)[3:5] <- c("Acute Toxic Endpoints", "Subchronic Toxic Endpoints", "Chronic Noncancer Endpoints")
 
-names(tox) <- gsub(" ", "_", names(tox))
+#names(tox) <- gsub(" ", "_", names(tox))
 
 for(i in 6:8) {
   tox[ , i] <- ifelse(is.na(tox[ , i]), 0, tox[ , i])

@@ -2,40 +2,33 @@
 library(shiny)
 library(leaflet)
 
-helper_text <-  "* Select an Excel file (.xlsx) or comma separated text file (.csv)"
-
-file_types <- c('.xlsx', '.xls', '.csv', 'text/.csv', 'text/csv')
-
 shinyUI(navbarPage("Facility Air Screen", 
-                   
 
 tabPanel("Facility",
     fluidRow(column(12, h3("Facility information"), hr())),
-    fluidRow(column(3, 
+    fluidRow(column(4, 
                     h4("Upload inputs"),
                     div(fileInput("master", label=NULL, width="95%", accept=c('.xlsx')),
-                        style="margin-top:15px; margin-bottom:-5px")),
-             column(3,
+                        style="margin-top:15px; margin-bottom:-10px")),
+             column(4,
                     h4("Save results"),
                     div(downloadButton("download_inputs", 
                                        label = "Download risk summary", 
                                        class="down_btn"), 
-                        style="margin-left:0; margin-top:0; margin-bottom:20px;"))
+                        style="margin-left:0; margin-top:0; margin-bottom:15px;"))
              ),
-              
-    fluidRow(column(5,
+           hr(style="margin-top:0px;"),
+    fluidRow(column(4,
            p("Facility name (ID#)"),
            uiOutput('fac_name_UI'),
            p("Facility address"),
            uiOutput('address_UI'),
            p("Coordinates"),
-           fluidRow(column(1), 
-                    column(4, p("Lat", style="font-style: italic;")),
-                    column(4, p("Long", style="font-style: italic;"))
+           fluidRow(column(4, p("Lat", style="font-style: italic; margin-left:5px;")),
+                    column(5, p("Long", style="font-style: italic; margin-left:5px;"))
                     ),
-           fluidRow(column(1),
-                    column(4, uiOutput('fac_lat_UI'), style="margin-left:-35px;"),
-                    column(4, uiOutput('fac_long_UI'), style="margin-left:0;")
+           fluidRow(column(4, uiOutput('fac_lat_UI'), style="margin-left:0;"),
+                    column(5, uiOutput('fac_long_UI'), style="margin-left:0;")
                     )
            ),
     column(5,
@@ -84,8 +77,7 @@ tabPanel("Emissions",
          fluidRow(column(1),
                   column(7, 
                          p("Upload potential 1-hour emissions in lbs/hr and annual emission in tons/yr. 
-                           Assume worst-case conditions for 1-hr emissions and
-                           maximum operating capacity for annual emissions.", 
+                           Assume worst-case conditions and maximum operating capacity.", 
                            class="upload_text"), 
                          fileInput("emissions_up", 
                                    label=NULL, 

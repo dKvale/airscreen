@@ -6,7 +6,7 @@
 "64-19-7","Acetic Acid","Ethanol specific",NA,"Ethanol specific",0,0,0
 "75-86-5","Acetone Cyanohydrin",NA,"Resp",NA,0,0,0
 "75-05-8","Acetonitrile",NA,"","Systemic",0,0,0
-"107-02-8","Acrolein","Resp , Eyes","Resp","Resp",0,0,0
+"107-02-8","Acrolein","Eyes","Resp","Resp",0,0,0
 "79-06-1","Acrylamide",NA,"","Neuro",0,0,0
 "79-10-7","Acrylic acid","Resp , Eyes","Resp","Resp",0,0,0
 "107-13-1","Acrylonitrile",NA,"","Resp",0,0,0
@@ -165,8 +165,8 @@
 "206-44-0","Fluoranthene",NA,"",NA,0,0,0
 "1101","Fluorides (except hydrogen fluoride)",NA,"","Bone/Teeth, Resp",0,0,0
 "50-00-0","Formaldehyde","Resp , Eyes","","Resp",0,0,0
-"64-18-6","Formic Acid",NA,"Blood",NA,0,0,0
 "64-16-6","Formic Acid","Ethanol specific",NA,NA,0,0,0
+"64-18-6","Formic Acid",NA,"Blood",NA,0,0,0
 "98-01-0","Furfural","Ethanol specific",NA,"Ethanol specific",0,0,0
 "111-30-8","Glutaraldehyde",NA,"","Resp",0,1,0
 "0-01-2","Glycol ethers","Repro","Repro, Blood","Repro",0,0,1
@@ -264,7 +264,8 @@
 "98-95-3","Nitrobenzene",NA,"","Resp",0,0,0
 "7496-02-8","Nitrochrysene, 6-",NA,"",NA,1,0,0
 "607-57-8","Nitrofluorene, 2-",NA,"",NA,0,0,0
-"10102-44-0","Nitrogen oxide (NO2)","Resp","",NA,0,0,0
+"10102-44-0","Nitrogen dioxide (NO2)","Resp",NA,NA,0,0,0
+"VARIOUS","Nitrogen oxides (NOx)","Resp",NA,NA,0,0,0
 "75-52-5","Nitromethane",NA,"Resp","Resp",0,0,0
 "79-46-9","Nitropropane, 2-",NA,"","Liver",0,0,0
 "5522-43-0","Nitropyrene, 1-",NA,"",NA,1,0,0
