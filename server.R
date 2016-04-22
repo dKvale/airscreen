@@ -57,7 +57,6 @@ in.file <- function(conn, tab=1, n_col, col_names) {
   return(in_file)
  }
 
-
 shinyServer(function(input, output, session) {
   
   #################################
@@ -65,14 +64,14 @@ shinyServer(function(input, output, session) {
   ################################
   fac.info <- reactive({
     
-    if(is.null(input$inputs_up)) return(NULL)
-    
+    req(input$master)
+
     col_names <- c("Facility Name",	"Facility ID#",	"Facility Address",	"Latitude",	"Longitude")
     
-    return(in.file(input$inputs_up, 2, 5, col_names))
+    in.file(input$master, 2, 5, col_names)
       
   })
- 
+  
   output$fac_name_UI <- renderUI({
     textInput('fac_name', label=NULL, placeholder="Example Facility (#123456)", value="Example Facility (#123456)")
   })
@@ -89,7 +88,7 @@ shinyServer(function(input, output, session) {
     textInput('long', label=NULL, placeholder='-96.063', value='-96.063')
   })
   
-  observeEvent(input$inputs_up, {
+  observeEvent(input$master, {
     updateTextInput(session, 'fac_name', value= as.character(fac.info()[1, 1])[[1]])
     updateTextInput(session, 'address', value=fac.info()[1, 3][[1]])
     updateTextInput(session, 'lat', value=fac.info()[1, 4][[1]])
@@ -97,16 +96,17 @@ shinyServer(function(input, output, session) {
   })
   
   output$fac_map <- renderLeaflet({
-   
-    if(is.null(input$fac_name)) return(leaflet())
+    
+    req(input$lat)
+    req(input$long)
     
     coords[1, 1] <- as.numeric(input$lat)
     coords[1, 2] <- as.numeric(input$long)
     
     #print("New:")
-    facility <- fac.info()[1, 1]
+    if(!is.null(fac.info())) print(fac.info()[1, 1])
     print(coords[1, 1])
-    #print(coords[1, 2])
+    print(coords[1, 2])
     
     leaflet() %>% 
     addProviderTiles("Stamen") %>% 
@@ -116,7 +116,7 @@ shinyServer(function(input, output, session) {
       addCircles(data=coords, weight = 1,
                  radius = min(stack.table()$"Distance to Fenceline", na.rm=T), popup = "Estimated property boundary")
     })
-  
+
   #################################
   # Stacks
   ################################
@@ -125,9 +125,8 @@ shinyServer(function(input, output, session) {
     
     col_names <- c("Stack ID", "Stack Height", "Distance to Fenceline")
     
-    if(!is.null(input$stack_up)) { return(in.file(input$stack_up, 1, 3, col_names)) }
-      
     if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, 3, 3, col_names)) }
+    if(!is.null(input$stack_up))  { return(in.file(input$stack_up, 1, 3, col_names)) }
     
     data.frame("Stack ID" = c("Stack-1","Stack-2"), 
                "Stack Height" = c(80, 99), 
@@ -146,9 +145,9 @@ shinyServer(function(input, output, session) {
     
     col_names <- c("Stack ID", "1-Hour Max", "Annual Max")
     
-    if(!is.null(input$disp_up)) { return(in.file(input$disp_up, tab=1, n_col=3, col_names)) } 
-      
     if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=4, n_col=3, col_names)) }
+    
+    if(!is.null(input$disp_up)) { return(in.file(input$disp_up, tab=1, n_col=3, col_names)) } 
       
     if(!is.null(stack.table())) { 
       
@@ -193,10 +192,11 @@ shinyServer(function(input, output, session) {
     
     col_names <- c("Stack ID", "Pollutant", "CAS", "1-hr PTE Emissions (lbs/hr)", "Annual PTE Emissions (tons/yr)")
     
-    if(!is.null(input$emissions_up)) { return(in.file(input$emissions_up, tab=1, n_col=5, col_names)) }
-      
     if(!is.null(input$inputs_up)) { return(in.file(input$inputs_up, tab=5, n_col=5, col_names)) }
     
+    if(!is.null(input$emissions_up)) { return(in.file(input$emissions_up, tab=1, n_col=5, col_names)) }
+      
+   
     data.frame("Stack ID" = rep(c('Stack-1', 'Stack-2'), each = 4),
                "Pollutant" = rep(c("Acrolein","Benzene", "Lead", "Diisopropyl Ether"), 2), 
                "CAS" = rep(c("107-02-8","71-43-2", "7439-92-1", "108-20-3"), 2), 
@@ -420,7 +420,9 @@ shinyServer(function(input, output, session) {
   
   # Download Buttons
   output$download_inputs <- downloadHandler(
-        filename = function() { paste0("Fair screen summary - ", Sys.Date(), ".xlsx", sep="") },
+        filename = function() { 
+          paste0("Fair screen summary - ", Sys.Date(), ".xlsx", sep="") 
+          },
         content = function(file) {
          # fname <- paste(file,"xlsx",sep=".")
           wb <- loadWorkbook(file, create = TRUE)

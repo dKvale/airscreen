@@ -2,46 +2,28 @@
 library(shiny)
 library(leaflet)
 
-helper_text <-  "Select an Excel file (.xlsx) or comma separated text file (.csv)"
+helper_text <-  "* Select an Excel file (.xlsx) or comma separated text file (.csv)"
 
 file_types <- c('.xlsx', '.xls', '.csv', 'text/.csv', 'text/csv')
 
 shinyUI(navbarPage("Facility Air Screen", 
-                   theme = "css/fairscreen.css", 
+                   
 
-tabPanel("Home",
-        fluidRow(column(12, id="welcome")),
-        fluidRow(column(8, h3("Upload inputs"), hr(),
-         p("The box below allows for the uploading of all facility inputs as
-           a single multi-tabbed Excel file. A example template is available ", 
-           a("here", 
-             href="data/Fair screen input template (MPCA).xlsx", 
-             style="color: #2A5DB0; font-style: italic;"),". The menu bar 
-           above may be used to update individual inputs."))),
-        fluidRow(column(1), 
-                 column(6, 
-                        #p("Master input file.", class='upload_text'),    
-                        div(fileInput("inputs_up", label=NULL, width="80%", accept=c('.xlsx')), 
-                            style="margin-bottom:-15px;"), 
-                        p("Select a multi-tab Excel (.xlsx) file", class = 'help_text'),
-                        class = 'upload_box')),
-        
-        fluidRow(column(8, h3("Save results"), hr(),
-        p("Save the facility's risk screening results as an Excel file 
-          to be included with a modeling protocol submission."))),
-        fluidRow(column(1), 
-                 column(6, 
-                        #p('Risk summary file.', class='upload_text'),
-                        #textInput('Fname', label=NULL,  placeholder='"Risk Summary 2016-04-22.xlsx"'),
-                        downloadButton("download_inputs", 
-                                       label = "Download risk summary", 
-                                       class="down_btn"), 
-                        class = 'upload_box'))
-        ),
-        
 tabPanel("Facility",
     fluidRow(column(12, h3("Facility information"), hr())),
-    fluidRow(column(4,
+    fluidRow(column(3, 
+                    h4("Upload inputs"),
+                    div(fileInput("master", label=NULL, width="95%", accept=c('.xlsx')),
+                        style="margin-top:15px; margin-bottom:-5px")),
+             column(3,
+                    h4("Save results"),
+                    div(downloadButton("download_inputs", 
+                                       label = "Download risk summary", 
+                                       class="down_btn"), 
+                        style="margin-left:0; margin-top:0; margin-bottom:20px;"))
+             ),
+              
+    fluidRow(column(5,
            p("Facility name (ID#)"),
            uiOutput('fac_name_UI'),
            p("Facility address"),
@@ -56,9 +38,10 @@ tabPanel("Facility",
                     column(4, uiOutput('fac_long_UI'), style="margin-left:0;")
                     )
            ),
-    column(6,
+    column(5,
            p("Facility location"),
-           leafletOutput("fac_map", height=340)))
+           leafletOutput("fac_map", height=340))
+    )
 ),
                                       
 tabPanel("Dispersion", 
@@ -188,5 +171,5 @@ tabPanel("Risk summary",
                                fluidRow(column(12, h3("References"), hr())),
                                fluidRow(column(8, h4("Health benchmark hierarchy"))))
                       ),
-br(), hr())      
-)
+br(), hr()
+))

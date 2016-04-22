@@ -321,7 +321,7 @@ textarea {
   height: 50px;
   border-radius: 0;
   border: none;
-  padding-left: 0;
+  padding-left: 3;
   margin-left: -90px;
 }
 
@@ -389,17 +389,12 @@ textarea {
 
 hr { margin-top: 0px;}
 
-.navbar {
-  position: relative;
-  min-height: 51px;
-  margin-bottom: 22px;
-  border: 1px solid transparent;
-}
+
 .brand a, a.navbar-brand {
   color: white;
   text-decoration: none;
-  padding-top: 92px;
-  padding-bottom: 4px;
+  padding-top: 12px;
+  padding-bottom: 10px;
 }
 
 .navbar-default {
@@ -417,12 +412,21 @@ hr { margin-top: 0px;}
   margin-left: 6px;
 }
 
-@media(min-width:768px){.navbar-text{float:left;margin-right:15px;margin-left:0px}
+@media(min-width:768px){.navbar-text{float:left; margin-right:15px; margin-left:0px; padding-bottom: 0px;}
 .navbar-text.navbar-right:last-child{margin-right:0}}
 .navbar-default{background-color:#f8f8f8; border-color:#e7e7e7}
 .navbar-default .navbar-brand{
   color: black; font-weight: bold;
 }
+
+@media(min-width:768px){.navbar-text{float:left; margin-right:15px; margin-left:0px; padding-bottom: 0px;}
+.navbar-text.navbar-right:last-child{margin-right:0}}
+.navbar-default{background-color:#f8f8f8; border-color:#e7e7e7}
+.navbar-default .navbar-brand{
+  color: black; font-weight: bold;
+}
+
+
 .navbar-default .navbar-brand:hover,.navbar-default .navbar-brand:focus{
   color:black; background-color:transparent}
 
@@ -455,8 +459,10 @@ hr { margin-top: 0px;}
   cursor: default;
 }
 
+
+
 .help_text {
-  margin-top: -20px; margin-left:36px; padding-top:0; padding-bottom:5px; font-style: italic;
+  margin-top: -22px; margin-left:36px; padding-top:0; padding-bottom:5px; font-style: italic;
 }
 
 .upload_text {
@@ -466,7 +472,6 @@ hr { margin-top: 0px;}
 .upload_box {
   border: 1px dotted; background-color: #f7f9fb; margin-left: -10px; padding-left:25px; padding-top:20px; margin-top:0px; margin-bottom:10px; padding-bottom:0px;
 }
-
 
 .shiny-input-container {
   margin-left:35px;
