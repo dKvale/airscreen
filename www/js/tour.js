@@ -4,9 +4,9 @@ netAssess.tour.makeSlide = function(options) {
   
   options = $.extend({
     position: "center",
-    title: "Welcome",
+    title: "NetAssess",
     text: "Welcome to Fair Screen!",
-    target: "#tab-9818-1",
+    target: "#welcomebox",
     runbefore: function() {},
     runafter: function() {}
   }, options)
@@ -15,11 +15,11 @@ netAssess.tour.makeSlide = function(options) {
   
 }
 
-netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>First time users should begin by downloading the master template file and entering relevant facility and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When complete, close this window to upload your inputs. Press 'Next' to continue the tour.</p>"
+netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>First time users should begin by downloading the master template file and entering relevant facility and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When complete, click [Next] to continue this tour and learn how to upload your inputs.</p>"
 })
 
 netAssess.tour.makeSlide({title: "Menu bar",
-                          text: "<p>Use the menu bar above to select individual inputs and review modeled risk results. </p><p>You can check the 'Don't show again' box below to prevent this tour from opening next time. To view the tour again, select 'Help' from the 'More' section of the menu bar.</p>",
+                          text: "<p>Use the menu bar above to select individual inputs and review modeled risk results. </p><p>You can check 'Don`t show again' below to prevent the tour from opening next time. To view the tour again, select [Help] from the [More] section of the menu bar.</p>",
                           target: "#tour2",
                           position: "below"
                          

@@ -2,39 +2,49 @@
 
 index <- readLines("www/index.html")
 
-add_css<- readLines(textConnection(
+add_css <- readLines(textConnection(
   '<script src="shared/jquery.js" type="text/javascript"></script>
    <script src="shared/shiny.js" type="text/javascript"></script>
-   <script src="shared/bootstrap/js/bootstrap.min.js"></script>
-   
-   <link type = "text/css" rel = "stylesheet" href = "css/tour.css" />
-   <link type = "text/css" rel = "stylesheet" href = "css/font-awesome.min.css" />
-   <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
-   <link type="text/css" rel="stylesheet" href="css/fairscreen.css" />
+   <link type="text/css" rel="stylesheet" href="css/tour.css" />
+   <link type="text/css" rel="stylesheet" href="css/floaters.css" />
+   <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
+   <link type="text/css" rel="stylesheet" href="css/fair-screen.css" />
   '
 ))
 
-index <- c(index[1:(grep("fairscreen.css", index)-1)], 
+add_css <- readLines(textConnection('
+
+   <link type="text/css" rel="stylesheet" href="css/tour.css" />
+
+   <link type="text/css" rel="stylesheet" href="css/fair-screen.css" />
+  '
+))
+
+index <- c(index[1:(grep("fair-screen.css", index)-1)], 
            add_css, 
-           index[(grep("fairscreen.css", index)+1):length(index)]
+           index[(grep("fair-screen.css", index)+1):length(index)]
            )
 
 # Add tour IDs
 add_tour_id21 <- "welcomebox"
+
+#index <- c(index[1:(grep('data-value="Facility"', index)[1]-1)],
+#                 '<li id="welcomebox">',
+#                 index[grep('data-value="Facility"', index)[1]:length(index)])
+
 add_tour_id2 <- "tour2"
 
-index <- c(index[1:(grep('data-value="Dispersion"', index)-1)
-           '<li id="tour2">',
-           index[1:(grep('data-value="Dispersion"', index):length(index))
-           )
+index <- c(index[1:(grep('data-value="Dispersion"', index)[1]-2)],
+          '<li id="tour2">',
+           index[grep('data-value="Dispersion"', index)[1]:length(index)])
 
 add_tour <- readLines(textConnection('<!-- TOUR -->
-   <div id = "tour" class = "tour" style = "top: 100px; left:140px;display: block;">
+   <div id = "tour" class = "tour" style = "top: 240px; left:140px; display: block;">
       <div class = "tour-body">
         <div class = "header">Welcome to Fair Screen!</div>
         <div class = "content"></div>
         <div class = "tourCookie">
-          <input type = "checkbox" id = "tourGone" />
+          <input type = "checkbox" id = "tourNext" />
           <label for = "tourGone">Don`t show again</label>
         </div>
         <button id = "tourNext" disabled = disabled>Next</button>

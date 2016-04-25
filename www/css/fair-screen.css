@@ -1,0 +1,38 @@
+
+.btn {
+  background-color: #B2CBD7;
+  color: #333333;
+  border-color: #b0b0b0;
+  margin-top: 6px;
+  margin-bottom: 25px;
+  margin-left: 35px;
+  font-weight: 50;
+}
+
+.btn:hover {
+  background-color: #c1d5df;
+  color: #333333;
+  margin-top: 6px;
+  margin-bottom: 25px;
+  margin-left: 35px;
+  font-weight: 50;
+  border:1px solid #b0b0b0;
+}
+
+hr { margin-top: 0px;}
+
+.help_text {
+  margin-top: -22px; margin-left:36px; padding-top:0; padding-bottom:5px; font-style: italic;
+}
+
+.upload_text {
+   margin-bottom:10px;
+}
+
+.upload_box {
+  border: 1px dotted; background-color: #f7f9fb; margin-left: -10px; padding-left:25px; padding-top:20px; margin-top:0px; margin-bottom:10px; padding-bottom:0px;
+}
+
+
+.subtitle { font-style: italic; font-size: 1em;}
+
