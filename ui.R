@@ -3,9 +3,10 @@ library(shiny)
 library(leaflet)
 
 shinyUI(navbarPage("Facility Air Screen", 
+                   theme = 'www/css/fair-screen.css',
 
 tabPanel("Facility",
-    fluidRow(column(12, h3("Facility information"), hr())),
+    fluidRow(column(12, h3("Facility information"), hr()), id='welcomebox'),
     fluidRow(column(4, 
                     h4("Upload inputs"),
                     div(fileInput("master", label=NULL, width="95%", accept=c('.xlsx')),
@@ -37,7 +38,7 @@ tabPanel("Facility",
     )
 ),
                                       
-tabPanel("Dispersion", 
+tabPanel("Dispersion", id='tour2',
          fluidRow(column(12, h3("Dispersion factors"), hr())),
          tabsetPanel(
          tabPanel("Stack parameters", br(),
