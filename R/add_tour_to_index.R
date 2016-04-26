@@ -4,8 +4,16 @@ index <- readLines("www/index.html")
 
 add_css <- readLines(textConnection(
   '\n
-  <title>Facility Air Screen</title> \n
-
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[2.2.1];shiny[0.13.2];font-awesome[4.5.0];htmlwidgets[0.6];leaflet[0.7.3];leafletfix[1.0.0];leaflet-label[0.2.2];leaflet-binding[1.0.1.9002];datatables-binding[0.1.55];bootstrap[3.3.5]</script>
+  
+  <script src="shared/json2-min.js"></script>
+  <script src="jquery-2.2.1/jquery.min.js"></script>
+  
+  <title>Facility Air Screen</title> 
+  
+  
   <link href="leaflet-0.7.3/leaflet.css" rel="stylesheet" />
   <link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
   <link href="leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
@@ -17,7 +25,7 @@ add_css <- readLines(textConnection(
   <![endif]-->
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="bootstrap-readable.css" rel="stylesheet" type="text/css" />
-
+  
   <script src="shared/bootstrap/js/bootstrap.min.js"></script>
   <script src="shared/bootstrap/shim/html5shiv.min.js"></script>
   <script src="shared/bootstrap/shim/respond.min.js"></script> 
@@ -26,10 +34,13 @@ add_css <- readLines(textConnection(
   <script src="shared/shiny.js" type="text/javascript"></script>
   
   <link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
   <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
-
+  
   <link type="text/css" rel="stylesheet" href="css/tour.css" />
-  <link type="text/css" rel="stylesheet" href="css/fair-screen.css" />
+  
+  <link type="text/css" rel="stylesheet" href="css/fair-screen.css" /> 
+  \n
   '
 ))
 
@@ -39,18 +50,13 @@ index <- c(index[1:grep("jquery-2", index)[1]],
            )
 
 # Add tour IDs
-add_tour_id21 <- "welcomebox"
-
-#index <- c(index[1:(grep('data-value="Facility"', index)[1]-1)],
-#                 '<li id="welcomebox">',
-#                 index[grep('data-value="Facility"', index)[1]:length(index)])
-
 add_tour_id2 <- "tour2"
 
 index <- c(index[1:(grep('data-value="Dispersion"', index)[1]-2)],
           '<li id="tour2">',
            index[grep('data-value="Dispersion"', index)[1]:length(index)])
 
+# Add tour DIV()
 add_tour <- readLines(textConnection('<!-- TOUR -->
    <div id = "tour" class = "tour" display: hidden;">
       <div class = "tour-body">

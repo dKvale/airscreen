@@ -32,10 +32,12 @@
   <script src="shared/shiny.js" type="text/javascript"></script>
   
   <link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
   <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
 
   <link type="text/css" rel="stylesheet" href="css/tour.css" />
-  <link type="text/css" rel="stylesheet" href="css/fairscreen.css" />
+ 
+   <link type="text/css" rel="stylesheet" href="css/fair-screen.css" />
   
 </head>
 
@@ -61,7 +63,7 @@
         <li>
           <a href="#tab-3581-5" data-toggle="tab" data-value="Risk summary">Risk summary</a>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" id="fac_title">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             More
             <b class="caret"></b>
@@ -76,7 +78,7 @@
             <li>
               <a href="#tab-7465-3" data-toggle="tab" data-value="Multi-pathway risk factors">Multi-pathway risk factors</a>
             </li>
-            <li>
+            <li >
               <a href="#tab-7465-4" data-toggle="tab" data-value="References">References</a>
             </li>
           </ul>
@@ -95,7 +97,7 @@
       <div class="tab-pane active" data-value="Facility" id="tab-3581-1">
         <div class="row" id="welcomebox">
 <!-- TOUR -->
-   <div id = "tour" class = "tour" style = "top: 10px; left: 10px; display: hidden;z-index: 1100;">
+   <div id = "tour" class = "tour" style = "top: 10px; left: 10px; display: initial;">
       <div class = "tour-body">
         <div class = "header">Welcome to Fair Screen!</div>
         <div class = "content"></div>
@@ -112,7 +114,7 @@
       <div class = "tour-arrow"></div>
     </div>  
           <div class="col-sm-12">
-            <h3>Facility information</h3>
+            <h3 >Facility information</h3>
             <hr/>
           </div>
         </div>
