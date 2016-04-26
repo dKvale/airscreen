@@ -4,37 +4,36 @@ index <- readLines("www/index.html")
 
 add_css <- readLines(textConnection(
   '\n
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  
-  <script type="application/html-dependencies">json2[2014.02.04];jquery[2.2.1];shiny[0.13.2];font-awesome[4.5.0];htmlwidgets[0.6];leaflet[0.7.3];leafletfix[1.0.0];leaflet-label[0.2.2];leaflet-binding[1.0.1.9002];datatables-binding[0.1.55];bootstrap[3.3.5]</script>
-  
-  <script src="shared/json2-min.js"></script>
-  <script src="jquery-2.2.1/jquery.min.js"></script>
-  
-  <title>Facility Air Screen</title> 
-  
-  
-  <link href="leaflet-0.7.3/leaflet.css" rel="stylesheet" />
-  <link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-  <link href="leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
-  
-  <link href="shared/shiny.css" rel="stylesheet" />
-  
-  <!--[if lt IE 9]>
-  <script src="shared/selectize/js/es5-shim.min.js"></script>
-  <![endif]-->
-  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-  <link href="bootstrap-readable.css" rel="stylesheet" type="text/css" />
-  
-  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
-  <script src="shared/bootstrap/shim/html5shiv.min.js"></script>
-  <script src="shared/bootstrap/shim/respond.min.js"></script> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
+  <script type="application/shiny-singletons"></script>  
+  <script type="application/html-dependencies">json2[2014.02.04];jquery[2.2.1];shiny[0.13.2];font-awesome[4.5.0];htmlwidgets[0.6];leaflet[0.7.3];leafletfix[1.0.0];leaflet-binding[1.0.1];datatables-binding[0.1.55];bootstrap[3.3.5]</script>
   
   <script src="shared/jquery.js" type="text/javascript"></script>
   <script src="shared/shiny.js" type="text/javascript"></script>
   
+  <script src="shared/json2-min.js"></script>
+  
+  <link href="shared/shiny.css" rel="stylesheet" />
+  
   <link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="htmlwidgets-0.6/htmlwidgets.js"></script>
+  
+  <script src="datatables-binding-0.1.55/datatables.js"></script>
+  
+  
+  <link href="shared/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  <script src="shared/bootstrap/shim/html5shiv.min.js"></script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <link href="leaflet-0.7.3/leaflet.css" rel="stylesheet" />
+  <script src="leaflet-0.7.3/leaflet.js"></script>
+  <link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+  <script src="leaflet-binding-1.0.1/leaflet.js"></script>
+  <script src="shared/bootstrap/shim/respond.min.js"></script> 
+  <title>Facility Air Screen</title>
+  
   <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
   
   <link type="text/css" rel="stylesheet" href="css/tour.css" />
@@ -44,21 +43,21 @@ add_css <- readLines(textConnection(
   '
 ))
 
-index <- c(index[1:grep("jquery-2", index)[1]], 
+index <- c(index[1:grep("<head>", index)[1]], 
            add_css, 
            index[grep("</head>", index):length(index)]
            )
 
 # Add tour IDs
-add_tour_id2 <- "tour2"
+#add_tour_id2 <- "tour2"
 
-index <- c(index[1:(grep('data-value="Dispersion"', index)[1]-2)],
-          '<li id="tour2">',
-           index[grep('data-value="Dispersion"', index)[1]:length(index)])
+#index <- c(index[1:(grep('data-value="Dispersion"', index)[1]-2)],
+#          '<li id="tour2">',
+#           index[grep('data-value="Dispersion"', index)[1]:length(index)])
 
 # Add tour DIV()
 add_tour <- readLines(textConnection('<!-- TOUR -->
-   <div id = "tour" class = "tour" display: hidden;">
+   <div id = "tour" class = "tour" style = "display: none;">
       <div class = "tour-body">
         <div class = "header">Welcome to Fair Screen!</div>
         <div class = "content"></div>
@@ -86,13 +85,6 @@ index[grepl("Don't", index)]
 add_script <- 
 '
 <script>var netAssess = {}</script>
-
-<script src="htmlwidgets-0.6/htmlwidgets.js"></script>
-<script src="leaflet-0.7.3/leaflet.js"></script>
-<script src="leaflet-label-0.2.2/leaflet.label.js"></script>
-<script src="leaflet-binding-1.0.1.9002/leaflet.js"></script>
-<script src="datatables-binding-0.1.55/datatables.js"></script>
-
 <script src = "js/tour.js"></script>
 '
 

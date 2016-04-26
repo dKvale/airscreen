@@ -1,6 +1,12 @@
 
-.shiny-input-container {
-  margin-left:35px;
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.row {
+    margin-right: -10px;
+    margin-left: -10px;
 }
 
 .container-fluid {
@@ -9,24 +15,73 @@
   padding-left: 30px;
   padding-right: 28px;
 }
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #333333;
+  background-color: #ffffff;
+}
 
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
 
-#master, #download_inputs, #templates  {
+.form-group {
+    margin-bottom: 15px;
+}
+
+.brand, .navbar-brand, .navbar-header {
+   font-weight: bold;
+   font-size: 28px;
+ }
+
+#master {
   background-color: #B2CBD7;
   color: #333333;
   border-color: #b0b0b0;
   margin-top: 6px;
-  margin-bottom: 25px;
-  margin-left: 35px;
+  margin-bottom: 5px;
+  margin-left: 1px;
   font-weight: 50;
 }
 
-#master:hover , #download_inputs:hover , #templates:hover {
+#master:hover {
   background-color: #c1d5df;
   color: #333333;
   margin-top: 6px;
-  margin-bottom: 25px;
-  margin-left: 35px;
+  margin-bottom: 5px;
+  margin-left: 1px;
+  font-weight: 50;
+  border:1px solid #b0b0b0;
+}
+
+#master_progress {
+  margin-bottom: -10px;
+}
+
+#file_central {
+  margin-bottom: -15px;
+}
+
+#download_inputs, #templates  {
+  background-color: #B2CBD7;
+  color: #333333;
+  border-color: #b0b0b0;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  margin-left: 1px;
+  font-weight: 50;
+}
+
+#download_inputs:hover , #templates:hover {
+  background-color: #c1d5df;
+  color: #333333;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  margin-left: 1px;
   font-weight: 50;
   border:1px solid #b0b0b0;
 }
@@ -34,7 +89,7 @@
 .hr { margin-top: 0px;}
 
 .help_text {
-  margin-top: -22px; margin-left:36px; padding-top:0; padding-bottom:5px; font-style: italic;
+  margin-top: -22px; margin-left:1px; padding-top:0; padding-bottom:5px; font-style: italic;
 }
 
 .upload_text {

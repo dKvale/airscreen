@@ -3,16 +3,20 @@
 # 
 # You can find out more about air modeling and risk assessment at
 #
-#           http://www.pca.state.mn.us/mvrifb5
+# http://www.pca.state.mn.us/mvrifb5
 ##
+
 library(shiny)
 library(dplyr)
 library(leaflet)
 library(DT)
 library(readxl)
 library(XLConnect)
+library(rCharts)
 
 source('global.R')
+
+options(shiny.error=browser)
 
 shinyServer(function(input, output, session) {
   
@@ -55,36 +59,46 @@ shinyServer(function(input, output, session) {
     updateTextInput(session, 'long', value=fac.info()[1, 5][[1]])
   })
   
+  coords.new <- reactive({
+    xy <- coords
+    #invalidateLater(5000)
+    if(!is.null(input$lat)) xy[1,1] <- as.numeric(input$lat)
+    if(!is.null(input$long)) xy[1,2] <- as.numeric(input$long)
+    xy
+  })
+  
+  fac.new <- reactive({
+    fac_name <- facility
+    #invalidateLater(5000)
+    if(!is.null(input$fac_name)) fac_name <- input$fac_name
+    fac_name
+  })
+  
   output$fac_map <- renderLeaflet({
     
     #invalidateLater(5000)
-    xy <- coords
-    fac_name <- facility
-    #print(fac_name)
-    #print(xy)
+    xy <- coords.new()
+    fac_name <- fac.new()
     
-    if(!is.null(input$lat)) xy[1, 1] <- as.numeric(input$lat)
-    if(!is.null(input$long)) xy[1, 2] <- as.numeric(input$long)
-    if(!is.null(input$fac_name)) fac_name <- input$fac_name
-    
-    if (!is.null(input$master)) {print(fac.info())}
-    print(xy)
-    #print(fac_name)
+    #print(input$fac_name)
+    #fac <- fac.info()
     
     #mbToken <- ''
     #mbMap <- 'https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png'
-    
     #mb2 <- paste0(mbMap, '?access_token=', mbToken)
     
     leaflet() %>% 
-    addTiles() %>%
+      addTiles() %>%
       addMarkers(data=xy, popup=fac_name) %>%
       addCircles(data=xy, weight = 1, fillColor= "orange", color="darkorange",
                  radius = 1500, popup = "1.5km impact radius") %>%
       addCircles(data=xy, weight = 1,
-                 radius = min(stack.table()$"Distance to Fenceline", na.rm=T), popup = "Estimated property boundary")
-    })
+                 radius = min(stack.table()$"Distance to Fenceline", na.rm=T), 
+                 popup = "Estimated property boundary")
 
+  })
+   
+    
   #################################
   # Stacks
   ################################

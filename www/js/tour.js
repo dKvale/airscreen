@@ -4,7 +4,7 @@ netAssess.tour.makeSlide = function(options) {
   options = $.extend({
     position: "center",
     title: "Welcome to Fair Screen!",
-    text:  "Welcome to Fair Screen!",
+    text:  "Welcome to the Facility Air Screen!",
     target: "#fac_map",
     runbefore: function() {},
     runafter: function() {}
@@ -14,12 +14,12 @@ netAssess.tour.makeSlide = function(options) {
   
 }
 
-netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>To begin, download the master template file below and enter your stack and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box' style='margin-left:18px;'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' id='templates' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><br><p>Press the [Next] button below to continue the tour.</p>"
+netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>To begin download the master template file below and enter your stack and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box' style='width: 80%; margin-left:10px;'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' id='templates' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><br><p>Press the [Next] button below to continue the tour.</p>"
 })
 
 netAssess.tour.makeSlide({title: "Upload button",
-                          text: "<p>When your inputs are ready, use the [Browse] button above to upload your Excel file.</p><p>Press [Next] to continue the tour.</p>",
-target: "#master",
+                          text: "<p>When your inputs are ready use the [Browse] button above to upload your Excel file.</p><p>Press [Next] to continue the tour.</p>",
+target: "#file_central",
 position: "below"
 
 })
@@ -114,13 +114,13 @@ netAssess.tour.setPosition = function(target, position) {
       case "below":
         var position = {
           height: 255,
-          top: rect_center.y + 15,
-          left: rect_center.x - 180,
+          top: rect.bottom - 15,
+          left: rect_center.x - (netAssess.tour.width * 1.55) - 15,
           display: "block"
           
         };
         
-      arrowPos.top = -6;
+      arrowPos.top = -20;
       arrowPos.left = (netAssess.tour.width / 2) - 10;
       arrowPos.display = "block";
       arrowPos["border-bottom-color"] = "#6CC4E2";
@@ -133,7 +133,7 @@ netAssess.tour.setPosition = function(target, position) {
  case "below2":
         var position = {
           top: rect_center.y + 25,
-          left: rect_center.x - 180,
+          left: rect_center.x - 200,
           display: "block"
  
         };

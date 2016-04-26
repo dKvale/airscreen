@@ -1,8 +1,10 @@
 name: fair-screen
 account: mpca
 server: shinyapps.io
-bundleId: 421167
+appId: 94223
+bundleId: 434843
 url: https://mpca.shinyapps.io/fair-screen/
-when: 1460752961.66324
+when: 1461684122.32388
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: README.md|data_test/air_concentrations.csv|data_test/disp_facts.csv|data_test/fair-screen input template (test).xlsx|data_test/stack_params.csv|R/add_tour_to_index.R|R/compare_risk_databases.R|R/ui.R|R/ui_back.R|R/update_air_benchmarks.R|R/update_air_endpoints.R|www/bootstrap_readable.css|www/index-test2.html|www/css/fairscreen.css|www/js/floaters.js

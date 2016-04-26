@@ -3,22 +3,25 @@ library(shiny)
 library(leaflet)
 
 shinyUI(navbarPage("Facility Air Screen", 
-                   theme = 'www/css/fair-screen.css',
+                   theme = 'css/fair-screen.css',
 
 tabPanel("Facility",
-    fluidRow(column(12, h3("Facility information"), hr()), id='welcomebox'),
+    fluidRow(column(12, h3("Facility information"), hr())),
     fluidRow(column(4, 
                     h4("Upload inputs"), 
-                    div(fileInput("master", label=NULL, width="95%", accept=c('.xlsx')),
-                        style="margin-top:18px; margin-bottom:-10px")),
+                    div(fileInput("master", label=NULL, width="220px", accept=c('.xlsx')),
+                        style="margin-left:0; padding-left:0;
+                        margin-top:20px; margin-bottom:0px"),
+                    style="margin-top:-5px;"),
              column(4,
                     h4("Save results"),
                     div(downloadButton("download_inputs", 
                                        label = "Download risk summary", 
                                        class="down_btn"), 
-                        style="margin-left:0; margin-top:0; margin-bottom:15px;"))
-             ),
-           hr(style="margin-top:-5px;"),
+                        style="margin-left:0; margin-top:5px; margin-bottom:5px;"),
+                    style="margin-top:-5px;"),
+              id="file_central"),
+           hr(),
     fluidRow(column(4,
            p("Facility name (ID#)"),
            uiOutput('fac_name_UI'),
@@ -32,9 +35,9 @@ tabPanel("Facility",
                     column(5, uiOutput('fac_long_UI'), style="margin-left:0;")
                     )
            ),
-    column(5,
+    column(6,
            p("Facility location"),
-           leafletOutput("fac_map", height=340))
+           leafletOutput('fac_map', height=320))
     )
 ),
                                       
@@ -91,7 +94,7 @@ tabPanel("Emissions",
                   )
 ),
 
-tabPanel("Air concentrations",          
+tabPanel("Concentrations",          
          fluidRow(column(12, h3("Maximum air concentrations"), hr())),
          tabsetPanel(
            tabPanel("Total facility", br(), 
@@ -113,7 +116,7 @@ tabPanel("Air concentrations",
            )
 ),
 
-tabPanel("Risk summary", 
+tabPanel("Risks", 
          fluidRow(column(12, h3("Risk summary"), hr())), 
          tabsetPanel(
             tabPanel("Total facility", br(),

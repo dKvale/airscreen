@@ -1,0 +1,10 @@
+name: fairscreen
+account: mpca
+server: shinyapps.io
+appId: 98358
+bundleId: 435245
+url: https://mpca.shinyapps.io/fairscreen/
+when: 1461706887.15341
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: README.md|data/~$Fair screen input template (MPCA).xlsx|data/Fair screen input template (MPCA).xlsx|data_test/~$fair-screen input template (test).xlsx|data_test/air_concentrations.csv|data_test/disp_facts.csv|data_test/fair-screen input template (test).xlsx|data_test/stack_params.csv|R/add_tour_to_index.R|R/compare_risk_databases.R|R/ui.R|R/ui_back.R|R/update_air_benchmarks.R|R/update_air_endpoints.R|www/index-test2.html|www/js/floaters.js

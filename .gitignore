@@ -16,3 +16,9 @@ vignettes/*.pdf
 
 
 .Rproj.user
+
+# Excel files
+"data/Fair screen input template (MPCA).xlsx"
+*.xlsx
+
+
