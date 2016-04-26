@@ -1,11 +1,11 @@
-netAssess.tour = {slides: [], slideCount: 0, width: 450, height: 420, active: true}
+netAssess.tour = {slides: [], slideCount: 0, width: 390, height: 365, active: true}
 
 netAssess.tour.makeSlide = function(options) {
   options = $.extend({
     position: "center",
-    title: "Welcome",
-    text: "Welcome to Fair Screen!",
-    target: "#tour1",
+    title: "Welcome to Fair Screen!",
+    text:  "Welcome to Fair Screen!",
+    target: "#fac_map",
     runbefore: function() {},
     runafter: function() {}
   }, options)
@@ -14,28 +14,26 @@ netAssess.tour.makeSlide = function(options) {
   
 }
 
-netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>To begin, download the master template file below and enter your stack and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When your input file is ready, close this window to upload your inputs. Press 'Next' to continue the tour.</p>",
-                          target: "#fac_map",
-                          position: "center"
+netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>To begin, download the master template file below and enter your stack and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box' style='margin-left:18px;'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' id='templates' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><br><p>Press the [Next] button below to continue the tour.</p>"
 })
 
 netAssess.tour.makeSlide({title: "Upload button",
-                          text: "<p>Use this button to upload your master input file.</p><p>Press 'Next' to continue the tour.</p>",
-                          target: "#master",
-                          position: "below",
+                          text: "<p>When your inputs are ready, use the [Browse] button above to upload your Excel file.</p><p>Press [Next] to continue the tour.</p>",
+target: "#master",
+position: "below"
 
 })
 
 netAssess.tour.makeSlide({title: "Save results",
-                          text: "<p>Use this button to save the facility's risk summary to your computer. The risk summary is automatically generated each time you upload a new input file.</p><p>Press 'Next' to continue the tour.</p>",
+                          text: "<p>Use the download button to save a facility's risk summary to your computer. Each time you upload a new input file the risk summary is updated automatically.</p><p>Press [Next] to continue the tour.</p>",
                           target: "#download_inputs",
                           position: "right"
 })
 
 netAssess.tour.makeSlide({title: "Menu bar",
-                          text: "<p>Use the menu bar above to upload individual inputs and review modeled risk results.</p><p>This concludes the tour of the Facility Air Screen tool. </p><p>To hide the tour next time you visit check the 'Don't show again' box below. To view the tour a second time, select [Help] from the [More] section of the menu bar.</p><p>Thank You!</p>",
-                          target: "#tour2",
-                          position: "below"
+                          text: "<p>Use the menu bar above to upload individual inputs, review modeled risk results, and view health benchmark and dispersion references.</p><p>This concludes the welcome tour. Press [Close] to begin using Facility Air Screen. </p>",
+                          target: ".dropdown",
+                          position: "below2"
                          
 })
 
@@ -86,8 +84,8 @@ netAssess.tour.setPosition = function(target, position) {
   switch(position) {
     case "center":
       var position = {
-        top: rect_center.y - (netAssess.tour.height / 1.1),
-        left: rect_center.x - (netAssess.tour.width / 1.2),
+        top: rect_center.y - (netAssess.tour.height / 1.05),
+        left: rect_center.x - (netAssess.tour.width / 1.1),
         display: "block"
       }
       arrowPos.top = "";
@@ -106,7 +104,7 @@ netAssess.tour.setPosition = function(target, position) {
       arrowPos.top = netAssess.tour.height - 5;
       arrowPos.left = netAssess.tour.width / 2;
       arrowPos.display = "block";
-      arrowPos["border-top-color"] = "#EFEFEF";
+      arrowPos["border-top-color"] = "#6CC4E2";
       var arrowBorderPos = {};
       $.extend(arrowBorderPos, arrowPos);
       arrowBorderPos.top = arrowBorderPos.top + 2.5
@@ -115,21 +113,40 @@ netAssess.tour.setPosition = function(target, position) {
       
       case "below":
         var position = {
-          top: rect.bottom + 10,
-          left: rect_center.x - 200,
+          height: 255,
+          top: rect_center.y + 15,
+          left: rect_center.x - 180,
           display: "block"
-     
+          
         };
-      arrowPos.top = -20;
+        
+      arrowPos.top = -6;
       arrowPos.left = (netAssess.tour.width / 2) - 10;
       arrowPos.display = "block";
-      arrowPos["border-bottom-color"] = "#B2CBD7";
+      arrowPos["border-bottom-color"] = "#6CC4E2";
       var arrowBorderPos = {};
       $.extend(arrowBorderPos, arrowPos);
       arrowBorderPos.top = arrowBorderPos.top - 2.5
       arrowBorderPos["border-bottom-color"] = "black";
       break;
-      
+ 
+ case "below2":
+        var position = {
+          top: rect_center.y + 25,
+          left: rect_center.x - 180,
+          display: "block"
+ 
+        };
+        
+      arrowPos.top = -20;
+      arrowPos.left = (netAssess.tour.width / 2) - 10;
+      arrowPos.display = "block";
+      arrowPos["border-bottom-color"] = "#6CC4E2";
+      var arrowBorderPos = {};
+      $.extend(arrowBorderPos, arrowPos);
+      arrowBorderPos.top = arrowBorderPos.top - 2.5
+      arrowBorderPos["border-bottom-color"] = "black";
+      break;     
       case "left":
         var position = {
           top: rect_center.y - (netAssess.tour.height / 2),
@@ -139,7 +156,7 @@ netAssess.tour.setPosition = function(target, position) {
       arrowPos.top = (netAssess.tour.height / 2) - 10;
       arrowPos.left = netAssess.tour.width - 5;
       arrowPos.display = "block";
-      arrowPos["border-left-color"] = "#EFEFEF";
+      arrowPos["border-left-color"] = "#6CC4E2";
       var arrowBorderPos = {};
       $.extend(arrowBorderPos, arrowPos);
       arrowBorderPos.left = arrowBorderPos.left + 2.5;
@@ -155,7 +172,7 @@ netAssess.tour.setPosition = function(target, position) {
       arrowPos.top = (netAssess.tour.height / 2) - 10;
       arrowPos.left = -20;
       arrowPos.display = "block";
-      arrowPos["border-right-color"] = "#EFEFEF";
+      arrowPos["border-right-color"] = "#6CC4E2";
       var arrowBorderPos = {};
       $.extend(arrowBorderPos, arrowPos);
       arrowBorderPos.left = arrowBorderPos.left - 2.5;
@@ -214,8 +231,6 @@ netAssess.tour.advance = function() {
   $tour.find(".content")[0].scrollTop = 0;
   $tour.find(".content").html(tour.slides[cnt].text);
   tour.setPosition(tour.slides[cnt].target, tour.slides[cnt].position);
-  
-  
   
   tour.slideCount++
     

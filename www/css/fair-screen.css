@@ -1,5 +1,17 @@
 
-.btn {
+.shiny-input-container {
+  margin-left:35px;
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 30px;
+  padding-right: 28px;
+}
+
+
+#master, #download_inputs, #templates  {
   background-color: #B2CBD7;
   color: #333333;
   border-color: #b0b0b0;
@@ -9,7 +21,7 @@
   font-weight: 50;
 }
 
-.btn:hover {
+#master:hover , #download_inputs:hover , #templates:hover {
   background-color: #c1d5df;
   color: #333333;
   margin-top: 6px;
@@ -19,7 +31,7 @@
   border:1px solid #b0b0b0;
 }
 
-hr { margin-top: 0px;}
+.hr { margin-top: 0px;}
 
 .help_text {
   margin-top: -22px; margin-left:36px; padding-top:0; padding-bottom:5px; font-style: italic;
