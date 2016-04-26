@@ -60,8 +60,8 @@ shinyServer(function(input, output, session) {
     #invalidateLater(5000)
     xy <- coords
     fac_name <- facility
-    print(fac_name)
-    print(xy)
+    #print(fac_name)
+    #print(xy)
     
     if(!is.null(input$lat)) xy[1, 1] <- as.numeric(input$lat)
     if(!is.null(input$long)) xy[1, 2] <- as.numeric(input$long)
@@ -69,7 +69,7 @@ shinyServer(function(input, output, session) {
     
     if (!is.null(input$master)) {print(fac.info())}
     print(xy)
-    print(fac_name)
+    #print(fac_name)
     
     mbToken <- 'pk.eyJ1IjoiZGt2YWxlIiwiYSI6ImNpbmNkMWx1aDBxaHJ1b2txM2JvdmFtNHcifQ.OO-Fn4M7eEs4t8CekBx7oQ'
     

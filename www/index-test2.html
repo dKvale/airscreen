@@ -2,70 +2,64 @@
 <html>
 <head>
 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  <script type="application/shiny-singletons"></script>  <script type="application/html-dependencies">json2[2014.02.04];jquery[2.2.1];shiny[0.13.2];font-awesome[4.5.0];htmlwidgets[0.6];leaflet[0.7.3];leafletfix[1.0.0];leaflet-label[0.2.2];leaflet-binding[1.0.1.9002];selectize[0.11.2];datatables-binding[0.1.55];bootstrap[3.3.5]</script><script src="shared/json2-min.js"></script>
-<script src="jquery-2.2.1/jquery.min.js"></script>
-<link href="shared/shiny.css" rel="stylesheet" />
-<script src="shared/shiny.min.js"></script>
-<script src="shared/jquery.js" type="text/javascript"></script>
-<script src="shared/shiny.js" type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+<title>Facility Air Screen</title>
 
-<link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 
-<script src="htmlwidgets-0.6/htmlwidgets.js"></script>
 <link href="leaflet-0.7.3/leaflet.css" rel="stylesheet" />
-<script src="leaflet-0.7.3/leaflet.js"></script>
 <link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
 <link href="leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
-<script src="leaflet-label-0.2.2/leaflet.label.js"></script>
-<script src="leaflet-binding-1.0.1.9002/leaflet.js"></script>
+
+<link href="shared/shiny.css" rel="stylesheet" />
 
 <!--[if lt IE 9]>
 <script src="shared/selectize/js/es5-shim.min.js"></script>
 <![endif]-->
-<script src="datatables-binding-0.1.55/datatables.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-
+<link href="bootstrap-readable.css" rel="stylesheet" type="text/css" />
 <script src="shared/bootstrap/js/bootstrap.min.js"></script>
 <script src="shared/bootstrap/shim/html5shiv.min.js"></script>
-<script src="shared/bootstrap/shim/respond.min.js"></script>  
+<script src="shared/bootstrap/shim/respond.min.js"></script> 
+     
+<script src="shared/jquery.js" type="text/javascript"></script>
+<script src="shared/shiny.js" type="text/javascript"></script>
 
-<title>Facility Air Screen</title>
 
-<link type = "text/css" rel = "stylesheet" href = "css/tour.css" />
-<link type = "text/css" rel = "stylesheet" href = "css/font-awesome.min.css" />
+<link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
 
-<link rel="stylesheet" type="text/css" href="bootstrap_custom.css"/>
-  
+
+<link type="text/css" rel="stylesheet" href="css/tour.css" />
+
+<link type="text/css" rel="stylesheet" href="css/fairscreen.css" />
+
+
 </head>
-  
+
 <body>
 
-  
+   
   <nav class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <span class="navbar-brand">Facility Air Screen</span>
       </div>
-      <ul class="nav navbar-nav" >
+      <ul class="nav navbar-nav">
         <li class="active">
-          <a href="#tab-9818-1" data-toggle="tab" data-value="Welcome">Welcome</a>
+          <a href="#tab-4212-1" data-toggle="tab" data-value="Facility">Facility</a>
         </li>
         <li>
-          <a href="#tab-9818-2" data-toggle="tab" data-value="Facility">Facility</a>
+          <a href="#tab-4212-2" data-toggle="tab" data-value="Dispersion">Dispersion</a>
+        </li>
+        <li>
+          <a href="#tab-4212-3" data-toggle="tab" data-value="Emissions">Emissions</a>
+        </li>
+        <li>
+          <a href="#tab-4212-4" data-toggle="tab" data-value="Air concentrations">Air concentrations</a>
         </li>
         <li id="tour2">
-          <a href="#tab-9818-3" data-toggle="tab" data-value="Dispersion">Dispersion</a>
-        </li>
-        <li>
-          <a href="#tab-9818-4" data-toggle="tab" data-value="Emissions" >Emissions</a>
-        </li>
-        <li >
-          <a href="#tab-9818-5" data-toggle="tab" data-value="Air concentrations">Air concentrations</a>
-        </li>
-        <li>
-          <a href="#tab-9818-6" data-toggle="tab" data-value="Risk summary">Risk summary</a>
+          <a href="#tab-4212-5" data-toggle="tab" data-value="Risk summary">Risk summary</a>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -74,111 +68,80 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a href="#tab-8077-1" data-toggle="tab" data-value="Inhalation health benchmarks">Inhalation health benchmarks</a>
+              <a href="#tab-7261-1" data-toggle="tab" data-value="Inhalation health benchmarks">Inhalation health benchmarks</a>
             </li>
             <li>
-              <a href="#tab-8077-2" data-toggle="tab" data-value="Pollutant endpoints">Pollutant endpoints</a>
+              <a href="#tab-7261-2" data-toggle="tab" data-value="Pollutant health endpoints">Pollutant health endpoints</a>
             </li>
             <li>
-              <a href="#tab-8077-3" data-toggle="tab" data-value="Multi-pathway risk factors">Multi-pathway risk factors</a>
+              <a href="#tab-7261-3" data-toggle="tab" data-value="Multi-pathway risk factors">Multi-pathway risk factors</a>
             </li>
             <li>
-              <a href="#tab-8077-4" data-toggle="tab" data-value="References">References</a>
+              <a href="#tab-7261-4" data-toggle="tab" data-value="References">References</a>
             </li>
           </ul>
         </li>
         <li>
-          <a href="#tab-9818-8" data-toggle="tab"></a>
+          <a href="#tab-4212-7" data-toggle="tab"></a>
         </li>
         <li>
-          <a href="#tab-9818-9" data-toggle="tab"></a>
+          <a href="#tab-4212-8" data-toggle="tab"></a>
         </li>
       </ul>
     </div>
   </nav>
 
-  
-    <div class="container-fluid">
-    <div class="tab-content" >
-      <div class="tab-pane active" data-value="Welcome" id="tab-9818-1">
-        <div class="row" >
-            <!-- TOUR -->
-   <div id = "tour" class = "tour" style = "top: 100px; left:140px;display: block;">
+   
+  <div class="container-fluid">
+    <div class="tab-content">
+      <div class="tab-pane active" data-value="Facility" id="tab-4212-1">
+        <div class="row" id="welcomebox">
+       <!-- TOUR -->   
+          <div id = "tour" class = "tour" style = "top: 100px; left:140px;display: hidden;">
       <div class = "tour-body">
         <div class = "header">Welcome to Fair Screen!</div>
         <div class = "content"></div>
         <div class = "tourCookie">
-          <input type = "checkbox" id = "tourGone" class="shiny-bound-input"> </input>
+          <input type = "checkbox" id = "tourGone" ></input>
           <label for = "tourGone">Don't show again</label>
         </div>
-        <button id="tourNext">Next</button>
+        <button id = "tourNext">Next</button>
         <div class = "navigation">
           <a class = "close icon"><i class = "fa fa-close"></i></a>
         </div>
       </div>
       <div class = "tour-arrow-border"></div>
       <div class = "tour-arrow"></div>
-    </div> 
-    
-          <div class="col-sm-12">
-            <h3>Welcome!</h3>
-            <hr/>
-          </div>
-        </div>
-       
-        <br/>
-        <div class="row">
-          <div class="col-sm-8">
-            <h3>1. Upload inputs</h3>
-            <hr/>
-            <p>
-              Use the window below to upload a facility's inputs as
-           a multi-tabbed Excel file. For a template file is available here: 
-              <a href="data/fair-screen input template (MPCA).xlsx" style="color: #2A5DB0; font-style: italic;">fair-screen input template.xlsx</a>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-6 upload_box">
-            <p class="upload_text">Select a multi-tab Excel (.xlsx) file.</p>
-            <div style="margin-bottom:-15px;">
-              <div class="form-group shiny-input-container" style="width: 400px;">
-                <input id="inputs_up" name="inputs_up" type="file" accept=".xlsx"/>
-                <div id="inputs_up_progress" class="progress progress-striped active shiny-file-input-progress">
-                  <div class="progress-bar"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <br/>
-        <div class="row">
-          <div class="col-sm-8">
-            <h4>2. Save results</h4>
-            <hr/>
-            <p>Save the facility's risk screening results as an Excel file 
-          to be included with the modeling protocol submission.</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-1"></div>
-          <div class="col-sm-6 upload_box">
-            <p class="upload_text">Download the risk summary file.</p>
-            <a id="download_inputs" class="btn btn-default shiny-download-link down_btn" href="" target="_blank">
-              <i class="fa fa-download"></i>
-              Download risk summary
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane" data-value="Facility" id="tab-9818-2">
-        <div class="row">
+    </div>  
+          
           <div class="col-sm-12">
             <h3>Facility information</h3>
             <hr/>
           </div>
         </div>
+        <div class="row">
+          <div class="col-sm-4">
+            <h4>Upload inputs</h4>
+            <div style="margin-top:15px; margin-bottom:-10px">
+              <div class="form-group shiny-input-container" style="width: 95%;">
+                <input id="master" name="master" type="file" accept=".xlsx"/>
+                <div id="master_progress" class="progress progress-striped active shiny-file-input-progress">
+                  <div class="progress-bar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <h4>Save results</h4>
+            <div style="margin-left:0; margin-top:0; margin-bottom:15px;">
+              <a id="download_inputs" class="btn btn-default shiny-download-link down_btn" href="" target="_blank">
+                <i class="fa fa-download"></i>
+                Download risk summary
+              </a>
+            </div>
+          </div>
+        </div>
+        <hr style="margin-top:0px;"/>
         <div class="row">
           <div class="col-sm-4">
             <p>Facility name (ID#)</p>
@@ -187,32 +150,29 @@
             <div id="address_UI" class="shiny-html-output"></div>
             <p>Coordinates</p>
             <div class="row">
-              <div class="col-sm-1"></div>
               <div class="col-sm-4">
-                <p style="font-style: italic;">Lat</p>
+                <p style="font-style: italic; margin-left:5px;">Lat</p>
               </div>
-              <div class="col-sm-4">
-                <p style="font-style: italic;">Long</p>
+              <div class="col-sm-5">
+                <p style="font-style: italic; margin-left:5px;">Long</p>
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-1"></div>
-              <div class="col-sm-4" style="margin-left:-35px;">
+              <div class="col-sm-4" style="margin-left:0;">
                 <div id="fac_lat_UI" class="shiny-html-output"></div>
               </div>
-              <div class="col-sm-4" style="margin-left:0;">
+              <div class="col-sm-5" style="margin-left:0;">
                 <div id="fac_long_UI" class="shiny-html-output"></div>
               </div>
             </div>
-            <br/>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-5">
             <p>Facility location</p>
-            <div id="fac_map" style="width:100%; height:400px; " class="leaflet html-widget html-widget-output"></div>
+            <div id="fac_map" style="width:100%; height:340px; " class="leaflet html-widget html-widget-output"></div>
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Dispersion" id="tab-9818-3">
+      <div class="tab-pane" data-value="Dispersion" id="tab-4212-2">
         <div class="row">
           <div class="col-sm-12">
             <h3>Dispersion factors</h3>
@@ -222,54 +182,43 @@
         <div class="tabbable tabs-above">
           <ul class="nav nav-tabs">
             <li class="active">
-              <a href="#tab-7233-1" data-toggle="tab" data-value="Stack parameters">Stack parameters</a>
+              <a href="#tab-2671-1" data-toggle="tab" data-value="Stack parameters">Stack parameters</a>
             </li>
             <li>
-              <a href="#tab-7233-2" data-toggle="tab" data-value="Unit dispersion">Unit dispersion</a>
+              <a href="#tab-2671-2" data-toggle="tab" data-value="Unit dispersion">Unit dispersion</a>
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" data-value="Stack parameters" id="tab-7233-1">
+            <div class="tab-pane active" data-value="Stack parameters" id="tab-2671-1">
               <br/>
               <div class="row">
                 <div class="col-sm-1"></div>
                 <div class="col-sm-7 upload_box">
-                  <p class="upload_text">Upload stack height and fenceline distance.</p>
+                  <p class="upload_text">Upload stack height and fenceline distance in meters.</p>
                   <div class="form-group shiny-input-container">
                     <input id="stack_up" name="stack_up" type="file" accept=".xlsx,.xls,.csv,text/.csv,text/csv"/>
                     <div id="stack_up_progress" class="progress progress-striped active shiny-file-input-progress">
                       <div class="progress-bar"></div>
                     </div>
                   </div>
-                  <p class="help_text">Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
+                  <p class="help_text">* Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-sm-8">
-                  <p style="margin-top:8px;">Select units</p>
-                  <div class="form-group shiny-input-container">
-                    <div>
-                      <select id="st_units" class="form-control"><option value="Feet" selected>Feet</option>
-<option value="Meters">Meters</option></select>
-                      <script type="application/json" data-for="st_units">{}</script>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
+              <div class="row" id = "welcomebox">
                 <div class="col-sm-11">
                   <h4>Stack parameters</h4>
+                  <p class="subtitle">All lengths in meters.</p>
                   <div id="stack_table" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Unit dispersion" id="tab-7233-2">
+            <div class="tab-pane" data-value="Unit dispersion" id="tab-2671-2">
               <br/>
-              <div class="row">
+              <div class="row" >
                 <div class="col-sm-1"></div>
-                <div class="col-sm-7 upload_box">
-                  <p class="upload_text">Upload unit dispersion factors. If left blank, default dispersion 
-                             factors are generated based on each stack's height and fenceline 
+                <div class="col-sm-7 upload_box" >
+                  <p class="upload_text">Upload unit dispersion factors. When left blank dispersion 
+                             factors will be generated based on each stack's height and fenceline 
                              distance.</p>
                   <div class="form-group shiny-input-container">
                     <input id="disp_up" name="disp_up" type="file" accept=".xlsx,.xls,.csv,text/.csv,text/csv"/>
@@ -277,7 +226,7 @@
                       <div class="progress-bar"></div>
                     </div>
                   </div>
-                  <p class="help_text">Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
+                  <p class="help_text">* Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
                 </div>
               </div>
               <div class="row">
@@ -290,7 +239,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Emissions" id="tab-9818-4">
+      <div class="tab-pane" data-value="Emissions" id="tab-4212-3">
         <div class="row">
           <div class="col-sm-12">
             <h3>Emissions</h3>
@@ -301,15 +250,14 @@
           <div class="col-sm-1"></div>
           <div class="col-sm-7 upload_box">
             <p class="upload_text">Upload potential 1-hour emissions in lbs/hr and annual emission in tons/yr. 
-                            Assume startup and worst-case fuel conditions for 1-hr emissions. 
-                            Maximum operating capacity should be assumed for the calculation of annual emissions.</p>
+                           Assume worst-case conditions and maximum operating capacity.</p>
             <div class="form-group shiny-input-container">
               <input id="emissions_up" name="emissions_up" type="file" accept=".xlsx,.xls,.csv,text/.csv,text/csv"/>
               <div id="emissions_up_progress" class="progress progress-striped active shiny-file-input-progress">
                 <div class="progress-bar"></div>
               </div>
             </div>
-            <p class="help_text">Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
+            <p class="help_text">* Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
           </div>
         </div>
         <div class="row">
@@ -319,7 +267,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Air concentrations" id="tab-9818-5">
+      <div class="tab-pane" data-value="Air concentrations" id="tab-4212-4">
         <div class="row">
           <div class="col-sm-12">
             <h3>Maximum air concentrations</h3>
@@ -329,14 +277,14 @@
         <div class="tabbable tabs-above">
           <ul class="nav nav-tabs">
             <li class="active">
-              <a href="#tab-8415-1" data-toggle="tab" data-value="Total facility">Total facility</a>
+              <a href="#tab-5459-1" data-toggle="tab" data-value="Total facility">Total facility</a>
             </li>
             <li>
-              <a href="#tab-8415-2" data-toggle="tab" data-value="Stack specific">Stack specific</a>
+              <a href="#tab-5459-2" data-toggle="tab" data-value="Stack specific">Stack specific</a>
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" data-value="Total facility" id="tab-8415-1">
+            <div class="tab-pane active" data-value="Total facility" id="tab-5459-1">
               <br/>
               <div class="row">
                 <div class="col-sm-1"></div>
@@ -348,7 +296,7 @@
                       <div class="progress-bar"></div>
                     </div>
                   </div>
-                  <p class="help_text">Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
+                  <p class="help_text">* Select an Excel file (.xlsx) or comma separated text file (.csv)</p>
                 </div>
               </div>
               <div class="row">
@@ -359,7 +307,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Stack specific" id="tab-8415-2">
+            <div class="tab-pane" data-value="Stack specific" id="tab-5459-2">
               <br/>
               <div class="row">
                 <div class="col-sm-9">
@@ -372,7 +320,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Risk summary" id="tab-9818-6">
+      <div class="tab-pane" data-value="Risk summary" id="tab-4212-5">
         <div class="row">
           <div class="col-sm-12">
             <h3>Risk summary</h3>
@@ -382,20 +330,20 @@
         <div class="tabbable tabs-above">
           <ul class="nav nav-tabs">
             <li class="active">
-              <a href="#tab-4239-1" data-toggle="tab" data-value="Total facility">Total facility</a>
+              <a href="#tab-1441-1" data-toggle="tab" data-value="Total facility">Total facility</a>
             </li>
             <li>
-              <a href="#tab-4239-2" data-toggle="tab" data-value="Pollutant specific">Pollutant specific</a>
+              <a href="#tab-1441-2" data-toggle="tab" data-value="Pollutant specific">Pollutant specific</a>
             </li>
             <li>
-              <a href="#tab-4239-3" data-toggle="tab" data-value="Risk by health endpoint">Risk by health endpoint</a>
+              <a href="#tab-1441-3" data-toggle="tab" data-value="Endpoint specific">Endpoint specific</a>
             </li>
             <li>
-              <a href="#tab-4239-4" data-toggle="tab" data-value="Pollutants of concern">Pollutants of concern</a>
+              <a href="#tab-1441-4" data-toggle="tab" data-value="Pollutants of concern">Pollutants of concern</a>
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" data-value="Total facility" id="tab-4239-1">
+            <div class="tab-pane active" data-value="Total facility" id="tab-1441-1">
               <br/>
               <div class="row">
                 <div class="col-sm-11">
@@ -414,20 +362,22 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Pollutant specific" id="tab-4239-2">
+            <div class="tab-pane" data-value="Pollutant specific" id="tab-1441-2">
               <br/>
               <div class="row">
                 <div class="col-sm-11">
                   <h4>Inhalation and multi-pathway results</h4>
                 </div>
                 <div class="col-sm-11">
-                  <div id="pollutant_risk_table" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
+                  <div style="font-size:86%;">
+                    <div id="pollutant_risk_table" style="width:100%; height:auto; " class="datatables html-widget html-widget-output"></div>
+                  </div>
                   <br/>
                   <hr/>
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Risk by health endpoint" id="tab-4239-3">
+            <div class="tab-pane" data-value="Endpoint specific" id="tab-1441-3">
               <br/>
               <div class="row">
                 <div class="col-sm-11">
@@ -438,7 +388,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Pollutants of concern" id="tab-4239-4">
+            <div class="tab-pane" data-value="Pollutants of concern" id="tab-1441-4">
               <br/>
               <div class="row">
                 <div class="col-sm-8">
@@ -479,7 +429,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Inhalation health benchmarks" id="tab-8077-1">
+      <div class="tab-pane" data-value="Inhalation health benchmarks" id="tab-7261-1">
         <div class="row">
           <div class="col-sm-12">
             <h3>Health benchmarks</h3>
@@ -492,10 +442,10 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Pollutant endpoints" id="tab-8077-2">
+      <div class="tab-pane" data-value="Pollutant health endpoints" id="tab-7261-2">
         <div class="row">
           <div class="col-sm-12">
-            <h3>Pollutant health endpoints</h3>
+            <h3>Health endpoints</h3>
             <hr/>
           </div>
         </div>
@@ -505,10 +455,10 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Multi-pathway risk factors" id="tab-8077-3">
+      <div class="tab-pane" data-value="Multi-pathway risk factors" id="tab-7261-3">
         <div class="row">
           <div class="col-sm-12">
-            <h3>Pollutant multi-pathway risk factors</h3>
+            <h3>Multi-pathway risk factors</h3>
             <hr/>
           </div>
         </div>
@@ -518,7 +468,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="References" id="tab-8077-4">
+      <div class="tab-pane" data-value="References" id="tab-7261-4">
         <div class="row">
           <div class="col-sm-12">
             <h3>References</h3>
@@ -531,12 +481,20 @@
           </div>
         </div>
       </div>
-      <br id="tab-9818-8"/>
-      <hr id="tab-9818-9"/>
+      <br id="tab-4212-7"/>
+      <hr id="tab-4212-8"/>
     </div>
   </div>
 </body>
+
 <script>var netAssess = {}</script>
+<script src="htmlwidgets-0.6/htmlwidgets.js"></script>
+<script src="leaflet-0.7.3/leaflet.js"></script>
+<script src="leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="leaflet-binding-1.0.1.9002/leaflet.js"></script>
+<script src="datatables-binding-0.1.55/datatables.js"></script>
+
 <script src = "js/tour.js"></script>
+
 
 </html>

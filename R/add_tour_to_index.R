@@ -3,26 +3,39 @@
 index <- readLines("www/index.html")
 
 add_css <- readLines(textConnection(
-  '<script src="shared/jquery.js" type="text/javascript"></script>
-   <script src="shared/shiny.js" type="text/javascript"></script>
-   <link type="text/css" rel="stylesheet" href="css/tour.css" />
-   <link type="text/css" rel="stylesheet" href="css/floaters.css" />
-   <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
-   <link type="text/css" rel="stylesheet" href="css/fair-screen.css" />
+  '\n
+  <title>Facility Air Screen</title> \n
+
+  <link href="leaflet-0.7.3/leaflet.css" rel="stylesheet" />
+  <link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+  <link href="leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+  
+  <link href="shared/shiny.css" rel="stylesheet" />
+  
+  <!--[if lt IE 9]>
+  <script src="shared/selectize/js/es5-shim.min.js"></script>
+  <![endif]-->
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="bootstrap-readable.css" rel="stylesheet" type="text/css" />
+
+  <script src="shared/bootstrap/js/bootstrap.min.js"></script>
+  <script src="shared/bootstrap/shim/html5shiv.min.js"></script>
+  <script src="shared/bootstrap/shim/respond.min.js"></script> 
+  
+  <script src="shared/jquery.js" type="text/javascript"></script>
+  <script src="shared/shiny.js" type="text/javascript"></script>
+  
+  <link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
+
+  <link type="text/css" rel="stylesheet" href="css/tour.css" />
+  <link type="text/css" rel="stylesheet" href="css/fair-screen.css" />
   '
 ))
 
-add_css <- readLines(textConnection('
-
-   <link type="text/css" rel="stylesheet" href="css/tour.css" />
-
-   <link type="text/css" rel="stylesheet" href="css/fair-screen.css" />
-  '
-))
-
-index <- c(index[1:(grep("fair-screen.css", index)-1)], 
+index <- c(index[1:grep("jquery-2", index)[1]], 
            add_css, 
-           index[(grep("fair-screen.css", index)+1):length(index)]
+           index[grep("</head>", index):length(index)]
            )
 
 # Add tour IDs
@@ -39,15 +52,15 @@ index <- c(index[1:(grep('data-value="Dispersion"', index)[1]-2)],
            index[grep('data-value="Dispersion"', index)[1]:length(index)])
 
 add_tour <- readLines(textConnection('<!-- TOUR -->
-   <div id = "tour" class = "tour" style = "top: 240px; left:140px; display: block;">
+   <div id = "tour" class = "tour" display: hidden;">
       <div class = "tour-body">
         <div class = "header">Welcome to Fair Screen!</div>
         <div class = "content"></div>
         <div class = "tourCookie">
-          <input type = "checkbox" id = "tourNext" />
+          <input type = "checkbox" id = "tourGone" />
           <label for = "tourGone">Don`t show again</label>
         </div>
-        <button id = "tourNext" disabled = disabled>Next</button>
+        <button id = "tourNext">Next</button>
         <div class = "navigation">
           <a class = "close icon"><i class = "fa fa-close"></i></a>
         </div>
@@ -56,16 +69,29 @@ add_tour <- readLines(textConnection('<!-- TOUR -->
       <div class = "tour-arrow"></div>
     </div>  '))
 
-index <- c(index[1:grep("</nav>", index)], 
+index <- c(index[1:(grep("</nav>", index)+4)], 
            add_tour, 
-           index[(grep("</nav>", index)+1):length(index)])
+           index[(grep("</nav>", index)+5):length(index)])
+
+index[grepl("Don`t", index)] <-  "          <label for = \"tourGone\">Don't show again</label>"
+
+index[grepl("Don't", index)]
 
 add_script <- 
-'<script>var netAssess = {}</script>
- <script src = "js/tour.js"></script>'
+'
+<script>var netAssess = {}</script>
 
-index <- c(index[1:(grep("</html>", index)-1)], 
-                add_script, 
-                index[grep("</html>", index):length(index)])
+<script src="htmlwidgets-0.6/htmlwidgets.js"></script>
+<script src="leaflet-0.7.3/leaflet.js"></script>
+<script src="leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="leaflet-binding-1.0.1.9002/leaflet.js"></script>
+<script src="datatables-binding-0.1.55/datatables.js"></script>
+
+<script src = "js/tour.js"></script>
+'
+
+index <- c(index[1:grep("</body>", index)],
+           add_script,
+           "</html>")
 
 writeLines(index, "www/index.html")

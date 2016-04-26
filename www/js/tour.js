@@ -1,12 +1,11 @@
 netAssess.tour = {slides: [], slideCount: 0, width: 450, height: 420, active: true}
 
 netAssess.tour.makeSlide = function(options) {
-  
   options = $.extend({
     position: "center",
-    title: "NetAssess",
+    title: "Welcome",
     text: "Welcome to Fair Screen!",
-    target: "#welcomebox",
+    target: "#tour1",
     runbefore: function() {},
     runafter: function() {}
   }, options)
@@ -15,11 +14,26 @@ netAssess.tour.makeSlide = function(options) {
   
 }
 
-netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>First time users should begin by downloading the master template file and entering relevant facility and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When complete, click [Next] to continue this tour and learn how to upload your inputs.</p>"
+netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potential facility air emissions.</p><p>To begin, download the master template file below and enter your stack and dispersion information.</p><div class='row'><div class='col-sm-1'></div><div class='col-sm-11 upload_box'><a href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx' class='btn' target='_blank'><i class='fa fa-download'></i> Download template file</a></div></div><p>When your input file is ready, close this window to upload your inputs. Press 'Next' to continue the tour.</p>",
+                          target: "#fac_map",
+                          position: "center"
+})
+
+netAssess.tour.makeSlide({title: "Upload button",
+                          text: "<p>Use this button to upload your master input file.</p><p>Press 'Next' to continue the tour.</p>",
+                          target: "#master",
+                          position: "below",
+
+})
+
+netAssess.tour.makeSlide({title: "Save results",
+                          text: "<p>Use this button to save the facility's risk summary to your computer. The risk summary is automatically generated each time you upload a new input file.</p><p>Press 'Next' to continue the tour.</p>",
+                          target: "#download_inputs",
+                          position: "right"
 })
 
 netAssess.tour.makeSlide({title: "Menu bar",
-                          text: "<p>Use the menu bar above to select individual inputs and review modeled risk results. </p><p>You can check 'Don`t show again' below to prevent the tour from opening next time. To view the tour again, select [Help] from the [More] section of the menu bar.</p>",
+                          text: "<p>Use the menu bar above to upload individual inputs and review modeled risk results.</p><p>This concludes the tour of the Facility Air Screen tool. </p><p>To hide the tour next time you visit check the 'Don't show again' box below. To view the tour a second time, select [Help] from the [More] section of the menu bar.</p><p>Thank You!</p>",
                           target: "#tour2",
                           position: "below"
                          
@@ -72,8 +86,8 @@ netAssess.tour.setPosition = function(target, position) {
   switch(position) {
     case "center":
       var position = {
-        top: rect_center.y - (netAssess.tour.height / 2),
-        left: rect_center.x - (netAssess.tour.width / 2),
+        top: rect_center.y - (netAssess.tour.height / 1.1),
+        left: rect_center.x - (netAssess.tour.width / 1.2),
         display: "block"
       }
       arrowPos.top = "";
@@ -101,9 +115,10 @@ netAssess.tour.setPosition = function(target, position) {
       
       case "below":
         var position = {
-          top: rect.bottom + 15,
-          left: rect_center.x - (netAssess.tour.width / 2),
+          top: rect.bottom + 10,
+          left: rect_center.x - 200,
           display: "block"
+     
         };
       arrowPos.top = -20;
       arrowPos.left = (netAssess.tour.width / 2) - 10;
@@ -255,5 +270,5 @@ $("#openTour").on("click", function() {
 // user clicking too early.
 $("#tourNext").attr("disabled", true);
 $(document).ready(function() {
-  setTimeout(function() {$("#tourNext").attr("disabled", false)}, 1000)
+  setTimeout(function() {$("#tourNext").attr("disabled", false)}, 800)
 })  
