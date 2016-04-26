@@ -71,14 +71,13 @@ shinyServer(function(input, output, session) {
     print(xy)
     #print(fac_name)
     
-    mbToken <- 'pk.eyJ1IjoiZGt2YWxlIiwiYSI6ImNpbmNkMWx1aDBxaHJ1b2txM2JvdmFtNHcifQ.OO-Fn4M7eEs4t8CekBx7oQ'
+    #mbToken <- ''
+    #mbMap <- 'https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png'
     
-    mbMap <- 'https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png'
-    
-    mb2 <- paste0(mbMap, '?access_token=', mbToken)
+    #mb2 <- paste0(mbMap, '?access_token=', mbToken)
     
     leaflet() %>% 
-    addTiles(mb2) %>%
+    addTiles() %>%
       addMarkers(data=xy, popup=fac_name) %>%
       addCircles(data=xy, weight = 1, fillColor= "orange", color="darkorange",
                  radius = 1500, popup = "1.5km impact radius") %>%
