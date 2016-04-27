@@ -184,7 +184,7 @@ tabPanel("Risks",
                      
                       tabPanel("Tour",
                                fluidRow(column(12, h3('Tour'), hr(),
-                                               p('View an interactive tour of the app'),
+                                               p('View an interactive tour of the Facility Air Screen tool.'),
                                                tags$button(id = "openTour", style = 'text-align: center;', "Open tour"),
                                                br()))
                                )
