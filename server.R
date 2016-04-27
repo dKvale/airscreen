@@ -326,8 +326,7 @@ shinyServer(function(input, output, session) {
   endpoint.risk.table <- reactive({
     
     endpoint_risks <- left_join(risk.table()[ , 1:4], endpoints[ , 1:5])
-    
-    print(endpoint_risks)
+
     
     if(!is.null(endpoint_risks) & nrow(endpoint_risks) > 0) {   
       end_risks <- endpoints_list
@@ -339,7 +338,6 @@ shinyServer(function(input, output, session) {
       
       end_risks[ ,2] <- NULL
       
-      print(end_risks)
       
       # Round acute risk
       end_risks[ ,2] <- round(end_risks[ ,2], digits = 2)

@@ -135,8 +135,8 @@ tabPanel("Risks",
          fluidRow(column(12, h3("Risk summary"), hr())), 
          tabsetPanel(
             tabPanel("Total facility", br(),
-                    fluidRow(column(11, h4("Inhalation results")),
-                             column(11, dataTableOutput("total_air_risk_table"), br(), hr()),
+                    fluidRow(column(8, h4("Inhalation results")),
+                             column(8, dataTableOutput("total_air_risk_table"), br(), hr()),
                              column(11, h4("Multi-pathway results")),
                              column(11, dataTableOutput("total_media_risk_table")))
            ),
@@ -149,8 +149,8 @@ tabPanel("Risks",
            ),
            
            tabPanel("Endpoint specific", br(), 
-                    fluidRow(column(11, h4("Inhalation results by health endpoint")),
-                      column(11, dataTableOutput("endpoint_risk_table")))
+                    fluidRow(column(8, h4("Inhalation results by health endpoint")),
+                      column(8, dataTableOutput("endpoint_risk_table")))
            ),
            
            tabPanel("Pollutants of concern", br(),
