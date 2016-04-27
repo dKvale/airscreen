@@ -82,7 +82,7 @@
 "100-00-5","Chloronitrobenzene, p-",NA,"Liver, Blood","Blood",0,0,0
 "76-06-2","Chloropicrin","Resp , Eyes","","Resp",0,0,0
 "126-99-8","Chloroprene",NA,"","Resp, Blood",0,0,0
-"18540-29-9","Chromic acid mists and dissolved Cr(VI) aerosols",NA,"Resp","Resp",1,1,0
+"18540-29-9-aer","Chromic acid mists and dissolved Cr(VI) aerosols",NA,"Resp","Resp",1,1,0
 "7440-47-3","Chromium",NA,"Resp","Resp",1,1,0
 "18540-29-9","Chromium (Hexavalent) (particulate)",NA,"Resp","Resp",1,1,0
 "0-00-5","Chromium Compounds",NA,"Resp","Resp",1,1,0
@@ -264,8 +264,8 @@
 "98-95-3","Nitrobenzene",NA,"","Resp",0,0,0
 "7496-02-8","Nitrochrysene, 6-",NA,"",NA,1,0,0
 "607-57-8","Nitrofluorene, 2-",NA,"",NA,0,0,0
-"10102-44-0","Nitrogen dioxide (NO2)","Resp",NA,NA,0,0,0
-"VARIOUS","Nitrogen oxides (NOx)","Resp",NA,NA,0,0,0
+"10102-44-0","Nitrogen dioxide (NO2)","Resp","",NA,0,0,0
+"VARIOUS-Nox","Nitrogen oxides (NOx)","Resp",NA,NA,0,0,0
 "75-52-5","Nitromethane",NA,"Resp","Resp",0,0,0
 "79-46-9","Nitropropane, 2-",NA,"","Liver",0,0,0
 "5522-43-0","Nitropyrene, 1-",NA,"",NA,1,0,0

@@ -25,10 +25,11 @@ sub_chron <- read.csv("data\\subchronic_benchmarks.csv", header=T, colClasses=c(
 # Load PBT and MDH ceiling value groups
 category <- read.csv("data\\air_groups.csv", header=T, stringsAsFactors=F, nrows=500, check.names=F)
 
-sub_chron <- cbind(sub_chron[ , c(1:2,5)], category[ , 3:5])
+# Join subchronic
+tox <- left_join(tox, sub_chron[, c(1,5)], by = 'CAS')
 
 # Join endpoints
-tox <- left_join(tox, sub_chron)
+tox <- left_join(tox,  category[ , c(1,3:5)], by = 'CAS')
 
 # Reorder columns
 tox <- tox[ , c(1:3,5,4,6:8)]

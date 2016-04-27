@@ -18,7 +18,7 @@ netAssess.tour.makeSlide({text: "<p>This tool provides risk estimates for potent
 })
 
 netAssess.tour.makeSlide({title: "Upload button",
-                          text: "<p>When your input file is ready use the [ Browse ] button above to upload your Excel file.</p><p>Press [Next] to continue the tour.</p>",
+                          text: "<p>When your input file is ready, click the [ Browse ] button above to upload your Excel file.</p><p>Press [Next] to continue the tour.</p>",
 target: "#file_central",
 position: "below"
 
@@ -119,7 +119,7 @@ netAssess.tour.setPosition = function(target, position) {
           
         };
         
-      arrowPos.top = -8;
+      arrowPos.top = -20;
       arrowPos.left = (netAssess.tour.width / 2) - 10;
       arrowPos.display = "block";
       arrowPos["border-bottom-color"] = "#6CC4E2";

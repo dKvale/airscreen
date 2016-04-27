@@ -80,7 +80,7 @@
 "76-06-2","Chloropicrin","",NA,"","",NA,"",""
 "126-99-8","Chloroprene","",NA,"","",NA,"",""
 "7440-47-3","Chromium","HRV",0.02,"Resp","Upper and lower respiratory",NA,"",""
-"18540-29-9","Chromic acid mists and dissolved Cr(VI) aerosols","HRV",0.02,"Resp","Upper and lower respiratory",NA,"",""
+"18540-29-9-aer","Chromic acid mists and dissolved Cr(VI) aerosols","HRV",0.02,"Resp","Upper and lower respiratory",NA,"",""
 "18540-29-9","Chromium (Hexavalent) (particulate)","HRV",1,"Resp","Lower respiratory",NA,"",""
 "0-00-5","Chromium Compounds","HRV",0.02,"Resp","Upper and lower respiratory",0,"18540-29-9","Chromic acid mists and dissolved Cr(VI) aerosols"
 "218-01-9","Chrysene (Benzo(a)phenanthrene)","",NA,"","",NA,"",""
