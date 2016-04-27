@@ -1,36 +1,47 @@
 # This is the user-interface of the Facilty emissions web application.
 library(shiny)
-library(dplyr)
 library(leaflet)
 library(DT)
-library(readxl)
-library(XLConnect)
 
 shinyUI(navbarPage("Facility Air Screen", 
                    theme = 'css/fair-screen.css',
+                  
 
-tabPanel("Facility",
-    fluidRow(column(12, h3("Facility information"), hr())),
+tabPanel("Facility", tags$head(
+  tags$link(rel = "stylesheet", type = "text/css", href = "css/font-awesome.min.css"),
+  tags$link(rel = "stylesheet", type = "text/css", href = "css/tour.css")),
+    
+  fluidRow(column(12, h3("Facility information"), hr())),
+    
+  div(id = "tour", class = "tour", style = "display: none;",
+    div(class = "tour-body",
+    div(class = "header", "Welcome to Fair Screen!"),
+    div(class = "content"),
+    div(class = "tourCookie",
+    tags$input(type = "checkbox", id = "tourGone"),
+    tags$label("Don't show again")),
+    tags$button(id = "tourNext", "Next"),
+    div(class = "navigation"),
+    a(class = "close icon", tags$i(class = "fa fa-close"))),
+    div(class = "tour-arrow-border"),
+    div(class = "tour-arrow")),
+         
     fluidRow(column(4, 
                     h4("Upload inputs"), 
-                    div(fileInput("master", label=NULL, width="220px", accept=c('.xlsx')),
-                        style="margin-left:0; padding-left:0;
-                        margin-top:20px; margin-bottom:0px"),
+                    div(fileInput("master", label=NULL, width="220px", accept=c('.xlsx')),  id="file_central"),
                     style="margin-top:-5px;"),
              column(4,
                     h4("Save results"),
                     div(downloadButton("download_inputs", 
                                        label = "Download risk summary", 
-                                       class="down_btn"), 
-                        style="margin-left:0; margin-top:5px; margin-bottom:5px;"),
-                    style="margin-top:-5px;"),
-              id="file_central"),
+                                       class="down_btn")),
+                    style="margin-top:-5px;")),
            hr(),
     fluidRow(column(4,
-           p("Facility name (ID#)"),
+           p("Facility name"),
            uiOutput('fac_name_UI'),
-           p("Facility address"),
-           uiOutput('address_UI'),
+           p("Facility ID#"),
+           uiOutput('fac_id_UI'),
            p("Coordinates"),
            fluidRow(column(4, p("Lat", style="font-style: italic; margin-left:5px;")),
                     column(5, p("Long", style="font-style: italic; margin-left:5px;"))
@@ -124,8 +135,8 @@ tabPanel("Risks",
          fluidRow(column(12, h3("Risk summary"), hr())), 
          tabsetPanel(
             tabPanel("Total facility", br(),
-                    fluidRow(column(11, h4("Inhalation results")),
-                             column(11, dataTableOutput("total_air_risk_table"), br(), hr()),
+                    fluidRow(column(8, h4("Inhalation results")),
+                             column(8, dataTableOutput("total_air_risk_table"), br(), hr()),
                              column(11, h4("Multi-pathway results")),
                              column(11, dataTableOutput("total_media_risk_table")))
            ),
@@ -138,8 +149,8 @@ tabPanel("Risks",
            ),
            
            tabPanel("Endpoint specific", br(), 
-                    fluidRow(column(11, h4("Inhalation results by health endpoint")),
-                      column(11, dataTableOutput("endpoint_risk_table")))
+                    fluidRow(column(8, h4("Inhalation results by health endpoint")),
+                      column(8, dataTableOutput("endpoint_risk_table")))
            ),
            
            tabPanel("Pollutants of concern", br(),
@@ -169,9 +180,16 @@ tabPanel("Risks",
 
                       tabPanel("References",
                                fluidRow(column(12, h3("References"), hr())),
-                               fluidRow(column(8, h4("Health benchmark hierarchy"))))
-                      ),
+                               fluidRow(column(8, h4("Health benchmark hierarchy")))),
+                     
+                      tabPanel("Tour",
+                               fluidRow(column(12, h3('Tour'), hr(),
+                                               p('View an interactive tour of the Facility Air Screen tool.'),
+                                               tags$button(id = "openTour", style = 'text-align: center;', "Open tour"),
+                                               br()))
+                               )
+         ),
 br(), hr(),
-tags$html("<script>var netAssess = {}</script>")
+tags$script("var netAssess = {}"),
 tags$script(src= "js/tour.js")
 ))
