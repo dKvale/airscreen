@@ -215,6 +215,10 @@ shinyServer(function(input, output, session) {
     
     names(conc.table) <- c("Stack", "Pollutant", "CAS", "hr", "an")
     
+    conc.table <- left_join(conc.table, tox_values[ ,1:2], by="CAS")
+    
+    conc.table <- mutate(conc.table, Pollutant = ifelse(!is.na(`Pollutant.y`), `Pollutant.y`, `Pollutant.x`))
+    
     conc.table <- group_by(conc.table, Pollutant, CAS) %>%
                     summarize("1-hr Max" = sum(hr, na.rm=T),
                               "Annual Max" = sum(an, na.rm=T))

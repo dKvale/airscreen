@@ -10,7 +10,7 @@ file_types <- c('.xlsx', '.xls', '.csv', 'text/.csv', 'text/csv')
 tox_values <- read.csv("data//air_benchmarks.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 endpoints <- read.csv("data//air_endpoints.csv", header=T, stringsAsFactors=F, nrows=400, check.names=F)
 
-endpoints_list <- c('Auditory', 'Blood/ hematological', 'Bone & teeth', 'Cardiovascular', 'Digestive', 'Ethanol specific', 'Eyes', 'Kidney', 'Liver', 'Neurological', 'Reproductive/ developmental / endocrine', 'Respiratory', 'Skin')
+endpoints_list <- c('Auditory', 'Blood/ hematological', 'Bone & teeth', 'Cardiovascular', 'Digestive', 'Ethanol specific', 'Eyes', 'Kidney', 'Liver', 'Neurological', 'Reproductive/ developmental/ endocrine', 'Respiratory', 'Skin')
 endpoints_list <- data.frame("Endpoint" = endpoints_list, stringsAsFactors = F)
 endpoints_list$End_short <- substring(endpoints_list$Endpoint, 1, 4)
 
@@ -53,8 +53,7 @@ write_sheet <- function(wb, sheet, df) {
 }
 
 # Example tables
-ex_emissions <- 
-  data.frame("Stack ID" = rep(c('Stack-1', 'Stack-2'), each = 4),
+ex_emissions <- data.frame("Stack ID" = rep(c('Stack-1', 'Stack-2'), each = 4),
              "Pollutant" = rep(c("Acrolein","Benzene", "Lead", "Diisopropyl Ether"), 2), 
              "CAS" = rep(c("107-02-8","71-43-2", "7439-92-1", "108-20-3"), 2), 
              "1-hr PTE Emissions (lbs/hr)" = c(0.3, 0.02, 0.1, 0.5, 0.4, 0.03, 0.1, 0.5),
