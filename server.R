@@ -10,13 +10,15 @@ library(shiny)
 library(dplyr)
 library(leaflet)
 library(DT)
-library(readxl)
-library(XLConnect)
-library(rCharts)
+require(readxl)
+require(Rcpp)
+require(RCurl)
+require(XML)
+require(XLConnect)
 
 source('global.R')
 
-options(shiny.error=browser)
+#options(shiny.error=browser)
 
 shinyServer(function(input, output, session) {
   
@@ -24,8 +26,6 @@ shinyServer(function(input, output, session) {
   # Facility Map
   ################################
   fac.info <- reactive({
-    
-    req(input$master)
 
     col_names <- c("Facility Name",	"Facility ID#",	"Facility Address",	"Latitude",	"Longitude")
     
@@ -37,8 +37,8 @@ shinyServer(function(input, output, session) {
     textInput('fac_name', label=NULL, placeholder=facility, value=facility)
   })
   
-  output$address_UI <- renderUI({
-    textInput('address', label=NULL, placeholder=address)
+  output$fac_id_UI <- renderUI({
+    textInput('fac_id', label=NULL, placeholder=465221)
   })
   
   output$fac_lat_UI <- renderUI({
@@ -51,12 +51,10 @@ shinyServer(function(input, output, session) {
   
   observeEvent(input$master, {
     updateTextInput(session, 'fac_name', 
-                    value= paste0(as.character(fac.info()[1, 1])[[1]], 
-                                  " (#", as.character(fac.info()[1, 2])[[1]], 
-                                  ")"))
-    updateTextInput(session, 'address', value=fac.info()[1, 3][[1]])
-    updateTextInput(session, 'lat', value=fac.info()[1, 4][[1]])
-    updateTextInput(session, 'long', value=fac.info()[1, 5][[1]])
+                    value= as.character(fac.info()[1, 1])[[1]]) 
+    updateTextInput(session, 'fac_id', value=fac.info()[1, 2][[1]])
+    updateTextInput(session, 'lat', value=fac.info()[1, 3][[1]])
+    updateTextInput(session, 'long', value=fac.info()[1, 4][[1]])
   })
   
   coords.new <- reactive({
@@ -76,11 +74,9 @@ shinyServer(function(input, output, session) {
   
   output$fac_map <- renderLeaflet({
     
-    #invalidateLater(5000)
     xy <- coords.new()
     fac_name <- fac.new()
     
-    #print(input$fac_name)
     #fac <- fac.info()
     
     #mbToken <- ''
@@ -88,6 +84,7 @@ shinyServer(function(input, output, session) {
     #mb2 <- paste0(mbMap, '?access_token=', mbToken)
     
     leaflet() %>% 
+      setView(lat= xy[1,1], lng=xy[1,2], zoom = 14) %>%
       addTiles() %>%
       addMarkers(data=xy, popup=fac_name) %>%
       addCircles(data=xy, weight = 1, fillColor= "orange", color="darkorange",
@@ -124,9 +121,11 @@ shinyServer(function(input, output, session) {
     
     col_names <- c("Stack ID", "1-Hour Max", "Annual Max")
     
-    if(!is.null(input$master)) { return(in.file(input$master, tab=4, n_col=3, col_names)) }
+    disp_input <- data.frame("Stack ID"=NA, "1-Hour Max"=NA, "Annual Max"=NA, check.names=F, stringsAsFactors = F)
     
-    if(!is.null(input$disp_up)) { return(in.file(input$disp_up, tab=1, n_col=3, col_names)) } 
+    if(!is.null(input$master)) { disp_input <- in.file(input$master, tab=4, n_col=3, col_names) }
+    
+    if(!is.null(input$disp_up)) { disp_input <- in.file(input$disp_up, tab=1, n_col=3, col_names) } 
       
     if(!is.null(stack.table())) { 
       
@@ -152,7 +151,13 @@ shinyServer(function(input, output, session) {
                                     disp_facts[disp_facts$"Averaging.Time"=="annual" & disp_facts$"Stack.Height.meters" == nearH, paste0("X", nearD)])
       }
     } else { disp_table <- ex_dispersion }
-      
+    
+    disp_table <- rbind(disp_table, disp_input)  
+    
+    disp_table <- group_by(disp_table,`Stack ID`) %>%
+                  summarize("1-Hour Max"  = min(`1-Hour Max`, na.rm=T),
+                            "Annual Max"  = min(`Annual Max`, na.rm=T))
+    
     return(disp_table[ , 1:3])
   })
   
@@ -397,7 +402,13 @@ shinyServer(function(input, output, session) {
         content = function(file) {
          # fname <- paste(file,"xlsx",sep=".")
           wb <- loadWorkbook(file, create = TRUE)
-          write_sheet(wb, "Facility Info", fac.info())
+          write_sheet(wb, "Facility Info", 
+                      data.frame("Facility Name" = input$fac_name,	
+                                 "Facility ID#"  = input$fac_id,	
+                                 "Latitude" = input$lat,	
+                                 "Longitude" = input$long,
+                                 check.names=F,
+                                 stringsAsFactors=F))
           
           write_sheet(wb, "Stack Parameters", stack.table())
           write_sheet(wb, "Dispersion Factors", disp.table()) 

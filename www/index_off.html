@@ -3,47 +3,44 @@
 <head>
 
 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>  
   <script type="application/shiny-singletons"></script>  
   <script type="application/html-dependencies">json2[2014.02.04];jquery[2.2.1];shiny[0.13.2];font-awesome[4.5.0];htmlwidgets[0.6];leaflet[0.7.3];leafletfix[1.0.0];leaflet-binding[1.0.1];datatables-binding[0.1.55];bootstrap[3.3.5]</script>
- 
+  
   <script src="shared/jquery.js" type="text/javascript"></script>
   <script src="shared/shiny.js" type="text/javascript"></script>
   
   <script src="shared/json2-min.js"></script>
   
   <link href="shared/shiny.css" rel="stylesheet" />
- 
+  
   <link href="shared/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
   <script src="htmlwidgets-0.6/htmlwidgets.js"></script>
   
   <script src="datatables-binding-0.1.55/datatables.js"></script>
-
   
   <link href="shared/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <script src="shared/bootstrap/js/bootstrap.min.js"></script>
   <script src="shared/bootstrap/shim/html5shiv.min.js"></script>
-
-<meta name="viewport" content="width=device-width, initial-scale=1" />
   
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="shared/bootstrap/shim/respond.min.js"></script> 
   <link href="leaflet-0.7.3/leaflet.css" rel="stylesheet" />
   <script src="leaflet-0.7.3/leaflet.js"></script>
   <link href="leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
   <script src="leaflet-binding-1.0.1/leaflet.js"></script>
-    <script src="shared/bootstrap/shim/respond.min.js"></script> 
-  <title>Facility Air Screen</title>
   
+  <title>Facility Air Screen</title>
+
   <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
   
   <link type="text/css" rel="stylesheet" href="css/tour.css" />
   
   <link type="text/css" rel="stylesheet" href="css/fair-screen.css" /> 
   
-
 </head>
- 
-<body>
 
+<body>
   <nav class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -51,19 +48,19 @@
       </div>
       <ul class="nav navbar-nav">
         <li class="active">
-          <a href="#tab-1476-1" data-toggle="tab" data-value="Facility">Facility</a>
+          <a href="#tab-4909-1" data-toggle="tab" data-value="Facility">Facility</a>
         </li>
         <li>
-          <a href="#tab-1476-2" data-toggle="tab" data-value="Dispersion">Dispersion</a>
+          <a href="#tab-4909-2" data-toggle="tab" data-value="Dispersion">Dispersion</a>
         </li>
         <li>
-          <a href="#tab-1476-3" data-toggle="tab" data-value="Emissions">Emissions</a>
+          <a href="#tab-4909-3" data-toggle="tab" data-value="Emissions">Emissions</a>
         </li>
         <li>
-          <a href="#tab-1476-4" data-toggle="tab" data-value="Concentrations">Concentrations</a>
+          <a href="#tab-4909-4" data-toggle="tab" data-value="Concentrations">Concentrations</a>
         </li>
         <li>
-          <a href="#tab-1476-5" data-toggle="tab" data-value="Risks">Risks</a>
+          <a href="#tab-4909-5" data-toggle="tab" data-value="Risks">Risks</a>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -72,49 +69,32 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a href="#tab-9314-1" data-toggle="tab" data-value="Inhalation health benchmarks">Inhalation health benchmarks</a>
+              <a href="#tab-8587-1" data-toggle="tab" data-value="Inhalation health benchmarks">Inhalation health benchmarks</a>
             </li>
             <li>
-              <a href="#tab-9314-2" data-toggle="tab" data-value="Pollutant health endpoints">Pollutant health endpoints</a>
+              <a href="#tab-8587-2" data-toggle="tab" data-value="Pollutant health endpoints">Pollutant health endpoints</a>
             </li>
             <li>
-              <a href="#tab-9314-3" data-toggle="tab" data-value="Multi-pathway risk factors">Multi-pathway risk factors</a>
+              <a href="#tab-8587-3" data-toggle="tab" data-value="Multi-pathway risk factors">Multi-pathway risk factors</a>
             </li>
             <li>
-              <a href="#tab-9314-4" data-toggle="tab" data-value="References">References</a>
+              <a href="#tab-8587-4" data-toggle="tab" data-value="References">References</a>
             </li>
           </ul>
         </li>
         <li>
-          <a href="#tab-1476-7" data-toggle="tab"></a>
+          <a href="#tab-4909-7" data-toggle="tab"></a>
         </li>
         <li>
-          <a href="#tab-1476-8" data-toggle="tab"></a>
+          <a href="#tab-4909-8" data-toggle="tab"></a>
         </li>
       </ul>
     </div>
   </nav>
   <div class="container-fluid">
     <div class="tab-content">
-      <div class="tab-pane active" data-value="Facility" id="tab-1476-1">
+      <div class="tab-pane active" data-value="Facility" id="tab-4909-1">
         <div class="row">
-<!-- TOUR -->
-   <div id = "tour" class = "tour" style = "display: initial;">
-      <div class = "tour-body">
-        <div class = "header">Welcome to Fair Screen!</div>
-        <div class = "content"></div>
-        <div class = "tourCookie">
-          <input type = "checkbox" id = "tourGone" />
-          <label for = "tourGone">Don't show again</label>
-        </div>
-        <button id = "tourNext">Next</button>
-        <div class = "navigation">
-          <a class = "close icon"><i class = "fa fa-close"></i></a>
-        </div>
-      </div>
-      <div class = "tour-arrow-border"></div>
-      <div class = "tour-arrow"></div>
-    </div>  
 <!-- TOUR -->
    <div id = "tour" class = "tour" style = "display: none;">
       <div class = "tour-body">
@@ -186,11 +166,11 @@
           </div>
           <div class="col-sm-6">
             <p>Facility location</p>
-            <div id="fac_map" style="width:100%; height:320px; " class="leaflet html-widget html-widget-output"></div>
+            <div id="fac_map" style="width:90%; height:400;" class="leaflet html-widget-output"></div>
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Dispersion" id="tab-1476-2">
+      <div class="tab-pane" data-value="Dispersion" id="tab-4909-2">
         <div class="row">
           <div class="col-sm-12">
             <h3>Dispersion factors</h3>
@@ -200,14 +180,14 @@
         <div class="tabbable tabs-above">
           <ul class="nav nav-tabs">
             <li class="active">
-              <a href="#tab-7995-1" data-toggle="tab" data-value="Stack parameters">Stack parameters</a>
+              <a href="#tab-6083-1" data-toggle="tab" data-value="Stack parameters">Stack parameters</a>
             </li>
             <li>
-              <a href="#tab-7995-2" data-toggle="tab" data-value="Unit dispersion">Unit dispersion</a>
+              <a href="#tab-6083-2" data-toggle="tab" data-value="Unit dispersion">Unit dispersion</a>
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" data-value="Stack parameters" id="tab-7995-1">
+            <div class="tab-pane active" data-value="Stack parameters" id="tab-6083-1">
               <br/>
               <div class="row">
                 <div class="col-sm-1"></div>
@@ -230,7 +210,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Unit dispersion" id="tab-7995-2">
+            <div class="tab-pane" data-value="Unit dispersion" id="tab-6083-2">
               <br/>
               <div class="row">
                 <div class="col-sm-1"></div>
@@ -257,7 +237,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Emissions" id="tab-1476-3">
+      <div class="tab-pane" data-value="Emissions" id="tab-4909-3">
         <div class="row">
           <div class="col-sm-12">
             <h3>Emissions</h3>
@@ -285,7 +265,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Concentrations" id="tab-1476-4">
+      <div class="tab-pane" data-value="Concentrations" id="tab-4909-4">
         <div class="row">
           <div class="col-sm-12">
             <h3>Maximum air concentrations</h3>
@@ -295,14 +275,14 @@
         <div class="tabbable tabs-above">
           <ul class="nav nav-tabs">
             <li class="active">
-              <a href="#tab-4510-1" data-toggle="tab" data-value="Total facility">Total facility</a>
+              <a href="#tab-8966-1" data-toggle="tab" data-value="Total facility">Total facility</a>
             </li>
             <li>
-              <a href="#tab-4510-2" data-toggle="tab" data-value="Stack specific">Stack specific</a>
+              <a href="#tab-8966-2" data-toggle="tab" data-value="Stack specific">Stack specific</a>
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" data-value="Total facility" id="tab-4510-1">
+            <div class="tab-pane active" data-value="Total facility" id="tab-8966-1">
               <br/>
               <div class="row">
                 <div class="col-sm-1"></div>
@@ -325,7 +305,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Stack specific" id="tab-4510-2">
+            <div class="tab-pane" data-value="Stack specific" id="tab-8966-2">
               <br/>
               <div class="row">
                 <div class="col-sm-9">
@@ -338,7 +318,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Risks" id="tab-1476-5">
+      <div class="tab-pane" data-value="Risks" id="tab-4909-5">
         <div class="row">
           <div class="col-sm-12">
             <h3>Risk summary</h3>
@@ -348,20 +328,20 @@
         <div class="tabbable tabs-above">
           <ul class="nav nav-tabs">
             <li class="active">
-              <a href="#tab-6105-1" data-toggle="tab" data-value="Total facility">Total facility</a>
+              <a href="#tab-2270-1" data-toggle="tab" data-value="Total facility">Total facility</a>
             </li>
             <li>
-              <a href="#tab-6105-2" data-toggle="tab" data-value="Pollutant specific">Pollutant specific</a>
+              <a href="#tab-2270-2" data-toggle="tab" data-value="Pollutant specific">Pollutant specific</a>
             </li>
             <li>
-              <a href="#tab-6105-3" data-toggle="tab" data-value="Endpoint specific">Endpoint specific</a>
+              <a href="#tab-2270-3" data-toggle="tab" data-value="Endpoint specific">Endpoint specific</a>
             </li>
             <li>
-              <a href="#tab-6105-4" data-toggle="tab" data-value="Pollutants of concern">Pollutants of concern</a>
+              <a href="#tab-2270-4" data-toggle="tab" data-value="Pollutants of concern">Pollutants of concern</a>
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" data-value="Total facility" id="tab-6105-1">
+            <div class="tab-pane active" data-value="Total facility" id="tab-2270-1">
               <br/>
               <div class="row">
                 <div class="col-sm-11">
@@ -380,7 +360,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Pollutant specific" id="tab-6105-2">
+            <div class="tab-pane" data-value="Pollutant specific" id="tab-2270-2">
               <br/>
               <div class="row">
                 <div class="col-sm-11">
@@ -395,7 +375,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Endpoint specific" id="tab-6105-3">
+            <div class="tab-pane" data-value="Endpoint specific" id="tab-2270-3">
               <br/>
               <div class="row">
                 <div class="col-sm-11">
@@ -406,7 +386,7 @@
                 </div>
               </div>
             </div>
-            <div class="tab-pane" data-value="Pollutants of concern" id="tab-6105-4">
+            <div class="tab-pane" data-value="Pollutants of concern" id="tab-2270-4">
               <br/>
               <div class="row">
                 <div class="col-sm-8">
@@ -447,7 +427,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Inhalation health benchmarks" id="tab-9314-1">
+      <div class="tab-pane" data-value="Inhalation health benchmarks" id="tab-8587-1">
         <div class="row">
           <div class="col-sm-12">
             <h3>Health benchmarks</h3>
@@ -460,7 +440,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Pollutant health endpoints" id="tab-9314-2">
+      <div class="tab-pane" data-value="Pollutant health endpoints" id="tab-8587-2">
         <div class="row">
           <div class="col-sm-12">
             <h3>Health endpoints</h3>
@@ -473,7 +453,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="Multi-pathway risk factors" id="tab-9314-3">
+      <div class="tab-pane" data-value="Multi-pathway risk factors" id="tab-8587-3">
         <div class="row">
           <div class="col-sm-12">
             <h3>Multi-pathway risk factors</h3>
@@ -486,7 +466,7 @@
           </div>
         </div>
       </div>
-      <div class="tab-pane" data-value="References" id="tab-9314-4">
+      <div class="tab-pane" data-value="References" id="tab-8587-4">
         <div class="row">
           <div class="col-sm-12">
             <h3>References</h3>
@@ -499,13 +479,13 @@
           </div>
         </div>
       </div>
-      <br id="tab-1476-7"/>
-      <hr id="tab-1476-8"/>
+      <br id="tab-4909-7"/>
+      <hr id="tab-4909-8"/>
     </div>
   </div>
-</body>
 
-<script>var netAssess = {}</script>
+</body>
+  <script>var netAssess = {}</script>
 <script src = "js/tour.js"></script>
 
 </html>

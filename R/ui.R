@@ -1,6 +1,10 @@
 # This is the user-interface of the Facilty emissions web application.
 library(shiny)
+library(dplyr)
 library(leaflet)
+library(DT)
+library(readxl)
+library(XLConnect)
 
 shinyUI(navbarPage("Facility Air Screen", 
                    theme = 'css/fair-screen.css',
@@ -37,7 +41,7 @@ tabPanel("Facility",
            ),
     column(6,
            p("Facility location"),
-           leafletOutput('fac_map', height=320))
+           leafletOutput('fac_map'))
     )
 ),
                                       
@@ -167,5 +171,7 @@ tabPanel("Risks",
                                fluidRow(column(12, h3("References"), hr())),
                                fluidRow(column(8, h4("Health benchmark hierarchy"))))
                       ),
-br(), hr()
+br(), hr(),
+tags$html("<script>var netAssess = {}</script>")
+tags$script(src= "js/tour.js")
 ))

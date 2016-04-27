@@ -1,95 +1,93 @@
 # This is the user-interface of the Facilty emissions web application.
 library(shiny)
 library(leaflet)
-
-helper_text <-  "Select an Excel file (.xlsx) or comma separated text file (.csv)"
-
-file_types <- c('.xlsx', '.xls', '.csv', 'text/.csv', 'text/csv')
+library(DT)
 
 shinyUI(navbarPage("Facility Air Screen", 
-                   theme = "css/fairscreen.css", 
+                   theme = 'css/fair-screen.css',
+                  
 
-tabPanel("Welcome",
-        fluidRow(column(12, h3("Welcome!"), hr()), id="welcome"),
-        fluidRow(column(8, h3("Upload inputs"), hr(),
-         p("Use the window below to upload a facility's inputs as
-           a multi-tabbed Excel file. For a template file is available here: ", 
-           a("fair-screen input template.xlsx", 
-             href="data/Fair screen input template (MPCA).xlsx", 
-             style="color: #2A5DB0; font-style: italic;")))),
-        fluidRow(column(1), 
-                 column(6, 
-                        p("Select a multi-tab Excel (.xlsx) file.", class='upload_text'),    
-                        div(fileInput("inputs_up", label=NULL, width="400px", accept=c('.xlsx')), 
-                            style="margin-bottom:-15px;"),
-                        class = 'upload_box')),
-        br(),
-        fluidRow(column(8, h3("Save results"), hr(),
-        p("Save the facility's risk screening results as an Excel file 
-          to be included with the modeling protocol submission."))),
-        fluidRow(column(1), 
-                 column(6, 
-                        p('Download the risk summary file.', class='upload_text'),
-                        #textInput('Fname', label=NULL,  placeholder='"Risk Summary 2016-04-22.xlsx"'),
-                        downloadButton("download_inputs", 
+tabPanel("Facility", tags$head(
+  tags$link(rel = "stylesheet", type = "text/css", href = "css/font-awesome.min.css"),
+  tags$link(rel = "stylesheet", type = "text/css", href = "css/tour.css")),
+    
+  fluidRow(column(12, h3("Facility information"), hr())),
+    
+  div(id = "tour", class = "tour", style = "display: none;",
+    div(class = "tour-body",
+    div(class = "header", "Welcome to Fair Screen!"),
+    div(class = "content"),
+    div(class = "tourCookie",
+    tags$input(type = "checkbox", id = "tourGone"),
+    tags$label("Don't show again")),
+    tags$button(id = "tourNext", "Next"),
+    div(class = "navigation"),
+    a(class = "close icon", tags$i(class = "fa fa-close"))),
+    div(class = "tour-arrow-border"),
+    div(class = "tour-arrow")),
+         
+    fluidRow(column(4, 
+                    h4("Upload inputs"), 
+                    div(fileInput("master", label=NULL, width="220px", accept=c('.xlsx')),  id="file_central"),
+                    style="margin-top:-5px;"),
+             column(4,
+                    h4("Save results"),
+                    div(downloadButton("download_inputs", 
                                        label = "Download risk summary", 
-                                       class="down_btn"), 
-                        class = 'upload_box'))
-        ),
-        
-tabPanel("Facility",
-    fluidRow(column(12, h3("Facility information"), hr())),
+                                       class="down_btn")),
+                    style="margin-top:-5px;")),
+           hr(),
     fluidRow(column(4,
-           p("Facility name (ID#)"),
+           p("Facility name"),
            uiOutput('fac_name_UI'),
-           p("Facility address"),
-           uiOutput('address_UI'),
+           p("Facility ID#"),
+           uiOutput('fac_id_UI'),
            p("Coordinates"),
-           fluidRow(column(1), 
-                    column(4, p("Lat", style="font-style: italic;")),
-                    column(4, p("Long", style="font-style: italic;"))
+           fluidRow(column(4, p("Lat", style="font-style: italic; margin-left:5px;")),
+                    column(5, p("Long", style="font-style: italic; margin-left:5px;"))
                     ),
-           fluidRow(column(1),
-                    column(4, uiOutput('fac_lat_UI'), style="margin-left:-35px;"),
-                    column(4, uiOutput('fac_long_UI'), style="margin-left:0;")
-                    ),
-           br()),
+           fluidRow(column(4, uiOutput('fac_lat_UI'), style="margin-left:0;"),
+                    column(5, uiOutput('fac_long_UI'), style="margin-left:0;")
+                    )
+           ),
     column(6,
            p("Facility location"),
-           leafletOutput("fac_map")))
+           leafletOutput('fac_map'))
+    )
 ),
                                       
-tabPanel("Dispersion", 
+tabPanel("Dispersion", id='tour2',
          fluidRow(column(12, h3("Dispersion factors"), hr())),
          tabsetPanel(
          tabPanel("Stack parameters", br(),
          fluidRow(column(1), 
                   column(7, 
-                         p("Upload stack height and fenceline distance.", class='upload_text'),    
+                         p("Upload stack height and fenceline distance in meters.", class='upload_text'),    
                          fileInput("stack_up", 
                                    label=NULL, 
                                    accept=file_types), 
                          p(helper_text, class = "help_text"),
                          class = 'upload_box')),
-         fluidRow(column(8, 
-                  p("Select units", style="margin-top:8px;"), 
-                  selectizeInput('st_units', label=NULL, choices=c("Feet", "Meters"), selected="Feet"))),
+         
          fluidRow(column(11, h4("Stack parameters"),
+                         p("All lengths in meters.", class='subtitle'),
          dataTableOutput('stack_table')))
 ),
         tabPanel("Unit dispersion", br(),
           fluidRow(column(1), 
                    column(7, 
-                          p("Upload unit dispersion factors. If left blank, default dispersion 
-                             factors are generated based on each stack's height and fenceline 
+                          p("Upload unit dispersion factors. When left blank dispersion 
+                             factors will be generated based on each stack's height and fenceline 
                              distance.", class='upload_text'),    
                           fileInput("disp_up", 
-                                    label=NULL, 
+                                    label=NULL,
                                     accept=file_types), 
                           p(helper_text, class = "help_text"),
                           class = 'upload_box')),
-          fluidRow(column(11, h4("Unit dispersion factors"),
-                   dataTableOutput("disp_table")))
+          fluidRow(column(11, 
+                          h4("Unit dispersion factors"),
+                          dataTableOutput("disp_table"))
+                   )
           ))
 ),
 
@@ -98,19 +96,20 @@ tabPanel("Emissions",
          fluidRow(column(1),
                   column(7, 
                          p("Upload potential 1-hour emissions in lbs/hr and annual emission in tons/yr. 
-                            Assume worst-case conditions for 1-hr emissions and
-                           maximum operating capacity for annual emissions.", 
+                           Assume worst-case conditions and maximum operating capacity.", 
                            class="upload_text"), 
                          fileInput("emissions_up", 
                                    label=NULL, 
                                    accept=file_types), 
                          p(helper_text, class = "help_text"),
                          class='upload_box')),
-         fluidRow(column(11, h4("Potential emissions by source"),
-                dataTableOutput("emissions_table")))
+         fluidRow(column(11, 
+                         h4("Potential emissions by source"),
+                         dataTableOutput("emissions_table"))
+                  )
 ),
 
-tabPanel("Air concentrations",          
+tabPanel("Concentrations",          
          fluidRow(column(12, h3("Maximum air concentrations"), hr())),
          tabsetPanel(
            tabPanel("Total facility", br(), 
@@ -128,11 +127,11 @@ tabPanel("Air concentrations",
            tabPanel("Stack specific", br(),
              fluidRow(column(9, h4("Stack specific air concentrations"),
                     p("All concentrations shown in (ug/m3).", class='subtitle'),
-                    div(dataTableOutput("st_conc_table"), style="font-size:80%"))))
+                      dataTableOutput("st_conc_table"))))
            )
 ),
 
-tabPanel("Risk summary", 
+tabPanel("Risks", 
          fluidRow(column(12, h3("Risk summary"), hr())), 
          tabsetPanel(
             tabPanel("Total facility", br(),
@@ -144,12 +143,14 @@ tabPanel("Risk summary",
            
            tabPanel("Pollutant specific", br(), 
                     fluidRow(column(11, h4("Inhalation and multi-pathway results")),
-                             column(11, dataTableOutput("pollutant_risk_table"), br(), hr()))
+                             column(11, div(dataTableOutput("pollutant_risk_table"), 
+                                            style="font-size:86%;"),
+                                    br(), hr()))
            ),
            
-           tabPanel("Risk by health endpoint", br(), 
+           tabPanel("Endpoint specific", br(), 
                     fluidRow(column(11, h4("Inhalation results by health endpoint")),
-                             column(11, dataTableOutput("endpoint_risk_table")))
+                      column(11, dataTableOutput("endpoint_risk_table")))
            ),
            
            tabPanel("Pollutants of concern", br(),
@@ -169,17 +170,26 @@ tabPanel("Risk summary",
                                fluidRow(column(12, h3("Health benchmarks"), hr())),
                                fluidRow(column(11, dataTableOutput("tox_table")))),
                                
-                      tabPanel("Pollutant endpoints",
-                               fluidRow(column(12, h3("Pollutant health endpoints"), hr())),
-                               fluidRow(column(11,dataTableOutput("endpoints")))),
+                      tabPanel("Pollutant health endpoints",
+                               fluidRow(column(12, h3("Health endpoints"), hr())),
+                               fluidRow(column(11, dataTableOutput("endpoints")))),
                       
                       tabPanel("Multi-pathway risk factors",
-                               fluidRow(column(12, h3("Pollutant multi-pathway risk factors"), hr())),
+                               fluidRow(column(12, h3("Multi-pathway risk factors"), hr())),
                                fluidRow(column(11, dataTableOutput("mpsf")))),
 
                       tabPanel("References",
                                fluidRow(column(12, h3("References"), hr())),
-                               fluidRow(column(8, h4("Health benchmark hierarchy"))))
-                      ),
-br(), hr())      
-)
+                               fluidRow(column(8, h4("Health benchmark hierarchy")))),
+                     
+                      tabPanel("Tour",
+                               fluidRow(column(12, h3('Tour'), hr(),
+                                               p('View an interactive tour of the app'),
+                                               tags$button(id = "openTour", style = 'text-align: center;', "Open tour"),
+                                               br()))
+                               )
+         ),
+br(), hr(),
+tags$script("var netAssess = {}"),
+tags$script(src= "js/tour.js")
+))

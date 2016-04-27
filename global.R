@@ -1,7 +1,5 @@
-library(dplyr)
-library(readxl)
 
-version <- "4/14/2016"
+version <- "2016.05.01"
 
 cancer_guideline <- 1e-05
 
@@ -26,8 +24,8 @@ risk_table_names <- c("Pollutant", "CAS", "Acute 1-hr Hazard Quotient (Air)", "L
 coords <- read.csv(textConnection("lat,long
                                    46.29015, -96.063"))
 
-facility <- "Example Facility (#123456)"
-address <- "431 Broom St. West, Murphy Town MN 55290"
+facility <- "Example Facility 44"
+#address <- "431 Broom ST W., Murphy Town MN 55290"
 
 in.file <- function(conn, tab=1, n_col, col_names) {
   
