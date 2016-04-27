@@ -91,7 +91,7 @@ html {
   margin-left:27px;
   margin-top:0px;
 }
-.hr { margin-top: 0px;}
+
 
 .help_text {
   margin-top: -22px; margin-left:1px; padding-top:0; padding-bottom:5px; font-style: italic;
@@ -122,3 +122,10 @@ hr {
   margin-top:8px;
   margin-bottom:10px;
 }
+
+a:focus {
+  outline: 0;
+  border-width: 0;
+}
+
+
