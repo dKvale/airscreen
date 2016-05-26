@@ -53,8 +53,8 @@ shinyServer(function(input, output, session) {
     updateTextInput(session, 'fac_name', 
                     value= as.character(fac.info()[1, 1])[[1]]) 
     updateTextInput(session, 'fac_id', value=fac.info()[1, 2][[1]])
-    updateTextInput(session, 'lat', value=fac.info()[1, 3][[1]])
-    updateTextInput(session, 'long', value=fac.info()[1, 4][[1]])
+    updateTextInput(session, 'lat', value=fac.info()[1, 4][[1]])
+    updateTextInput(session, 'long', value=fac.info()[1, 5][[1]])
   })
   
   coords.new <- reactive({
@@ -177,7 +177,7 @@ shinyServer(function(input, output, session) {
     ex_emissions
   })
   
-  output$emissions_table <- DT::renderDataTable(em.table(), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
+  output$emissions_table <- DT::renderDataTable(filter(em.table(), !is.na(CAS)), options=list(searching=F, paging=F, scrollX=F), rownames = FALSE)
   
   #######################
   # Concentration tables
@@ -185,6 +185,8 @@ shinyServer(function(input, output, session) {
   st.conc.table <- reactive({
     
     st.conc.table <- left_join(em.table(), disp.table())
+    
+    st.conc.table <- filter(st.conc.table, !is.na(CAS))
     
     names(st.conc.table) <- c("Stack", "Pollutant", "CAS", "hr_PTE", "an_PTE", "hr_disp", "an_disp")
     
