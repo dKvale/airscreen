@@ -182,12 +182,17 @@ tabPanel("Risks",
                                fluidRow(column(12, h3("References"), hr())),
                                fluidRow(column(8, h4("Health benchmark hierarchy")))),
                      
-                      tabPanel("Tour",
-                               fluidRow(column(12, h3('Tour'), hr(),
+                      tabPanel("Help",
+                               fluidRow(column(12, h3('Help'), hr())),
+                               fluidRow(column(8, h4('Tour'), hr(),
                                                p('View an interactive tour of the Facility Air Screen tool.'),
                                                tags$button(id = "openTour", style = 'text-align: center;', "Open tour"),
-                                               br()))
-                               )
+                                               br())), br(),
+                               fluidRow(column(7, h4('Input templates'), hr())),
+                               fluidRow(column(7,
+  a(href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx', class='btn', id='templates', target='_blank',
+  tags$i(class='fa fa-download'), 'Download template file'), id='upload_box'))
+                      )
          ),
 br(), hr(),
 tags$script("var netAssess = {}"),
