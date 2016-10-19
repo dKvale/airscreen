@@ -1,0 +1,223 @@
+---
+title: "EPA Region 5 ambient air toxicity values"
+output: 
+  html_document: 
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
+    highlight: tango
+    theme: readable
+
+---
+  
+<style type="text/css">
+  body, td {font-size: 18px;}
+  code.r{font-size: 18px;}
+  pre {font-size: 18px} 
+</style>
+  
+
+# Overview
+
+## Table attributes
+
+`Pollutant`    _The pollutant's common name. If more than one, use the first alphabetically._  
+`CAS`          _The pollutant's unique ID assigned by the Chemical Abstract Service._  
+`Mol_Wt`       _Molecular weight._  
+`Acute_1hour_Benchmark`       _The pollutant's 1 hour concentration below which adverse health effects are not expected. Units of ug/m3._  
+`Noncancer_Benchmark_Annual`       _The pollutant's annual concentration below which adverse health effects are not expected. Units of ug/m3._   
+`Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000`       _The pollutant's annual concentration below which the additional cancer risk from a lifetime exposure is expected to be below 1 in 100,000. Units of ug/m3._   
+
+
+# Load EPA and Region V state risk databases
+```{r warning=F, message=F}
+
+col_names <- c("Pollutant", "CAS", "Acute_1hour_Benchmark", "Noncancer_Benchmark_Annual", "Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000")
+
+```
+
+## EPA NATA risk values
+
+NATA documentation available here - https://www.epa.gov/national-air-toxics-assessment/2011-nata-technical-support-document
+
+```{r warning=F, message=F, results = 'hide'}
+library(readxl)
+library(tidyverse)
+
+# Load
+nata <- read_excel("..\\data\\Risk_values\\NATA_Pollutants_AppendixB_AppendixC.xlsx")
+```
+
+```{r warning=F, message=F}
+# Add blank acute column
+nata$Acute <- NA
+
+# Select columns
+names(nata)
+
+nata <- nata[ , c(23,10,44,27,26)]
+
+# Name columns
+names(nata) <- col_names
+
+# Clean CAS #'s
+nata$CAS <- gsub("-", "", nata$CAS)
+
+nata[grepl("Diesel", nata$Pollutant), ]$CAS <- "MDPM25"
+
+# Convert cancer risk to benchmark concentration
+nata$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 <- ifelse(nata$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 > 0, 1E-05 / nata$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000, NA)
+
+# Convert non-cancer reference concentrations (RFCs) to ug/m3
+nata$Noncancer_Benchmark_Annual <- 1000 * nata$Noncancer_Benchmark_Annual
+
+nata$State <- "EPA"
+
+```
+
+
+## Wisconsin risk values
+
+Documentation available here - http://dnr.wi.gov/topic/airquality/toxics.html
+
+```{r warning=F, message=F, results = 'hide'}
+# Load
+df <- read_excel("..\\data\\Risk_values\\Wisconsin_CombinedNR445RevTables.xls", skip = 1)
+```
+
+
+```{r warning=F, message=F}
+# Select columns
+names(df)
+
+df <- df[ , c(3,4,31,63,57)]
+
+# Name columns
+names(df) <- col_names
+
+# Clean CAS #'s
+df$CAS <- gsub("-", "", df$CAS)
+
+#df[grepl("Diesel", df$Pollutant), ]$CAS <- "MDPM25"
+
+# Convert cancer risk to benchmark concentration
+df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 <- ifelse(df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 > 0, 1E-05 / df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000, NA)
+
+# Convert non-cancer reference concentrations (RFCs) to ug/m3
+#df$Noncancer_Benchmark_Annual <- 1000 * df$Noncancer_Benchmark_Annual
+df$State <- "Wisconsin"
+
+wisc <- df
+
+```
+
+
+
+
+
+## Michigan risk values
+
+Documentation available here - http://www.deq.state.mi.us/itslirsl/
+
+```{r warning=F, message=F, results = 'hide'}
+
+# Load
+df <- read_excel("..\\data\\Risk_values\\Mich-aqd-toxics-xcelitsl.xls")
+```
+
+```{r warning=F, message=F}
+# Split acute and long-term noncancer columns
+df <- df %>% mutate(Acute = ifelse(AQD_Averaging_Time == "1 hr", AQD_ITSL, NA))
+df <- df %>% mutate(Acute = ifelse(AQD_Secondary_ITSL_Averaging_Time == "1 hr", AQD_Secondary_ITSL, Acute))
+
+df <- df %>% mutate(Noncancer = ifelse(AQD_Averaging_Time == "annual", AQD_ITSL, NA))
+df <- df %>% mutate(Noncancer = ifelse(AQD_Secondary_ITSL_Averaging_Time == "annual", AQD_Secondary_ITSL, Noncancer))
+
+
+# Select columns
+names(df)
+
+df <- df[ , c(3,2,19,20,14)]
+
+# Name columns
+names(df) <- col_names
+
+# Clean CAS #'s
+df$CAS <- gsub("-", "", df$CAS)
+
+#df[grepl("Diesel", df$Pollutant), ]$CAS <- "MDPM25"
+
+df <- filter(df, CAS != 0)
+
+
+# Convert cancer risk to 1 in 100,000 benchmark concentration
+df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 <- ifelse(df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 > 0, 10 * df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000, NA)
+
+# Convert non-cancer reference concentrations (RFCs) to ug/m3
+# df$Noncancer_Benchmark_Annual <- 1000 * df$Noncancer_Benchmark_Annual
+
+df$State <- "Michigan"
+
+mich <- df
+
+```
+
+
+## Indiana risk values
+
+Documentation available here - http://www.in.gov/idem/toxic/2343.htm
+
+```{r warning=F, message=F, results = 'hide'}
+
+# Load
+df <- read_excel("..\\data\\Risk_values\\Indiana_Air_Toxics_Toxicity.xlsx")
+```
+
+```{r warning=F, message=F}
+# Add blank acute column
+df$Acute <- NA
+
+# Select columns
+names(df)
+
+df <- df[ , c(1,2,7,5,3)]
+
+# Name columns
+names(df) <- col_names
+
+# Clean CAS #'s
+df$CAS <- gsub("-", "", df$CAS)
+
+#df[grepl("Diesel", df$Pollutant), ]$CAS <- "MDPM25"
+
+# Convert cancer risk to benchmark concentration
+df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 <- ifelse(df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 > 0, 1E-05 / df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000, NA)
+
+# Convert non-cancer reference concentrations (RFCs) to ug/m3
+#df$Noncancer_Benchmark_Annual <- 1000 * df$Noncancer_Benchmark_Annual
+
+df$State <- "Indiana"
+
+ind <- df
+
+```
+
+
+## Combine risk tables
+```{r warning=F, message=F}
+
+# Combine
+risks <- rbind(wisc[ ,1:6], mich[ ,1:6], nata[ ,1:6], ind[,1:6])
+
+# Add units
+risks$Units <- "ug/m3"
+
+```
+
+
+
+
+
+
