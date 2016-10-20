@@ -7,6 +7,7 @@ Notable changes to this project are documented in this file.
 
 ### Fixed
 - Benzo(k)fluoranthene CAS# changed to 207-08-9
+- Furfural CAS# changed to 98-0-11
 
 ## 0.0.1  ::  2016-02-09
 ### Added
