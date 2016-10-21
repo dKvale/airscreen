@@ -6,11 +6,12 @@ Notable changes to this project are documented in this file.
 - Toxicity values for EPA Region 5 states
 
 ### Fixed
-- Benzo(k)fluoranthene CAS# changed to 207-08-9  
-- Furfural CAS# changed to 98-01-1  
-- Formic Acid CAS# changed to 64-18-6
-- Ethylene dibromide (Dibromoethane) changed to Ethylene dibromide (1,2-Dibromoethane)
-- Methylene Bromide CAS# 74-95-3 changed to Dibromomethane (Methylene Bromide) CAS# 74-95-3
+- Benzo(k)fluoranthene CAS# changed to _207-08-9_  
+- Furfural CAS# changed to _98-01-1_  
+- Formic Acid CAS# changed to _64-18-6_
+- Ethylene dibromide (Dibromoethane) changed to _Ethylene dibromide (1,2-Dibromoethane)_
+- Methylene Bromide CAS# 74-95-3 changed to _Dibromomethane (Methylene Bromide) CAS# 74-95-3_
+- Diesel exhaust CAS# changed to _MDPM25_
 
 ## 0.0.1  ::  2016-02-09
 ### Added
