@@ -33,9 +33,7 @@ output:
 
 # Load EPA and Region V state risk databases
 ```{r warning=F, message=F}
-
 col_names <- c("Pollutant", "CAS", "Acute_1hour_Benchmark", "Noncancer_Benchmark_Annual", "Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000")
-
 ```
 
 ## EPA NATA risk values
@@ -45,6 +43,7 @@ NATA documentation available here - https://www.epa.gov/national-air-toxics-asse
 ```{r warning=F, message=F, results = 'hide'}
 library(readxl)
 library(tidyverse)
+library(ggplot2)
 
 # Load
 nata <- read_excel("..\\data\\Risk_values\\NATA_Pollutants_AppendixB_AppendixC.xlsx")
@@ -114,9 +113,6 @@ wisc <- df
 ```
 
 
-
-
-
 ## Michigan risk values
 
 Documentation available here - http://www.deq.state.mi.us/itslirsl/
@@ -128,35 +124,38 @@ df <- read_excel("..\\data\\Risk_values\\Mich-aqd-toxics-xcelitsl.xls")
 ```
 
 ```{r warning=F, message=F}
-# Split acute and long-term noncancer columns
-df <- df %>% mutate(Acute = ifelse(AQD_Averaging_Time == "1 hr", AQD_ITSL, NA))
-df <- df %>% mutate(Acute = ifelse(AQD_Secondary_ITSL_Averaging_Time == "1 hr", AQD_Secondary_ITSL, Acute))
+# Filter missing
+df <- filter(df, !is.na(CAS_Number), CAS_Number != 0)
 
-df <- df %>% mutate(Noncancer = ifelse(AQD_Averaging_Time == "annual", AQD_ITSL, NA))
-df <- df %>% mutate(Noncancer = ifelse(AQD_Secondary_ITSL_Averaging_Time == "annual", AQD_Secondary_ITSL, Noncancer))
+# Split acute and long-term noncancer columns
+df <- df %>% group_by(CAS_Number) %>% mutate(Acute = (AQD_Averaging_Time == "1 hr") * AQD_ITSL)
+
+df <- df %>% group_by(CAS_Number) %>% mutate(Acute2 = (AQD_Secondary_ITSL_Averaging_Time == "1 hr") * AQD_Secondary_ITSL)
+
+df <- df %>% group_by(CAS_Number) %>% mutate(Acute = max(c(Acute, Acute2, 0), na.rm=T))
+
+df <- df %>% group_by(CAS_Number) %>% mutate(Noncancer = (AQD_Averaging_Time == "annual") * AQD_ITSL)
+
+df <- df %>% group_by(CAS_Number) %>% mutate(Noncancer2 = (AQD_Secondary_ITSL_Averaging_Time == "annual") * AQD_Secondary_ITSL)
+
+df <- df %>% group_by(CAS_Number) %>% mutate(Noncancer = max(c(Noncancer, Noncancer2, 0), na.rm=T))
 
 
 # Select columns
 names(df)
 
-df <- df[ , c(3,2,19,20,14)]
+df <- df[ , c(3,2,19,21,14)]
 
 # Name columns
 names(df) <- col_names
 
 # Clean CAS #'s
 df$CAS <- gsub("-", "", df$CAS)
-
-#df[grepl("Diesel", df$Pollutant), ]$CAS <- "MDPM25"
-
-df <- filter(df, CAS != 0)
+df[grepl("diesel", df$Pollutant), ]$CAS <- "MDPM25"
 
 
 # Convert cancer risk to 1 in 100,000 benchmark concentration
 df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 <- ifelse(df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 > 0, 10 * df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000, NA)
-
-# Convert non-cancer reference concentrations (RFCs) to ug/m3
-# df$Noncancer_Benchmark_Annual <- 1000 * df$Noncancer_Benchmark_Annual
 
 df$State <- "Michigan"
 
@@ -189,35 +188,109 @@ names(df) <- col_names
 
 # Clean CAS #'s
 df$CAS <- gsub("-", "", df$CAS)
-
-#df[grepl("Diesel", df$Pollutant), ]$CAS <- "MDPM25"
+df[grepl("Diesel", df$Pollutant), ]$CAS <- "MDPM25"
 
 # Convert cancer risk to benchmark concentration
 df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 <- ifelse(df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000 > 0, 1E-05 / df$Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000, NA)
 
-# Convert non-cancer reference concentrations (RFCs) to ug/m3
-#df$Noncancer_Benchmark_Annual <- 1000 * df$Noncancer_Benchmark_Annual
 
 df$State <- "Indiana"
 
-ind <- df
+ind <- data.frame(df, stringsAsFactors = FALSE)
 
 ```
 
 
-## Combine risk tables
+
+## Load Minnesota risk values
+
+Documentation available here - https://www.pca.state.mn.us/air/air-emissions-risk-analysis-aera-rass-and-qchi-spreadsheets  
+
+
+```{r warning=F, message=F}
+minn <- read.csv("..\\data\\air_benchmarks.csv", check.names = F, stringsAsFactors = F)
+
+minn <- minn[ , c(2,1,3,5,6)]
+
+# Save column names
+minn_names <- names(minn)
+
+# Update column names to join with other states
+names(minn) <- col_names
+
+# Clean CAS #'s
+minn[grepl("Diesel", minn$Pollutant), ]$CAS <- "MDPM25"
+
+minn$CAS2 <- minn$CAS
+
+minn$CAS <- gsub("-", "", minn$CAS)
+
+# Assign state
+minn$State <- "Minnesota"
+
+```
+
+# Combine risk tables
+
 ```{r warning=F, message=F}
 
 # Combine
 risks <- rbind(wisc[ ,1:6], mich[ ,1:6], nata[ ,1:6], ind[,1:6])
 
+# Missing pollutants
+risks_miss <- filter(risks, !CAS %in% minn$CAS)
+
+# Filter to Minnesota pollutants
+risks <- filter(risks, CAS %in% minn$CAS)
+
+# Add Minnesota
+#minn <- filter(minn, CAS %in% risks$CAS)
+risks <- rbind(risks, minn[ , c(1:5, 7)])
+
+risks <- left_join(risks, minn[ , c("CAS", "CAS2")]) 
+
+risks$CAS  <- risks$CAS2
+
+risks$CAS2 <- NULL
+
+# Count number of states with risk values
+risks <- risks %>% group_by(CAS) %>% mutate(count = n())
+
+# Updata column names to align with web application
+names(risks)[1:5] <- minn_names
+
 # Add units
-risks$Units <- "ug/m3"
+#risks$Units <- "ug/m3"
+
+# SAVE table
+write.csv(risks[ , 1:6], "..//data//air_benchmarks_region5.csv")
 
 ```
 
 
+# Plot comparisons
+```{r warning=F, message=F}
 
+compare_pol <- c("50-00-0", "106-99-0", "7440-02-0", "MDPM25", "107-02-8")
+
+# Remove pollutants measured by only one state
+risks <- filter(risks, count > 2)  
+
+# Plot risk values by state
+for(i in compare_pol) {
+  df <- filter(risks, CAS == i)
+  
+  p <- ggplot(df, aes(State, `Chronic Non-cancer Reference Conc (ug/m3)`)) + geom_bar(stat="identity") + labs(title= paste(df$Pollutant[1], "Noncancer threshold"), subtitle=i)
+  
+  print(p)
+  
+   p <- ggplot(df, aes(State, `Chronic cancer risk of 1E-5 Air Conc (ug/m3)`)) + geom_bar(stat="identity") + labs(title= paste(df$Pollutant[1], "Cancer benchmark"), subtitle=i)
+  
+  print(p)
+
+}
+                          
+```
 
 
 

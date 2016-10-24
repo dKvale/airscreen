@@ -192,7 +192,12 @@ tabPanel("Risks",
                                fluidRow(column(7,
   a(href='https://github.com/dKvale/fair-screen/raw/master/data/Fair screen input template (MPCA).xlsx', class='btn', id='templates', target='_blank',
   tags$i(class='fa fa-download'), 'Download template file'), id='upload_box'))
-                      )
+                      ),
+                      tabPanel("Air toxics review",
+                               fluidRow(column(12, tags$iframe(src="http://www.google.com/", style="width: 100%; heigt: 900px; overflow: visible;",  frameborder="1")))),
+                      tabPanel("Region 5 toxicity values",
+                               fluidRow(column(12, tags$iframe(src="R//Combine_risk_databases.html", style="width:100%;",  frameborder="1"))))
+  
          ),
 br(), hr(),
 tags$script("var netAssess = {}"),

@@ -1,0 +1,403 @@
+---
+title: "Maximum Criteria Emissions vs. Air Toxics"
+subtitle: "Minnesota Facilities"
+output: 
+  html_document: 
+    fig_width: 15
+    fig_height: 9
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 3
+    code_folding: hide
+    highlight: tango
+    theme: readable
+---
+  
+<style type="text/css">
+  body, td {font-size: 18px;}
+  code.r{font-size: 18px;}
+  pre {font-size: 18px} 
+</style>
+  
+ 
+```{r warning=F, message=F, echo=F, results = 'hide'}
+library(tidyverse)
+library(viridis)
+
+# Load potential Facility emissions from tempo
+fac <- read_csv("..//Emissions//Facility criteria emissions.csv")
+
+fac <- fill(fac, Facility)
+
+# Find maximum criteria emissions
+fac2 <- fac %>% 
+       group_by(Facility) %>% 
+       summarize(max_crit = max(`Potential Emis Rate (lbs/hr)`, na.rm=T)) %>%
+       arrange(max_crit) %>%
+       mutate(id = 1:n())
+
+
+fac2$max_crit <- ifelse(is.na(fac2$max_crit), 0, fac2$max_crit)
+fac2$max_crit <- ifelse(fac2$max_crit > 249.9, 250, fac2$max_crit)
+
+# Plot
+#ggplot(fac2, aes(id, max_crit)) + geom_bar(stat="identity", aes(fill=max_crit > 249.9))
+
+
+# Find maximum criteria emissions
+fac <- fac %>% 
+       group_by(Facility) %>% 
+       summarize(max_crit = max(`Limited Emis Rate (tons/yr)`, na.rm=T)) %>%
+       arrange(max_crit) %>%
+       mutate(id = 1:n(),
+              max_crit = ifelse(is.na(max_crit), 0, max_crit))
+
+
+# Plot PTEs
+#ggplot(fac, aes(id, max_crit)) + geom_bar(stat="identity")
+
+fac <- mutate(fac, 
+              max_value = max_crit,
+              max_crit = ifelse(max_crit > 249.9, 250, max_crit))
+
+p <- ggplot(fac, aes(id, max_crit)) + 
+     geom_bar(stat="identity", aes(fill = max_crit > 249.9)) + 
+     scale_fill_manual(values=c("steelblue", viridis(5)[2]), 
+                       name="> 250 Tons")
+
+
+# Load actual Facility emissions from CEDR
+fac_act      <- read_csv("M:\\MNRiskS 2011 development\\Send to Lakes\\Emissions\\Facility Point Emissions for LAKES_v3.csv")
+
+allocated_pt <- read_csv("M:\\MNRiskS 2011 development\\Send to Lakes\\Emissions\\Allocated Point Emissions for LAKES.csv")
+
+allocated_pt <- allocated_pt[ , names(fac_act)]
+
+fac_act      <- rbind(fac_act, allocated_pt)
+
+fac_names  <- read_csv("M:\\Emissions\\2011 Emissions\\Point Sources\\Stack Parameters\\Release Pts Params & Coordinates\\Release point coordinates and parameters.csv")
+names(fac_names)[1] <- "SOURCE_ID"
+
+fac_names2 <- read_csv("M:\\MNRiskS 2011 development\\Send to Lakes\\Source Params\\Facilities\\missing stack params for Lakes 2011-13.csv")
+
+fac_names  <- rbind(fac_names, fac_names2)
+names(fac_names)[2] <- "Facility"
+
+fac_names <- fac_names[ , 1:2]
+
+alloc_names <- read_csv("M:\\Emissions\\2011 Emissions\\Allocated point\\List of Allocated Points w coords and params.csv")
+
+names(alloc_names)[22] <- "Facility"
+
+fac_names <- rbind(fac_names, alloc_names[ , c(2,22)])
+
+
+# Sum by facility
+fac_act <- group_by(fac_act, SOURCE_ID, Pollutant) %>%
+           summarize(Emissions = sum(Emissions, na.rm=T))
+
+# Maximum criteria emissions
+crit_pollutants <- c("CO", "CO_2013_point", 
+                     "PM10", "PM10_2013_point", 
+                     "PM2.5", "PM2.5_2013_point",
+                     "NO2", "NO2_2013_point",
+                     "NOX", "NOX_2013_point",
+                     "SO2", "SO2_2013_point")
+
+# Convert to tons
+fac_act$Emissions <- fac_act$Emissions / 2000
+
+# Multiply by 200% to approximate PTEs
+fac_act$Emissions <- fac_act$Emissions * 2
+
+# Find max criteria emissions
+fac_act <- fac_act %>% 
+           group_by(SOURCE_ID) %>% 
+           mutate(max_crit_act = max(c(Emissions[Pollutant %in% crit_pollutants], 0), na.rm=T))
+
+# Remove criteria pollutants
+fac_act <- filter(fac_act, !Pollutant %in% c(crit_pollutants, 
+                                             "PM", 
+                                             "PM_2013_point",
+                                             "VOCs,Unspeciated",
+                                             "VOCs,Unspeciated_2013_point",
+                                             "PM2.5 DIESEL_2013_point",
+                                             "PM2.5 DIESEL"))
+
+# Join names
+dup_names <- fac_names %>% group_by(SOURCE_ID, Facility) %>% summarize(countx = n())
+
+dup_cas   <- dup_names %>% group_by(SOURCE_ID) %>% summarize(countx = n()) %>% filter(countx > 1)
+
+dup_names <- dup_names %>% group_by(Facility) %>% summarize(countx = n()) %>% filter(countx > 1)
+
+#fac_names <- fac_names %>% group_by(SOURCE_ID) %>% summarize(Facility = Facility[1])
+fac_names <- fac_names %>% group_by(Facility) %>% summarize(SOURCE_ID = SOURCE_ID[1])
+
+matched  <- c()
+
+# Check for names that don't match
+for(i in 1:nrow(fac)) {
+  if(!fac[i, ]$Facility %in% fac_names$Facility) {
+    
+    find_name <- agrep(fac$Facility[i], fac_names$Facility, ignore.case = TRUE, max.distance = 0.1)
+    
+    if(length(find_name) > 0) {
+    
+    fac[i, ]$Facility <- fac_names$Facility[find_name[1]]
+    
+    matched <- c(matched, fac[i, ]$Facility)
+    }
+  }
+  
+}
+
+# Join names
+names(fac)
+
+fac <- left_join(fac[ , -3], fac_names)
+
+fac_act <- left_join(fac_act, fac_names)
+
+
+# Join _actual_ emissions to _potential_ emissions
+missing_facs <- fac[!fac$Facility %in% fac_names$Facility, ]
+
+
+fac_act <- left_join(fac_act, fac[ , -1])
+
+# Join missing faciities
+names(fac_act)
+
+missing_facs <- missing_facs %>% mutate(SOURCE_ID    = 1:nrow(missing_facs),
+                                        Emissions    = NA,
+                                        max_crit_act = NA,
+                                        Pollutant    = NA)
+                          
+
+#fac_act <- rbind(fac_act, missing_facs)
+
+
+# Set max_crit emissions to actual if potential missing
+fac <- mutate(fac_act, max_crit = max(max_crit_act, max_crit, na.rm=T))
+
+
+```
+
+
+
+# Plot max criteria above 250 tons
+
+120 facilities out of 2,000
+
+```{r warning=F, message=F}
+fac <- mutate(fac, 
+              max_value = max_crit,
+              max_crit  = ifelse(max_crit > 249.9, 265, max_crit))
+
+fac <- mutate(fac, max_crit = ifelse(max_crit < 5, 5, max_crit))
+
+fac_crit <- group_by(fac, SOURCE_ID) %>% 
+            summarize(max_crit = max_crit[1]) %>%
+            arrange(max_crit) %>%
+            mutate(id = 1:n())
+
+#print(nrow(filter(fac_crit, max_crit > 249.9)))
+
+fac_crit$colors <- NA
+
+for(i in 1:nrow(fac_crit)) fac_crit$colors[i] <- (fac_crit$max_crit[i] > 249.9) * runif(1) > 0.6
+
+
+ggplot(fac_crit, aes(id, max_crit)) + 
+  geom_bar(stat="identity", aes(fill = max_crit > 249.9)) + 
+  scale_fill_manual(values=c("steelblue", viridis(5)[2]), 
+                    name="> 250 Tons")
+
+ggplot(fac_crit, aes(id, max_crit)) + 
+       geom_bar(stat="identity", aes(fill = colors)) + 
+       scale_fill_manual(values=c("steelblue", viridis(5)[2]), 
+                         name="> 250 Tons") +
+     theme(legend.position="top")
+                       
+
+```
+
+
+
+# Plot max criteria vs. total HAPs
+
+```{r warning=F, message=F}
+fac  <- group_by(fac, SOURCE_ID, Facility) %>% 
+        summarize(max_crit     = max_crit[1],
+                  max_value    = max_value[1],
+                  total_HAPS   = sum(Emissions, na.rm=T),
+                  Formaldehyde = sum(Emissions[Pollutant == "FORMALDEHYDE"], na.rm=T),
+                  Acrolein     = sum(Emissions[Pollutant == "ACROLEIN"], na.rm=T),
+                  Lead         = sum(Emissions[Pollutant == "LEAD"], na.rm=T),
+                  Nickel       = sum(Emissions[Pollutant == "NICKEL"], na.rm=T),
+                  Arsenic      = sum(Emissions[Pollutant == "ARSENIC"], na.rm=T),
+                  Metals       = sum(Emissions[Pollutant %in% c("LEAD", "NICKEL", "ARSENIC")], na.rm=T))
+
+fac <- filter(fac, max_value > 1, total_HAPS > 0.05) %>%
+       ungroup() %>%
+       arrange(max_value) 
+
+fac$id <- 1:nrow(fac)
+
+fac$colors <- as.factor(fac$max_value > 249.9)
+
+ggplot(fac, aes(id, log(total_HAPS))) + geom_point()
+
+# Total HAPs
+p <- ggplot(fac) +
+     labs(title = "Total HAPs") +
+     geom_point(data = fac, aes(id, log10(total_HAPS), color = colors), size = 2.5, alpha = 0.7) +
+     guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+
+
+ggplot(fac) + 
+  labs(title = "Total HAPs") +
+  geom_point(data = fac, aes(log10(max_value), log10(total_HAPS), color = colors), size = 2.5, alpha = 0.7) +
+  geom_smooth(aes(log10(max_value), log10(total_HAPS)), span = 155) + #method="lm")
+  guides(color = guide_legend(title = "> 250 Tons", reverse=F))
+
+```
+
+
+## Top 10% emitters of Total HAPS 
+```{r warning=F, message=F}
+
+ggplot(filter(fac, total_HAPS > quantile(total_HAPS, 0.9)[[1]])) + 
+  labs(title = "Total HAPs - top 10%") +
+  geom_point(data = filter(fac, total_HAPS > quantile(total_HAPS, 0.9)[[1]]), aes(log10(max_value), log10(total_HAPS), color = colors), size = 2.5, alpha = 0.7) +
+  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+
+```
+
+
+## Formaldehyde
+```{r warning=F, message=F}
+ggplot(filter(fac, Formaldehyde > 0.00001)) + 
+  labs(title = "Formaldehyde") +
+  geom_point(data = filter(fac, Formaldehyde > 0.00001), aes(log10(max_value), log10(Formaldehyde), color = colors), size = 2.5, alpha = 0.7) +
+  geom_smooth(aes(log10(max_value), log10(Formaldehyde)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+
+```
+
+## Top 10% Formaldehyde 
+```{r warning=F, message=F}
+ggplot(filter(fac, Formaldehyde > quantile(Formaldehyde, 0.9)[[1]])) + 
+  labs(title = "Formaldehyde - top 10%") +
+  geom_point(data = filter(fac, Formaldehyde > quantile(Formaldehyde, 0.9)[[1]]), aes(log10(max_value), log10(Formaldehyde), color = colors), size = 2.5, alpha = 0.7) +
+  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+
+```
+
+## Acrolein
+```{r warning=F, message=F}
+ggplot(filter(fac, Acrolein > 1E-5)) + 
+  labs(title = "Acrolein") +
+  geom_point(data = filter(fac, Acrolein > 1E-5), 
+             aes(log10(max_value), log10(Acrolein), color = colors), size = 2.5, alpha = 0.7) +
+  geom_smooth(aes(log10(max_value), log10(Acrolein)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+
+## Top 10% Acrolein 
+```{r warning=F, message=F}
+ggplot(filter(fac, Acrolein > quantile(Acrolein, 0.9)[[1]])) + 
+  labs(title = "Acrolein - top 10%") +
+  geom_point(data = filter(fac, Acrolein > quantile(Acrolein, 0.9)[[1]]), aes(log10(max_value), log10(Acrolein), color = colors), size = 2.5, alpha = 0.7) +
+  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+
+## Lead
+```{r warning=F, message=F}
+ggplot(filter(fac, Lead > 1E-5)) + 
+  labs(title = "Lead") +
+  geom_point(data = filter(fac, Lead> 1E-5), 
+             aes(log10(max_value), log10(Lead), color = colors), size = 2.5, alpha = 0.7) +
+  geom_smooth(aes(log10(max_value), log10(Lead)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+## Top 10% Lead 
+```{r warning=F, message=F}
+ggplot(filter(fac, Lead > quantile(Lead, 0.9)[[1]])) + 
+  labs(title = "Lead - top 10%") +
+  geom_point(data = filter(fac, Lead > quantile(Lead, 0.9)[[1]]), aes(log10(max_value), log10(Lead), color = colors), size = 2.5, alpha = 0.7) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+
+```
+
+## Nickel
+```{r warning=F, message=F}
+ggplot(filter(fac, Nickel > 1E-5)) + 
+  labs(title = "Nickel") +
+  geom_point(data = filter(fac, Nickel> 1E-5), 
+             aes(log10(max_value), log10(Nickel), color = colors), size = 2.5, alpha = 0.7) +
+  geom_smooth(aes(log10(max_value), log10(Nickel)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+## Top 10% Nickel
+```{r warning=F, message=F}
+
+ggplot(filter(fac, Nickel > quantile(Nickel, 0.9)[[1]])) + 
+  labs(title = "Nickel - top 10%") +
+  geom_point(data = filter(fac, Nickel > quantile(Nickel, 0.9)[[1]]), aes(log10(max_value), log10(Nickel), color = colors), size = 2.5, alpha = 0.7) +
+  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+
+## Arsenic
+```{r warning=F, message=F}
+ggplot(filter(fac, Arsenic > 1E-5)) + 
+  labs(title = "Arsenic") +
+  geom_point(data = filter(fac, Arsenic > 1E-5), 
+             aes(log10(max_value), log10(Arsenic), color = colors), size = 2.5, alpha = 0.7) +
+  geom_smooth(aes(log10(max_value), log10(Arsenic)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+## Top 10% Arsenic
+```{r warning=F, message=F}
+ggplot(filter(fac, Arsenic > quantile(Arsenic, 0.9)[[1]])) + 
+  labs(title = "Arsenic - top 10%") +
+  geom_point(data = filter(fac, Arsenic > quantile(Arsenic, 0.9)[[1]]), aes(log10(max_value), log10(Arsenic), color = colors), size = 2.5, alpha = 0.7) +
+  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+
+## Metals
+```{r warning=F, message=F}
+ggplot(filter(fac, Metals > 1E-4)) + 
+    labs(title = "Metals") +
+    geom_point(data = filter(fac, Metals > 1E-4), aes(log10(max_value), log10(Metals), color = colors), size = 2.5, alpha = 0.7) +
+    geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
+    guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+```
+
+## Top 10% emitters of Metals 
+```{r warning=F, message=F}
+ggplot(filter(fac, Metals > quantile(Metals, 0.9)[[1]])) + 
+  labs(title = "Metals - top 10%") +
+  geom_point(data = filter(fac, Metals > quantile(Metals, 0.9)[[1]]), aes(log10(max_value), log10(Metals), color = colors), size = 2.5, alpha = 0.7) +
+  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
+  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+
+```
+
+
+##
