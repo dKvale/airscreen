@@ -1,12 +1,15 @@
 ---
 title: "EPA Region 5 ambient air toxicity values"
 output: 
-  html_document: 
+  html_document:
+    fig_width: 15
+    fig_height: 9
     toc: yes
     toc_float:
       collapsed: false
       smooth_scroll: false
     toc_depth: 3
+    code_folding: hide
     highlight: tango
     theme: readable
 

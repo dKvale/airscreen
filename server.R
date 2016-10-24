@@ -441,11 +441,26 @@ shinyServer(function(input, output, session) {
   ########################
   # MORE
   #######################
-  output$tox_table <- DT::renderDataTable(tox_values[ ,c(2,1,3:6)], options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$tox_table     <- DT::renderDataTable(tox_values[ ,c(2,1,3:6)], options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
-  output$endpoints <- DT::renderDataTable(endpoints[,c(2,1,3:5)], options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$endpoints     <- DT::renderDataTable(endpoints[,c(2,1,3:5)], options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
-  output$mpsf      <- DT::renderDataTable(mpsf[,c(2,1,3:8)], options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
+  output$mpsf          <- DT::renderDataTable(mpsf[,c(2,1,3:8)], options=list(searching=F, paging=F, scrollX=T), rownames = FALSE)
   
+ # output$airTox_review <- renderUI({
+    #site <- "https://raw.githubusercontent.com/dKvale/fair-screen/master/R/Plot_Max_Facility_emissions.html"
+    
+   # web_html <- read_lines(site, skip=6)
+    
+   # includeHTML(web_html[1:(length(web_html)-1)])
+  #  })
+  
+  output$airTox_review <- renderUI({
+    tags$iframe(src="http://dkvale.github.io/fair-screen/R/Plot_Max_Facility_emissions.html", overflow="visible", width="100%", height=900, frameborder=0) 
+  })
+  
+  output$tox_compare<- renderUI({
+            tags$iframe(src="http://dkvale.github.io/fair-screen/R/Combine_risk_databases.html", overflow="visible", width="100%", height=900, frameborder=0) 
+          })
   
 })

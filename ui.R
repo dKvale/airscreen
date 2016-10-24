@@ -194,10 +194,14 @@ tabPanel("Risks",
   tags$i(class='fa fa-download'), 'Download template file'), id='upload_box'))
                       ),
                       tabPanel("Air toxics review",
-                               fluidRow(column(12, tags$iframe(src="http://www.google.com/", style="width: 100%; heigt: 900px; overflow: visible;",  frameborder="1")))),
+                               fluidRow(column(12)),
+                               fluidRow(column(12, htmlOutput('airTox_review')))),
+                      tabPanel("image",
+                               fluidRow(column(12, 
+                                      htmlOutput("imagehead")))),
                       tabPanel("Region 5 toxicity values",
-                               fluidRow(column(12, tags$iframe(src="R//Combine_risk_databases.html", style="width:100%;",  frameborder="1"))))
-  
+                               fluidRow(column(12)),
+                               fluidRow(column(12, htmlOutput('tox_compare', inline=T, container=span))))
          ),
 br(), hr(),
 tags$script("var netAssess = {}"),
