@@ -2,7 +2,7 @@
 title: "EPA Region 5 ambient air toxicity values"
 output: 
   html_document:
-    fig_width: 15
+    fig_width: 18
     fig_height: 9
     toc: yes
     toc_float:

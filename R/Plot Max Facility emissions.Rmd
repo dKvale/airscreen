@@ -3,7 +3,7 @@ title: "Maximum Criteria Emissions vs. Air Toxics"
 subtitle: "Minnesota Facilities"
 output: 
   html_document: 
-    fig_width: 15
+    fig_width: 18
     fig_height: 9
     toc: yes
     toc_float:
@@ -188,7 +188,7 @@ fac <- mutate(fac_act, max_crit = max(max_crit_act, max_crit, na.rm=T))
 
 
 
-# Plot max criteria above 250 tons
+# Max criteria above 250 tons
 
 120 facilities out of 2,000
 
@@ -227,7 +227,7 @@ ggplot(fac_crit, aes(id, max_crit)) +
 
 
 
-# Plot max criteria vs. total HAPs
+# Max criteria vs. total HAPs
 
 ```{r warning=F, message=F}
 fac  <- group_by(fac, SOURCE_ID, Facility) %>% 
@@ -279,7 +279,7 @@ ggplot(filter(fac, total_HAPS > quantile(total_HAPS, 0.9)[[1]])) +
 ```
 
 
-## Formaldehyde
+# Formaldehyde
 ```{r warning=F, message=F}
 ggplot(filter(fac, Formaldehyde > 0.00001)) + 
   labs(title = "Formaldehyde") +
@@ -299,7 +299,7 @@ ggplot(filter(fac, Formaldehyde > quantile(Formaldehyde, 0.9)[[1]])) +
 
 ```
 
-## Acrolein
+# Acrolein
 ```{r warning=F, message=F}
 ggplot(filter(fac, Acrolein > 1E-5)) + 
   labs(title = "Acrolein") +
@@ -320,7 +320,7 @@ ggplot(filter(fac, Acrolein > quantile(Acrolein, 0.9)[[1]])) +
 ```
 
 
-## Lead
+# Lead
 ```{r warning=F, message=F}
 ggplot(filter(fac, Lead > 1E-5)) + 
   labs(title = "Lead") +
@@ -339,7 +339,7 @@ ggplot(filter(fac, Lead > quantile(Lead, 0.9)[[1]])) +
 
 ```
 
-## Nickel
+# Nickel
 ```{r warning=F, message=F}
 ggplot(filter(fac, Nickel > 1E-5)) + 
   labs(title = "Nickel") +
@@ -360,7 +360,7 @@ ggplot(filter(fac, Nickel > quantile(Nickel, 0.9)[[1]])) +
 ```
 
 
-## Arsenic
+# Arsenic
 ```{r warning=F, message=F}
 ggplot(filter(fac, Arsenic > 1E-5)) + 
   labs(title = "Arsenic") +
@@ -380,7 +380,7 @@ ggplot(filter(fac, Arsenic > quantile(Arsenic, 0.9)[[1]])) +
 ```
 
 
-## Metals
+# Metals
 ```{r warning=F, message=F}
 ggplot(filter(fac, Metals > 1E-4)) + 
     labs(title = "Metals") +
