@@ -456,11 +456,11 @@ shinyServer(function(input, output, session) {
   #  })
   
   output$airTox_review <- renderUI({
-    tags$iframe(src="http://dkvale.github.io/fair-screen/R/Plot_Max_Facility_emissions.html", overflow="visible", width="100%", height=900, frameborder=0) 
+    tags$iframe(src="http://dkvale.github.io/fair-screen/R/Plot_Max_Facility_emissions.html", overflow="visible", width="100%", height=11000, frameborder=0, scrolling="no") 
   })
   
   output$tox_compare<- renderUI({
-            tags$iframe(src="http://dkvale.github.io/fair-screen/R/Combine_risk_databases.html", overflow="visible", width="100%", height=900, frameborder=0) 
+            tags$iframe(src="http://dkvale.github.io/fair-screen/R/Combine_risk_databases.html", overflow="visible", width="100%", height=11600, frameborder=0, scrolling="yes") 
           })
   
 })

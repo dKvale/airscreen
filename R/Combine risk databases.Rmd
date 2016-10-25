@@ -456,5 +456,4 @@ DT::datatable(risks, options=list(searching=T, paging=T, scrollX=T), rownames = 
 ```
 
 
-###
 
