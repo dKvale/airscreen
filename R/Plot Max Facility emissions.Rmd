@@ -13,7 +13,8 @@ output:
     code_folding: hide
     highlight: tango
     theme: readable
----
+---  
+
   
 <style type="text/css">
   body, td {font-size: 18px;}
@@ -25,7 +26,7 @@ output:
 ---    
  
   
-`r shiny::HTML("</br>")`  
+`r shiny::HTML("</br>")` 
  
 ```{r warning=F, message=F, echo=F, results = 'hide'}
 library(tidyverse)
@@ -476,4 +477,19 @@ ggplot(filter(fac, Metals > quantile(Metals, 0.9)[[1]])) +
 ```
 
 
-##
+#### Table
+
+`r shiny::HTML("</br>")` 
+
+```{r warning=F, message=F}
+library(knitr)
+
+options(digits = 2)
+
+fac[ ,c(4:11)] <- round(fac[ ,c(4:11)], 3)
+
+DT::datatable(fac[ ,-c(3,12:13)], options=list(searching=F, paging=T, scrollX=T), rownames = FALSE)
+  
+#kable(fac[ ,-c(3,12:13)])
+
+```
