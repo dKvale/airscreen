@@ -1,5 +1,5 @@
 ---
-title: "EPA Region 5 ambient air toxicity values"
+title: "Region 5 ambient air toxicity values"
 output: 
   html_document:
     fig_width: 20
@@ -19,11 +19,21 @@ output:
   code.r{font-size: 18px;}
   pre {font-size: 18px} 
 </style>
+ 
+ 
+
+---  
   
+`r shiny::HTML("</br>")`    
+    
+# Which state has the most protective toxicity values?
+   
+`r shiny::HTML("</br>")`    
 
-# Overview
+     
+---  
 
-## Table attributes
+#### Table attributes
 
 `Pollutant`    _The pollutant's common name. If more than one, use the first alphabetically._  
 `CAS`          _The pollutant's unique ID assigned by the Chemical Abstract Service._  
@@ -31,11 +41,12 @@ output:
 `Acute_1hour_Benchmark`       _The pollutant's 1 hour concentration below which adverse health effects are not expected._  
 `Noncancer_Benchmark_Annual`       _The pollutant's annual concentration below which adverse health effects are not expected._   
 `Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000`       _The pollutant's annual concentration below which additional cancer risk from a lifetime exposure is expected to be below 1 in 100,000._   
-`Units`  _Air concentrations are shown in units of ug/m3._
+`Units`  _Air concentrations are shown in units of ug/m3._  
+    
 
 
+```{r warning=F, message=F, echo=F}
 # Download toxicity data
-```{r warning=F, message=F}
 col_names <- c("Pollutant", "CAS", "Acute_1hour_Benchmark", "Noncancer_Benchmark_Annual", "Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000")
 
 options(width=1200)
@@ -282,7 +293,10 @@ names(risks)[1:5] <- c("Pollutant", "CAS", "Acute Air Conc (ug/m3)", "Non-cancer
 ```
 
 
-# Chart toxicity comparisons
+# Chart toxicity comparisons  
+
+---  
+
 ```{r warning=F, message=F, echo =F}
 
 compare_pol <- c("50-00-0", "106-99-0", "7440-02-0", "MDPM25", "107-02-8", "71-43-2")

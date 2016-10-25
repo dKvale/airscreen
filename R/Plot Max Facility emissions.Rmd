@@ -1,5 +1,5 @@
 ---
-title: "Maximum Criteria emissions vs Air Toxics"
+title: "Current process"
 subtitle: "Minnesota facilities"
 output: 
   html_document: 
@@ -21,6 +21,11 @@ output:
   pre {font-size: 18px} 
 </style>
   
+  
+---    
+ 
+  
+`r shiny::HTML("</br>")`  
  
 ```{r warning=F, message=F, echo=F, results = 'hide'}
 library(tidyverse)
