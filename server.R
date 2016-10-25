@@ -460,7 +460,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$tox_compare<- renderUI({
-            tags$iframe(src="http://dkvale.github.io/fair-screen/R/Combine_risk_databases.html", overflow="visible", width="100%", height=11600, frameborder=0, scrolling="yes") 
+            tags$iframe(src="http://dkvale.github.io/fair-screen/R/Combine_risk_databases.html", overflow="visible", width="100%", height=11600, frameborder=0, scrolling="no") 
           })
   
 })
