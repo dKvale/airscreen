@@ -2,8 +2,8 @@
 title: "EPA Region 5 ambient air toxicity values"
 output: 
   html_document:
-    fig_width: 18
-    fig_height: 9
+    fig_width: 20
+    fig_height: 11
     toc: yes
     toc_float:
       collapsed: false
@@ -12,7 +12,6 @@ output:
     code_folding: hide
     highlight: tango
     theme: readable
-
 ---
   
 <style type="text/css">
@@ -29,24 +28,31 @@ output:
 `Pollutant`    _The pollutant's common name. If more than one, use the first alphabetically._  
 `CAS`          _The pollutant's unique ID assigned by the Chemical Abstract Service._  
 `Mol_Wt`       _Molecular weight._  
-`Acute_1hour_Benchmark`       _The pollutant's 1 hour concentration below which adverse health effects are not expected. Units of ug/m3._  
-`Noncancer_Benchmark_Annual`       _The pollutant's annual concentration below which adverse health effects are not expected. Units of ug/m3._   
-`Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000`       _The pollutant's annual concentration below which the additional cancer risk from a lifetime exposure is expected to be below 1 in 100,000. Units of ug/m3._   
+`Acute_1hour_Benchmark`       _The pollutant's 1 hour concentration below which adverse health effects are not expected._  
+`Noncancer_Benchmark_Annual`       _The pollutant's annual concentration below which adverse health effects are not expected._   
+`Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000`       _The pollutant's annual concentration below which additional cancer risk from a lifetime exposure is expected to be below 1 in 100,000._   
+`Units`  _Air concentrations are shown in units of ug/m3._
 
 
-# Load EPA and Region V state risk databases
+# Download toxicity data
 ```{r warning=F, message=F}
 col_names <- c("Pollutant", "CAS", "Acute_1hour_Benchmark", "Noncancer_Benchmark_Annual", "Cancer_Benchmark_Addl_Lifetime_Cancer_Risk_of_1in100000")
+
+options(width=1200)
+
 ```
 
 ## EPA NATA risk values
 
-NATA documentation available here - https://www.epa.gov/national-air-toxics-assessment/2011-nata-technical-support-document
+[Documentation](https://www.epa.gov/national-air-toxics-assessment/2011-nata-technical-support-document)
 
 ```{r warning=F, message=F, results = 'hide'}
 library(readxl)
 library(tidyverse)
 library(ggplot2)
+
+# Increase default font-size
+theme_set(theme_gray(base_size = 30))
 
 # Load
 nata <- read_excel("..\\data\\Risk_values\\NATA_Pollutants_AppendixB_AppendixC.xlsx")
@@ -57,7 +63,8 @@ nata <- read_excel("..\\data\\Risk_values\\NATA_Pollutants_AppendixB_AppendixC.x
 nata$Acute <- NA
 
 # Select columns
-names(nata)
+#names(nata)
+cat(paste(names(nata), collapse="\n"))
 
 nata <- nata[ , c(23,10,44,27,26)]
 
@@ -80,9 +87,9 @@ nata$State <- "EPA"
 ```
 
 
-## Wisconsin risk values
+## Wisconsin
 
-Documentation available here - http://dnr.wi.gov/topic/airquality/toxics.html
+[Documentation](http://dnr.wi.gov/topic/airquality/toxics.html)
 
 ```{r warning=F, message=F, results = 'hide'}
 # Load
@@ -92,7 +99,8 @@ df <- read_excel("..\\data\\Risk_values\\Wisconsin_CombinedNR445RevTables.xls", 
 
 ```{r warning=F, message=F}
 # Select columns
-names(df)
+#names(df)
+cat(paste(names(df), collapse="\n"))
 
 df <- df[ , c(3,4,31,63,57)]
 
@@ -116,9 +124,9 @@ wisc <- df
 ```
 
 
-## Michigan risk values
+## Michigan
 
-Documentation available here - http://www.deq.state.mi.us/itslirsl/
+[Documentation](http://www.deq.state.mi.us/itslirsl/)
 
 ```{r warning=F, message=F, results = 'hide'}
 
@@ -145,7 +153,7 @@ df <- df %>% group_by(CAS_Number) %>% mutate(Noncancer = max(c(Noncancer, Noncan
 
 
 # Select columns
-names(df)
+cat(paste(names(df), collapse="\n"))
 
 df <- df[ , c(3,2,19,21,14)]
 
@@ -167,9 +175,9 @@ mich <- df
 ```
 
 
-## Indiana risk values
+## Indiana
 
-Documentation available here - http://www.in.gov/idem/toxic/2343.htm
+[Documentation](http://www.in.gov/idem/toxic/2343.htm)
 
 ```{r warning=F, message=F, results = 'hide'}
 
@@ -182,7 +190,7 @@ df <- read_excel("..\\data\\Risk_values\\Indiana_Air_Toxics_Toxicity.xlsx")
 df$Acute <- NA
 
 # Select columns
-names(df)
+cat(paste(names(df), collapse="\n"))
 
 df <- df[ , c(1,2,7,5,3)]
 
@@ -204,10 +212,9 @@ ind <- data.frame(df, stringsAsFactors = FALSE)
 ```
 
 
+## Minnesota
 
-## Load Minnesota risk values
-
-Documentation available here - https://www.pca.state.mn.us/air/air-emissions-risk-analysis-aera-rass-and-qchi-spreadsheets  
+[Documentation](https://www.pca.state.mn.us/air/air-emissions-risk-analysis-aera-rass-and-qchi-spreadsheets)  
 
 
 ```{r warning=F, message=F}
@@ -233,11 +240,11 @@ minn$State <- "Minnesota"
 
 ```
 
-# Combine risk tables
+##
 
 ```{r warning=F, message=F}
 
-# Combine
+# Combine risk tables
 risks <- rbind(wisc[ ,1:6], mich[ ,1:6], nata[ ,1:6], ind[,1:6])
 
 # Missing pollutants
@@ -260,40 +267,161 @@ risks$CAS2 <- NULL
 risks <- risks %>% group_by(CAS) %>% mutate(count = n())
 
 # Updata column names to align with web application
-names(risks)[1:5] <- minn_names
+#names(risks)[1:5] <- minn_names
+
+#names(risks)[1:5] <- minn_names
+
+names(risks)[1:5] <- c("Pollutant", "CAS", "Acute Air Conc (ug/m3)", "Non-cancer Air Conc (ug/m3)", "Cancer Air Conc (ug/m3)")
 
 # Add units
 #risks$Units <- "ug/m3"
 
 # SAVE table
-write.csv(risks[ , 1:6], "..//data//air_benchmarks_region5.csv")
+#write.csv(risks[ , 1:6], "..//data//air_benchmarks_region5.csv")
 
 ```
 
 
-# Plot comparisons
-```{r warning=F, message=F}
+# Chart toxicity comparisons
+```{r warning=F, message=F, echo =F}
 
-compare_pol <- c("50-00-0", "106-99-0", "7440-02-0", "MDPM25", "107-02-8")
+compare_pol <- c("50-00-0", "106-99-0", "7440-02-0", "MDPM25", "107-02-8", "71-43-2")
 
 # Remove pollutants measured by only one state
 risks <- filter(risks, count > 2)  
+```
 
-# Plot risk values by state
-for(i in compare_pol) {
+## Formaldehyde
+```{r warning=F, message=F}
+  i  <-  compare_pol[1]
+  
   df <- filter(risks, CAS == i)
   
-  p <- ggplot(df, aes(State, `Chronic Non-cancer Reference Conc (ug/m3)`)) + geom_bar(stat="identity") + labs(title= paste(df$Pollutant[1], "Noncancer threshold"), subtitle=i)
+  p <- ggplot(df, aes(State, `Non-cancer Air Conc (ug/m3)`)) + 
+       geom_bar(stat="identity", fill = "steelblue") + 
+       labs(title= paste("Noncancer threshold"), subtitle=i)
   
-  print(p)
+  p
   
-   p <- ggplot(df, aes(State, `Chronic cancer risk of 1E-5 Air Conc (ug/m3)`)) + geom_bar(stat="identity") + labs(title= paste(df$Pollutant[1], "Cancer benchmark"), subtitle=i)
+  cat("\n")
   
-  print(p)
+   p <- ggplot(df, aes(State, `Cancer Air Conc (ug/m3)`)) + 
+        geom_bar(stat="identity") + 
+        labs(title= paste("Cancer benchmark"), subtitle=i)
+  
+  p
+                          
+```
 
-}
+## 1,3-Butadiene
+
+```{r warning=F, message=F}
+  i  <-  compare_pol[2]
+  
+  df <- filter(risks, CAS == i)
+  
+  p <- ggplot(df, aes(State, `Non-cancer Air Conc (ug/m3)`)) + 
+       geom_bar(stat="identity", fill = "steelblue") + 
+       labs(title= paste("Noncancer threshold"), subtitle=i)
+  
+  p
+  
+  cat("\n")
+  
+  p <- ggplot(df, aes(State, `Cancer Air Conc (ug/m3)`)) + 
+        geom_bar(stat="identity") + 
+        labs(title= paste("Cancer benchmark"), subtitle=i)
+  
+  p
                           
 ```
 
 
+## Nickel
+
+```{r warning=F, message=F}
+  i  <-  compare_pol[3]
+  
+  df <- filter(risks, CAS == i)
+  
+  p <- ggplot(df, aes(State, `Non-cancer Air Conc (ug/m3)`)) + 
+       geom_bar(stat="identity", fill = "steelblue") + 
+       labs(title= paste("Noncancer threshold"), subtitle=i)
+  
+  p
+  
+  cat("\n")
+  
+   p <- ggplot(df, aes(State, `Cancer Air Conc (ug/m3)`)) + 
+        geom_bar(stat="identity") + 
+        labs(title= paste("Cancer benchmark"), subtitle=i)
+  
+  p
+                          
+```
+
+
+## Diesel exhaust
+
+```{r warning=F, message=F}
+  i  <-  compare_pol[4]
+  
+  df <- filter(risks, CAS == i)
+  
+  p <- ggplot(df, aes(State, `Non-cancer Air Conc (ug/m3)`)) + 
+       geom_bar(stat="identity", fill = "steelblue") + 
+       labs(title= paste("Noncancer threshold"), subtitle=i)
+  
+  p
+  
+  cat("\n")
+  
+   p <- ggplot(df, aes(State, `Cancer Air Conc (ug/m3)`)) + 
+        geom_bar(stat="identity") + 
+        labs(title= paste("Cancer benchmark"), subtitle=i)
+  
+  p
+                          
+```
+
+
+## Acrolein
+
+```{r warning=F, message=F}
+  i  <-  compare_pol[5]
+  
+  df <- filter(risks, CAS == i)
+  
+  p <- ggplot(df, aes(State, `Non-cancer Air Conc (ug/m3)`)) + 
+       geom_bar(stat="identity", color = "steelblue") + 
+       labs(title= paste("Noncancer threshold"), subtitle=i)
+  
+  p
+                          
+```
+
+## Benzene
+
+```{r warning=F, message=F}
+  i  <-  compare_pol[6]
+  
+  df <- filter(risks, CAS == i)
+  
+  p <- ggplot(df, aes(State, `Non-cancer Air Conc (ug/m3)`)) + 
+       geom_bar(stat="identity", fill = "steelblue") + 
+       labs(title= paste("Noncancer threshold"), subtitle=i)
+  
+  p
+  
+  cat("\n")
+  
+   p <- ggplot(df, aes(State, `Cancer Air Conc (ug/m3)`)) + 
+        geom_bar(stat="identity") + 
+        labs(title= paste("Cancer benchmark"), subtitle=i)
+  
+  p
+                          
+```
+
+###
 

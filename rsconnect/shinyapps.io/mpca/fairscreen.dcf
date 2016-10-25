@@ -1,10 +1,11 @@
 name: fairscreen
+title:
 account: mpca
 server: shinyapps.io
 appId: 98358
-bundleId: 436140
+bundleId: 595596
 url: https://mpca.shinyapps.io/fairscreen/
-when: 1461778893.60004
+when: 1477352167.84392
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: one_page.R|README.md|shiny_test.R|data/Fair screen input template (MPCA).xlsx|data_test/air_concentrations.csv|data_test/disp_facts.csv|data_test/fair-screen input template (test).xlsx|data_test/stack_params.csv|R/compare_risk_databases.R|R/ui.R|R/update_air_benchmarks.R|R/update_air_endpoints.R|www/index-test2.html|www/index_off.html|www/css/bootstrap_readable.css|www/js/jquery.js
+ignoredFiles: changelog.md|README.md|data/.gitignore|data/Fair screen input template (MPCA).xlsx|data/Emissions/Facility criteria emissions.csv|data/Risk_values/Indiana_Air_Toxics_Toxicity.xlsx|data/Risk_values/Mich-aqd-toxics-xcelitsl.xls|data/Risk_values/NATA_Pollutants_AppendixB_AppendixC.xlsx|data/Risk_values/readme.md|data/Risk_values/Wisconsin_CombinedNR445RevTables.xls|data_test/.gitignore|data_test/air_concentrations.csv|data_test/disp_facts.csv|data_test/fair-screen input template (test).xlsx|data_test/stack_params.csv|R/Combine risk databases.Rmd|R/Combine_risk_databases.html|R/compare_risk_databases.R|R/Plot Max Facility emissions.Rmd|R/Plot_Max_Facility_emissions.html|R/Plot_Max_Facility_emissions.Rmd|R/ui.R|R/update_air_benchmarks.R|R/update_air_endpoints.R

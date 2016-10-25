@@ -77,7 +77,7 @@ html {
   font-weight: 50;
 }
 
-#download_inputs:hover , #templates:hover {
+#download_inputs:hover {
   background-color: #c1d5df;
   color: #333333;
   margin-top: 4px;
@@ -92,6 +92,12 @@ html {
   margin-top:0px;
 }
 
+#templates:hover
+{
+  margin-left:27px;
+  margin-top:0px;
+  background-color: #c1d5df;
+}
 
 .help_text {
   margin-top: -22px; margin-left:1px; padding-top:0; padding-bottom:5px; font-style: italic;

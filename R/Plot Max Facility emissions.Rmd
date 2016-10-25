@@ -1,10 +1,10 @@
 ---
-title: "Maximum Criteria Emissions vs. Air Toxics"
-subtitle: "Minnesota Facilities"
+title: "Maximum Criteria emissions vs Air Toxics"
+subtitle: "Minnesota facilities"
 output: 
   html_document: 
-    fig_width: 18
-    fig_height: 9
+    fig_width: 20
+    fig_height: 12
     toc: yes
     toc_float:
       collapsed: false
@@ -26,8 +26,16 @@ output:
 library(tidyverse)
 library(viridis)
 
+options(width=1300)
+theme_set(theme_gray(base_size = 30))
+
+ton_colors <- c("steelblue", viridis(8)[c(1)])
+
+size_X     <- 1.7
+
+
 # Load potential Facility emissions from tempo
-fac <- read_csv("..//Emissions//Facility criteria emissions.csv")
+fac <- read_csv("..//data//Emissions//Facility criteria emissions.csv")
 
 fac <- fill(fac, Facility)
 
@@ -175,8 +183,6 @@ missing_facs <- missing_facs %>% mutate(SOURCE_ID    = 1:nrow(missing_facs),
                                         Emissions    = NA,
                                         max_crit_act = NA,
                                         Pollutant    = NA)
-                          
-
 #fac_act <- rbind(fac_act, missing_facs)
 
 
@@ -187,10 +193,7 @@ fac <- mutate(fac_act, max_crit = max(max_crit_act, max_crit, na.rm=T))
 ```
 
 
-
 # Max criteria above 250 tons
-
-120 facilities out of 2,000
 
 ```{r warning=F, message=F}
 fac <- mutate(fac, 
@@ -213,16 +216,26 @@ for(i in 1:nrow(fac_crit)) fac_crit$colors[i] <- (fac_crit$max_crit[i] > 249.9) 
 
 ggplot(fac_crit, aes(id, max_crit)) + 
   geom_bar(stat="identity", aes(fill = max_crit > 249.9)) + 
-  scale_fill_manual(values=c("steelblue", viridis(5)[2]), 
-                    name="> 250 Tons")
+  scale_fill_manual(values = ton_colors, 
+                    name   = "",
+                    labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(fill = guide_legend(ncol = 2, keywidth=3)) +
+  theme(legend.position="top")
+```
+  
+  
+*_120 facilities out of 2,000_  
 
+
+```{r warning=F, message=F}
 ggplot(fac_crit, aes(id, max_crit)) + 
        geom_bar(stat="identity", aes(fill = colors)) + 
-       scale_fill_manual(values=c("steelblue", viridis(5)[2]), 
-                         name="> 250 Tons") +
-     theme(legend.position="top")
+       scale_fill_manual(values= ton_colors, 
+                         name="",
+                         labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(fill = guide_legend(ncol = 2, keywidth=3)) +
+  theme(legend.position="top")
                        
-
 ```
 
 
@@ -249,32 +262,45 @@ fac$id <- 1:nrow(fac)
 
 fac$colors <- as.factor(fac$max_value > 249.9)
 
-ggplot(fac, aes(id, log(total_HAPS))) + geom_point()
+
+# HAPs arranged in order of increasing Criteria
+ggplot(fac, aes(id, log(total_HAPS))) + geom_point(size=2.8 * size_X, alpha=0.65) + labs(title = "Facility HAPs emissions in order of increasing criteria emissions")
 
 # Total HAPs
 p <- ggplot(fac) +
      labs(title = "Total HAPs") +
-     geom_point(data = fac, aes(id, log10(total_HAPS), color = colors), size = 2.5, alpha = 0.7) +
-     guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+     geom_point(data = fac, aes(id, log10(total_HAPS), color = colors), size = 2.5 * size_X, alpha = 0.7) +
+     scale_color_manual(values= ton_colors, 
+                         name="",
+                         labels = c(" Below 250 tons  ", " Above 250  ")) +
+    guides(color= guide_legend(ncol = 2, keywidth=3)) +
+    theme(legend.position="top")
 
 
 ggplot(fac) + 
-  labs(title = "Total HAPs") +
-  geom_point(data = fac, aes(log10(max_value), log10(total_HAPS), color = colors), size = 2.5, alpha = 0.7) +
+  labs(title = "HAPs emissions vs maximum Criteria emissions") +
+  geom_point(data = fac, aes(log10(max_value), log10(total_HAPS), color = colors), size = 3.5 * size_X, alpha = 0.7) +
   geom_smooth(aes(log10(max_value), log10(total_HAPS)), span = 155) + #method="lm")
-  guides(color = guide_legend(title = "> 250 Tons", reverse=F))
+  scale_color_manual(values= ton_colors, 
+                         name="",
+                         labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 
 ```
 
 
-## Top 10% emitters of Total HAPS 
+## Top 10% HAPS emitters
 ```{r warning=F, message=F}
 
 ggplot(filter(fac, total_HAPS > quantile(total_HAPS, 0.9)[[1]])) + 
-  labs(title = "Total HAPs - top 10%") +
-  geom_point(data = filter(fac, total_HAPS > quantile(total_HAPS, 0.9)[[1]]), aes(log10(max_value), log10(total_HAPS), color = colors), size = 2.5, alpha = 0.7) +
-  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  labs(title = "") +
+  geom_point(data = filter(fac, total_HAPS > quantile(total_HAPS, 0.9)[[1]]), aes(log10(max_value), log10(total_HAPS), color = colors), size = 4 * size_X, alpha = 0.7) +
+  scale_color_manual(values= ton_colors, 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 
 ```
 
@@ -282,120 +308,165 @@ ggplot(filter(fac, total_HAPS > quantile(total_HAPS, 0.9)[[1]])) +
 # Formaldehyde
 ```{r warning=F, message=F}
 ggplot(filter(fac, Formaldehyde > 0.00001)) + 
-  labs(title = "Formaldehyde") +
-  geom_point(data = filter(fac, Formaldehyde > 0.00001), aes(log10(max_value), log10(Formaldehyde), color = colors), size = 2.5, alpha = 0.7) +
+  labs(title = "Formaldehyde emissions vs maximum Criteria emissions") +
+  geom_point(data = filter(fac, Formaldehyde > 0.00001), aes(log10(max_value), log10(Formaldehyde), color = colors), size = 3.5 * size_X, alpha = 0.7) +
   geom_smooth(aes(log10(max_value), log10(Formaldehyde)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  scale_color_manual(values= ton_colors, 
+                         name="",
+                         labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 
 ```
 
-## Top 10% Formaldehyde 
+## Top 10% formaldehyde emitters
 ```{r warning=F, message=F}
 ggplot(filter(fac, Formaldehyde > quantile(Formaldehyde, 0.9)[[1]])) + 
-  labs(title = "Formaldehyde - top 10%") +
-  geom_point(data = filter(fac, Formaldehyde > quantile(Formaldehyde, 0.9)[[1]]), aes(log10(max_value), log10(Formaldehyde), color = colors), size = 2.5, alpha = 0.7) +
-  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  labs(title = "") +
+  geom_point(data = filter(fac, Formaldehyde > quantile(Formaldehyde, 0.9)[[1]]), aes(log10(max_value), log10(Formaldehyde), color = colors), size = 4 * size_X, alpha = 0.7) +
+  scale_color_manual(values= ton_colors, 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 
 ```
 
 # Acrolein
 ```{r warning=F, message=F}
 ggplot(filter(fac, Acrolein > 1E-5)) + 
-  labs(title = "Acrolein") +
+  labs(title = "Acrolein emissions vs maximum Criteria emissions") +
   geom_point(data = filter(fac, Acrolein > 1E-5), 
-             aes(log10(max_value), log10(Acrolein), color = colors), size = 2.5, alpha = 0.7) +
+             aes(log10(max_value), log10(Acrolein), color = colors), size = 3.5 * size_X, alpha = 0.7) +
   geom_smooth(aes(log10(max_value), log10(Acrolein)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  scale_color_manual(values= ton_colors, 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 ```
 
 
-## Top 10% Acrolein 
+## Top 10% acrolein emitters
 ```{r warning=F, message=F}
 ggplot(filter(fac, Acrolein > quantile(Acrolein, 0.9)[[1]])) + 
-  labs(title = "Acrolein - top 10%") +
-  geom_point(data = filter(fac, Acrolein > quantile(Acrolein, 0.9)[[1]]), aes(log10(max_value), log10(Acrolein), color = colors), size = 2.5, alpha = 0.7) +
-  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  labs(title = "") +
+  geom_point(data = filter(fac, Acrolein > quantile(Acrolein, 0.9)[[1]]), aes(log10(max_value), log10(Acrolein), color = colors), size = 4 *size_X, alpha = 0.7) +
+  scale_color_manual(values= ton_colors, 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 ```
 
 
 # Lead
 ```{r warning=F, message=F}
 ggplot(filter(fac, Lead > 1E-5)) + 
-  labs(title = "Lead") +
+  labs(title = "Lead emissions vs maximum Criteria emissions") +
   geom_point(data = filter(fac, Lead> 1E-5), 
-             aes(log10(max_value), log10(Lead), color = colors), size = 2.5, alpha = 0.7) +
+             aes(log10(max_value), log10(Lead), color = colors), size = 3.5 * size_X, alpha = 0.7) +
   geom_smooth(aes(log10(max_value), log10(Lead)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  scale_color_manual(values= ton_colors, 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
+
 ```
 
-## Top 10% Lead 
+## Top 10% lead emitters
 ```{r warning=F, message=F}
 ggplot(filter(fac, Lead > quantile(Lead, 0.9)[[1]])) + 
-  labs(title = "Lead - top 10%") +
-  geom_point(data = filter(fac, Lead > quantile(Lead, 0.9)[[1]]), aes(log10(max_value), log10(Lead), color = colors), size = 2.5, alpha = 0.7) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  labs(title = "") +
+  geom_point(data = filter(fac, Lead > quantile(Lead, 0.9)[[1]]), aes(log10(max_value), log10(Lead), color = colors), size = 4 * size_X, alpha = 0.7) + 
+  scale_color_manual(values= ton_colors, 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 
 ```
 
 # Nickel
 ```{r warning=F, message=F}
 ggplot(filter(fac, Nickel > 1E-5)) + 
-  labs(title = "Nickel") +
+  labs(title = "Nickel emissions vs maximum Criteria emissions") +
   geom_point(data = filter(fac, Nickel> 1E-5), 
-             aes(log10(max_value), log10(Nickel), color = colors), size = 2.5, alpha = 0.7) +
+             aes(log10(max_value), log10(Nickel), color = colors), size = 3.5 * size_X, alpha = 0.7) +
   geom_smooth(aes(log10(max_value), log10(Nickel)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  scale_color_manual(values= ton_colors, 
+                         name="",
+                         labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 ```
 
-## Top 10% Nickel
+## Top 10% nickel emitters
 ```{r warning=F, message=F}
 
 ggplot(filter(fac, Nickel > quantile(Nickel, 0.9)[[1]])) + 
-  labs(title = "Nickel - top 10%") +
-  geom_point(data = filter(fac, Nickel > quantile(Nickel, 0.9)[[1]]), aes(log10(max_value), log10(Nickel), color = colors), size = 2.5, alpha = 0.7) +
-  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  labs(title = "") +
+  geom_point(data = filter(fac, Nickel > quantile(Nickel, 0.9)[[1]]), aes(log10(max_value), log10(Nickel), color = colors), size = 4.5 * size_X, alpha = 0.7) +
+  scale_color_manual(values= c(viridis(10)[8], magma(5)[4]), 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top") 
+
 ```
 
 
 # Arsenic
 ```{r warning=F, message=F}
 ggplot(filter(fac, Arsenic > 1E-5)) + 
-  labs(title = "Arsenic") +
+  labs(title = "Arsenic emissions vs maximum Criteria emissions") +
   geom_point(data = filter(fac, Arsenic > 1E-5), 
-             aes(log10(max_value), log10(Arsenic), color = colors), size = 2.5, alpha = 0.7) +
+             aes(log10(max_value), log10(Arsenic), color = colors), size = 3.5 * size_X, alpha = 0.7) +
   geom_smooth(aes(log10(max_value), log10(Arsenic)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  scale_color_manual(values= ton_colors, 
+                     name="",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 ```
 
-## Top 10% Arsenic
+## Top 10% arsenic emitters
 ```{r warning=F, message=F}
 ggplot(filter(fac, Arsenic > quantile(Arsenic, 0.9)[[1]])) + 
-  labs(title = "Arsenic - top 10%") +
-  geom_point(data = filter(fac, Arsenic > quantile(Arsenic, 0.9)[[1]]), aes(log10(max_value), log10(Arsenic), color = colors), size = 2.5, alpha = 0.7) +
-  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  labs(title = "") +
+  geom_point(data = filter(fac, Arsenic > quantile(Arsenic, 0.9)[[1]]), aes(log10(max_value), log10(Arsenic), color = colors), size = 4 * size_X, alpha = 0.7) +
+  scale_color_manual(values = ton_colors, 
+                     name   = "",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 ```
 
 
 # Metals
 ```{r warning=F, message=F}
 ggplot(filter(fac, Metals > 1E-4)) + 
-    labs(title = "Metals") +
-    geom_point(data = filter(fac, Metals > 1E-4), aes(log10(max_value), log10(Metals), color = colors), size = 2.5, alpha = 0.7) +
+    labs(title = "Metals emissions vs maximum Criteria emissions") +
+    geom_point(data = filter(fac, Metals > 1E-4), aes(log10(max_value), log10(Metals), color = colors), size = 3.5 * size_X, alpha = 0.7) +
     geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
-    guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+    scale_color_manual(values= ton_colors, 
+                       name="",
+                       labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 ```
 
-## Top 10% emitters of Metals 
+## Top 10% Metal emitters 
 ```{r warning=F, message=F}
 ggplot(filter(fac, Metals > quantile(Metals, 0.9)[[1]])) + 
-  labs(title = "Metals - top 10%") +
-  geom_point(data = filter(fac, Metals > quantile(Metals, 0.9)[[1]]), aes(log10(max_value), log10(Metals), color = colors), size = 2.5, alpha = 0.7) +
-  #geom_smooth(aes(log10(max_value), log10(Metals)), span = 15) + 
-  guides(color = guide_legend(title = "> 250 Tons", reverse=T))
+  labs(title = "") +
+  geom_point(data = filter(fac, Metals > quantile(Metals, 0.9)[[1]]), aes(log10(max_value), log10(Metals), color = colors), size = 4 * size_X, alpha = 0.7) +
+  scale_color_manual(values = ton_colors, 
+                     name   = "",
+                     labels = c(" Below 250 tons  ", " Above 250  ")) +
+  guides(color = guide_legend(ncol = 2, keywidth=3, keyheight = 3, override.aes = list(size=8))) +
+  theme(legend.position="top")
 
 ```
 
