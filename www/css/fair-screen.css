@@ -15,6 +15,7 @@
   padding-left: 30px;
   padding-right: 28px;
 }
+
 body {
   font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 16px;
@@ -134,4 +135,10 @@ a:focus {
   border-width: 0;
 }
 
+nav .container:first-child {
+  //background-color: #ededed;
+  //float: left;
+  width: 100%;
+  margin-left: 20px;
+}
 

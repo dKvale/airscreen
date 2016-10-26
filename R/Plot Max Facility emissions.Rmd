@@ -173,6 +173,7 @@ names(fac)
 
 fac <- left_join(fac[ , -3], fac_names)
 
+fac_names <- fac_names %>% group_by(SOURCE_ID) %>% summarize(Facility = Facility[1])
 fac_act <- left_join(fac_act, fac_names)
 
 
@@ -192,7 +193,16 @@ missing_facs <- missing_facs %>% mutate(SOURCE_ID    = 1:nrow(missing_facs),
 #fac_act <- rbind(fac_act, missing_facs)
 
 
-# Set max_crit emissions to actual if potential missing
+# Search for sources with actuals above Potentials
+above_facs <- filter(fac_act, Emissions > max_value, Pollutant %in% crit_pollutants)
+
+
+# Search for sources with actuals less than 250 tons and PTEs above 250
+mismatch_facs <- filter(fac_act, max_crit_act < 250 & max_crit >= 249.9)
+unique(mismatch_facs$SOURCE_ID)
+
+
+# Set max_crit emissions to actual if potential emissions are missing
 fac <- mutate(fac_act, max_crit = max(max_crit_act, max_crit, na.rm=T))
 
 
@@ -249,6 +259,7 @@ ggplot(fac_crit, aes(id, max_crit)) +
 # Max criteria vs. total HAPs
 
 ```{r warning=F, message=F}
+
 fac  <- group_by(fac, SOURCE_ID, Facility) %>% 
         summarize(max_crit     = max_crit[1],
                   max_value    = max_value[1],
@@ -476,7 +487,6 @@ ggplot(filter(fac, Metals > quantile(Metals, 0.9)[[1]])) +
 
 ```
 
-
 #### Table
 
 `r shiny::HTML("</br>")` 
@@ -490,6 +500,5 @@ fac[ ,c(4:11)] <- round(fac[ ,c(4:11)], 3)
 
 DT::datatable(fac[ ,-c(3,12:13)], options=list(searching=F, paging=T, scrollX=T), rownames = FALSE)
   
-#kable(fac[ ,-c(3,12:13)])
 
 ```

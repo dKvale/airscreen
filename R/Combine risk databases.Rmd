@@ -451,8 +451,6 @@ risks[ ,3:5] <- round(risks[ ,3:5], 4)
 
 DT::datatable(risks, options=list(searching=T, paging=T, scrollX=T), rownames = FALSE)
   
-#kable(fac[ ,-c(3,12:13)])
-
 ```
 
 
