@@ -5,6 +5,9 @@ Notable changes to this project are documented in this file.
 ### Added
 - Toxicity values for EPA Region 5 states
 
+### Changed
+- Napthalene's cancer IHB set equal to non-cancer IHB per MDH guidance dated (Feb. 2017)
+
 ### Fixed
 - Benzo(k)fluoranthene CAS# changed to _207-08-9_  
 - Furfural CAS# changed to _98-01-1_  
