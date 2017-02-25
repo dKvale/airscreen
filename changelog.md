@@ -6,7 +6,8 @@ Notable changes to this project are documented in this file.
 - Toxicity values for EPA Region 5 states
 
 ### Changed
-- Napthalene's cancer IHB set equal to non-cancer IHB per MDH guidance dated (Feb. 2017)
+- Napthalene cancer IHB set equal to non-cancer IHB per MDH guidance dated (Feb. 2017)
+- Ethylene Oxide cancer IHB set to EPA's IRIS value (Feb. 2017)
 
 ### Fixed
 - Benzo(k)fluoranthene CAS# changed to _207-08-9_  
