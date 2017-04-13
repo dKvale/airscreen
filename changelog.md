@@ -10,6 +10,7 @@ Notable changes to this project are documented in this file.
 - Napthalene cancer IHB set to 9 ug/m3 per MDH guidance dated (Feb. 2017)
 - Ethylene Oxide cancer IHB set to EPA's IRIS value (Feb. 2017)
 - Trimethylbenzenes non-cancer IHB set to EPA's IRIS value (Sept. 2016)
+- Remove duplicate pollutant: ethanol specific Ethyl Acetate _141-78-6_
 
 ### Fixed
 - Benzo(k)fluoranthene CAS# changed to _207-08-9_  
