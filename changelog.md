@@ -11,6 +11,7 @@ Notable changes to this project are documented in this file.
 - Ethylene Oxide cancer IHB set to EPA's IRIS value (Feb. 2017)
 - Trimethylbenzenes non-cancer IHB set to EPA's IRIS value (Sept. 2016)
 - Ethanol specific risk values identified in references, rather than on separate row
+- Chromic acid mists and dissolved Cr(VI) aerosols CAS# changed to _18540-29-9-aer_
 
 ### Fixed
 - Benzo(k)fluoranthene CAS# changed to _207-08-9_  
