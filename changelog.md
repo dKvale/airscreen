@@ -10,7 +10,7 @@ Notable changes to this project are documented in this file.
 - Napthalene cancer IHB set to 9 ug/m3 per MDH guidance dated (Feb. 2017)
 - Ethylene Oxide cancer IHB set to EPA's IRIS value (Feb. 2017)
 - Trimethylbenzenes non-cancer IHB set to EPA's IRIS value (Sept. 2016)
-- Ethanol specific risk values identified in references, rather than on separate row
+- Ethanol specific risk values identified in references, rather than on separate rows
 - Chromic acid mists and dissolved Cr(VI) aerosols CAS# changed to _18540-29-9-aer_
 
 ### Fixed
