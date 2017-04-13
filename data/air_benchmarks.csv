@@ -65,7 +65,7 @@
 "75-15-0","Carbon disulfide",6000,NA,700,NA
 "630-08-0","Carbon Monoxide",23000,NA,NA,NA
 "56-23-5","Carbon tetrachloride",1900,NA,100,1.7
-"463-58-1","Carbonyl sulfide",NA,1000,NA,NA
+"463-58-1","Carbonyl sulfide",NA,1000,100,NA
 "111-15-9","Cellosolve Acetate (ethylene glycol monoethyl ether acetate)",100,60,300,NA
 "1306-38-3","Cerium Oxide and Cerium Compounds",NA,NA,0.9,NA
 "12789-03-6","Chlordane or (57-74-9)",NA,7,0.7,0.1
@@ -262,7 +262,7 @@
 "7697-37-2","Nitric acid",130,NA,NA,NA
 "602-87-9","Nitroacenaphthene, 5-",NA,NA,NA,0.28
 "88-74-4","Nitroaniline, 2-",NA,0.4,NA,NA
-"100-01-6","Nitroaniline, 4-",NA,20,NA,NA
+"100-01-6","Nitroaniline, 4-",NA,20,6,NA
 "98-95-3","Nitrobenzene",NA,NA,9,0.25
 "7496-02-8","Nitrochrysene, 6-",NA,NA,NA,0.00056
 "607-57-8","Nitrofluorene, 2-",NA,NA,NA,0.56
