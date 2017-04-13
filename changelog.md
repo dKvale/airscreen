@@ -6,7 +6,8 @@ Notable changes to this project are documented in this file.
 - Toxicity values for EPA Region 5 states
 
 ### Changed
-- Napthalene cancer IHB set equal to non-cancer IHB per MDH guidance dated (Feb. 2017)
+- Tetrachloroethylene (Perchloroethylene) non-cancer IHB updated from 100 to 15 ug/m3 per MDH guidance dated (July 2014)
+- Napthalene cancer IHB set to 9 ug/m3 per MDH guidance dated (Feb. 2017)
 - Ethylene Oxide cancer IHB set to EPA's IRIS value (Feb. 2017)
 - Trimethylbenzenes non-cancer IHB set to EPA's IRIS value (Sept. 2016)
 
