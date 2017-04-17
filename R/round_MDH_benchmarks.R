@@ -18,6 +18,9 @@ risks   <- left_join(risks, refs)
 
 
 # Round MDH cancer values
+mdh <- filter(risks, `Cancer IHB Reference` %in% c("MDH","HRV","HBV","MPCA","MPCA/MDH"))
+
+
 risks_1 <- risks %>%
            mutate(`Chronic cancer risk of 1E-5 Air Conc (ug/m3)` = ifelse(`Cancer IHB Reference` %in% c("MDH","HRV","HBV","MPCA","MPCA/MDH"), 
                                                                           signif(`Chronic cancer risk of 1E-5 Air Conc (ug/m3)`, 1), 
