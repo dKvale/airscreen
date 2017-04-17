@@ -1,0 +1,369 @@
+CAS,Pollutant,Acute IHB Reference,Subchronic Non-cancer IHB Reference,Chronic Non-cancer IHB Reference,Cancer IHB Reference
+202-94-8,"11H-Benz[b,c]aceanthrylene",NA,NA,NA,HRV
+202-98-2,"4H-Cyclopenta[d,e,f]chrysene",NA,NA,NA,MDH
+75-07-0,Acetaldehyde,CAL EPA,NA,IRIS,HRV
+60-35-5,Acetamide,NA,NA,NA,CAL EPA
+64-19-7,Acetic Acid,MDH ethanol specific,NA,MDH ethanol specific,NA
+75-86-5,Acetone Cyanohydrin,NA,PPRTV,PPRTV,NA
+75-05-8,Acetonitrile,NA,NA,HRV,NA
+107-02-8,Acrolein,HBV,HBV,HBV,NA
+79-06-1,Acrylamide,NA,NA,IRIS,IRIS
+79-10-7,Acrylic acid,CAL EPA,HRV,IRIS,NA
+107-13-1,Acrylonitrile,NA,NA,IRIS,HRV
+111-69-3,Adiponitrile,NA,PPRTV,PPRTV,NA
+00-07-9,Aldehydes,HRV,NA,CAL EPA,MDH
+309-00-2,Aldrin,NA,NA,NA,IRIS
+VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,PPRTV,NA
+107-05-1,Allyl chloride,NA,HRV,IRIS,CAL EPA
+7429-90-5,Aluminum,NA,NA,PPRTV,NA
+117-79-3,"Aminoanthraquinone, 2-",NA,NA,NA,CAL EPA
+7664-41-7,Ammonia,HRV,PPRTV,HRV,NA
+75-85-4,"Amyl Alcohol, tert-",NA,PPRTV,NA,NA
+62-53-3,Aniline,NA,NA,IRIS,CAL EPA
+191-26-4,Anthanthrene,NA,NA,NA,MDH
+7440-36-0,Antimony,NA,NA,HRV,NA
+0-00-1,Antimony Compounds,NA,NA,HRV,NA
+1309-64-4,Antimony trioxide,NA,PPRTV,HRV,NA
+140-57-8,Aramite,NA,NA,NA,IRIS
+7440-38-2,Arsenic,CAL EPA,NA,CAL EPA,HRV
+0-00-2,Arsenic Compounds,CAL EPA,NA,CAL EPA,HRV
+1327-53-3,Arsenic Trioxide,CAL EPA,NA,CAL EPA,HRV
+7784-42-1,Arsine,HRV,HRV,IRIS,HRV
+123-77-3,Azodicarbonamide,NA,PPRTV,PPRTV,NA
+199-54-2,Benz[e]aceanthrylene,NA,NA,NA,MDH
+202-33-5,Benz[j]aceanthryIene,NA,NA,NA,MDH
+211-91-6,Benz[l]aceanthryIene,NA,NA,NA,MDH
+100-52-7,Benzaldehyde,MDH ethanol specific,NA,MDH ethanol specific,NA
+71-43-2,Benzene,HRV,PPRTV,IRIS,HRV
+92-87-5,Benzidine,NA,NA,NA,HRV
+205-82-3,Benzo(j)fluoranthene,NA,NA,NA,MDH
+207-08-9,Benzo(k)fluoranthene,NA,NA,NA,MDH
+56-55-3,Benzo[a]anthracene,NA,NA,NA,MDH
+50-32-8,Benzo[a]pyrene,NA,NA,NA,MDH
+205-99-2,Benzo[b]fluoranthene,NA,NA,NA,MDH
+205-12-9,Benzo[c]fluorene,NA,NA,NA,MDH
+191-24-2,"Benzo[g,h,i]perylene",NA,NA,NA,MDH
+100-44-7,Benzyl chloride,CAL EPA,PPRTV,PPRTV,CAL EPA
+7440-41-7,Beryllium,NA,NA,IRIS,HRV
+0-00-3,Beryllium Compounds,NA,NA,IRIS,HRV
+92-52-4,"Biphenyl, 1,1-",NA,PPRTV,NA,NA
+117-81-7,Bis(2-ethylhexyl)phthalate (DEHP),NA,NA,NA,CAL EPA
+542-88-1,Bis(chloromethyl)ether,NA,NA,NA,HRV
+10294-34-5,Boron Trichloride,NA,PPRTV,PPRTV,NA
+108-86-1,Bromobenzene,NA,IRIS,IRIS,NA
+74-97-5,Bromochloromethane,NA,PPRTV,NA,NA
+75-25-2,Bromoform,NA,NA,NA,IRIS
+106-94-5,"Bromopropane, 1-",HBV,HBV,HBV,NA
+106-99-0,"Butadiene, 1,3-",CAL EPA,NA,IRIS,HBV
+71-36-3,Butanol,MDH ethanol specific,NA,MDH ethanol specific,NA
+78-92-2,"Butyl alcohol, sec-",NA,PPRTV,PPRTV,NA
+111-76-2,Butyl Cellosolve (ethylene glycol monobutyl ether),CAL EPA,NA,HRV,NA
+123-72-8,Butyraldehyde,MDH ethanol specific,NA,MDH ethanol specific,NA
+7440-43-9,Cadmium,NA,NA,CAL EPA,HRV
+0-00-4,Cadmium Compounds,NA,NA,CAL EPA,HRV
+105-60-2,Caprolactum,CAL EPA,NA,CAL EPA,NA
+75-15-0,Carbon disulfide,HRV,NA,HRV,NA
+630-08-0,Carbon Monoxide,CAL EPA,NA,NA,NA
+56-23-5,Carbon tetrachloride,CAL EPA,NA,IRIS,IRIS
+463-58-1,Carbonyl sulfide,NA,PPRTV,PPRTV,NA
+111-15-9,Cellosolve Acetate (ethylene glycol monoethyl ether acetate),HRV,PPRTV,CAL EPA,NA
+1306-38-3,Cerium Oxide and Cerium Compounds,NA,NA,IRIS,NA
+12789-03-6,Chlordane or (57-74-9),NA,HRV,IRIS ,IRIS
+108171-26-2,"Chlorinated Paraffins (C12, 60% Chlorine)",NA,NA,NA,CAL EPA
+7782-50-5,Chlorine,HRV,NA,CAL EPA,NA
+10049-04-4,Chlorine Oxide (CLO2),NA,HRV,IRIS,NA
+75-68-3,"Chloro-1,1-difluoroethane, 1- (HCFC-142b)",NA,NA,IRIS,NA
+95-83-0,"Chloro-o-phenylenediamine, 4-",NA,NA,NA,CAL EPA
+95-69-2,"Chloro-o-toluidine, p-",NA,NA,NA,CAL EPA
+532-27-4,"Chloroacetophenone, 2-",NA,NA,HRV,NA
+108-90-7,Chlorobenzene,NA,PPRTV,CAL EPA,NA
+98-56-6,"Chlorobenzotrifluoride, 4-",NA,PPRTV,PPRTV,NA
+75-45-6,Chlorodifluoromethane (HCFC-22),NA,NA,IRIS,NA
+67-66-3,Chloroform,HRV,NA,CAL EPA,IRIS
+88-73-3,"Chloronitrobenzene, o-",NA,PPRTV,NA,NA
+100-00-5,"Chloronitrobenzene, p-",NA,PPRTV,PPRTV,NA
+76-06-2,Chloropicrin,CAL EPA,NA,CAL EPA,NA
+126-99-8,Chloroprene,NA,NA,IRIS,IRIS
+18540-29-9-aer,Chromic acid mists and dissolved Cr(VI) aerosols,NA,HRV,IRIS,HRV
+7440-47-3,Chromium,NA,HRV,IRIS,HRV
+18540-29-9,Chromium (Hexavalent) (particulate),NA,HRV,IRIS,HRV
+0-00-5,Chromium Compounds,NA,HRV,IRIS,HRV
+218-01-9,Chrysene (Benzo(a)phenanthrene),NA,NA,NA,MDH
+8007-45-2,Coal Tar,NA,NA,NA,HRV
+7440-48-4,Cobalt,NA,PPRTV,PPRTV,PPRTV
+0-00-7,Coke Oven Emissions,NA,NA,NA,HRV
+7440-50-8,Copper,CAL EPA,NA,NA,NA
+00-03-1,Copper Compounds,CAL EPA,NA,NA,NA
+120-71-8,"Cresidine, p-",NA,NA,NA,CAL EPA
+108-39-4,"Cresol, m-",NA,NA,CAL EPA,NA
+95-48-7,"Cresol, o-",NA,NA,CAL EPA,NA
+106-44-5,"Cresol, p-",NA,NA,CAL EPA,NA
+1319-77-3,Cresols/Cresylic acid (isomers and mixture),NA,NA,CAL EPA,NA
+98-82-8,Cumene,NA,HRV,IRIS,NA
+135-20-6,Cupferron,NA,NA,NA,CAL EPA
+57-12-5,"Cyanide (Cyanide ion, Inorganic cyanides, Isocyanide)",HRV,NA,HRV,NA
+0-00-8,Cyanide Compounds,HRV,NA,HRV,NA
+110-82-7,Cyclohexane,NA,PPRTV,IRIS,NA
+109-94-1,Cyclohexanone,NA,PPRTV,PPRTV,NA
+27208-37-3,"Cyclopenta[c,d]pyrene",NA,NA,NA,MDH
+50-29-3,DDT,NA,NA,NA,IRIS
+615-05-4,"Diaminoanisole, 2,4-",NA,NA,NA,CAL EPA
+103-33-3,"Diazene, Diphenyl",NA,NA,NA,IRIS
+226-36-8,"Dibenz(a,h)acridine",NA,NA,NA,MDH
+224-42-0,"Dibenz(a,j)acridine",NA,NA,NA,MDH
+53-70-3,"Dibenz[a,h]anthracene",NA,NA,NA,MDH
+192-65-4,"Dibenzo(a,e)pyrene",NA,NA,NA,MDH
+189-64-0,"Dibenzo(a,h)pyrene",NA,NA,NA,MDH
+191-30-0,"Dibenzo(a,l)pyrene",NA,NA,NA,MDH
+194-59-2,"Dibenzo(c,g)carbazole, 7H-",NA,NA,NA,MDH
+5385-75-1,"Dibenzo[a,e]fluoranthene",NA,NA,NA,MDH
+189-55-9,"Dibenzo[a,i]pyrene",NA,NA,NA,MDH
+96-12-8,"Dibromo-3-chloropropane, 1,2-",NA,HRV,IRIS,CAL EPA
+764-41-0,"Dichloro-2-butene, 1,4-",NA,NA,NA,PPRTV
+1476-11-5,"Dichloro-2-butene, cis-1,4-",NA,NA,NA,PPRTV
+106-46-7,"Dichlorobenzene(p), 1,4-",NA,HRV,IRIS,CAL EPA
+25321-22-6,Dichlorobenzenes,NA,HRV,IRIS,CAL EPA
+91-94-1,"Dichlorobenzidene, 3,3-",NA,NA,NA,CAL EPA
+75-71-8,Dichlorodifluoromethane (CFC-12),NA,PPRTV,NA,NA
+111-44-4,Dichloroethyl ether (Bis(2-chloroethyl)ethe,NA,NA,NA,IRIS
+75-35-4,"Dichloroethylene (1,1-) (Vinylidene chloride)",NA,NA,IRIS,NA
+156-60-5,"Dichloroethylene, trans-1,2-",NA,NA,PPRTV,NA
+542-75-6,"Dichloropropene, 1,3-",NA,NA,HRV,IRIS
+62-73-7,Dichlorvos,NA,NA,HRV,NA
+77-73-6,Dicyclopentadiene,NA,HRV,NA,NA
+60-57-1,Dieldrin,NA,NA,NA,IRIS
+0-02-4,Diesel exhaust particulate,NA,NA,HRV,NA
+111-42-2,Diethanolamine,NA,PPRTV,CAL EPA,NA
+112-34-5,Diethylene Glycol Monobutyl Ether,NA,PPRTV,PPRTV,NA
+111-90-0,Diethylene Glycol Monoethyl Ether,NA,PPRTV,PPRTV,NA
+75-37-6,"Difluoroethane, 1,1-",NA,NA,IRIS,NA
+108-20-3,Diisopropyl Ether,NA,PPRTV,PPRTV,NA
+60-11-7,Dimethyl aminoazobenzene,NA,NA,NA,CAL EPA
+68-12-2,Dimethyl formamide,NA,PPRTV,HRV,NA
+108-01-0,"Dimethylamino ethanol, 2-",NA,HRV,NA,NA
+57-97-6,"Dimethylbenz[a]anthracene, 7,12-",NA,NA,NA,NA
+57-14-7,"Dimethylhydrazine, 1,1-",NA,PPRTV,NA,NA
+42397-64-8,"Dinitropyrene, 1,6- (BaP)",NA,NA,NA,MDH
+42397-65-9,"Dinitropyrene, 1,8- (BaP)",NA,NA,NA,MDH
+121-14-2,"Dinitrotoluene, 2,4-",NA,NA,NA,CAL EPA
+123-91-1,"Dioxane, 1,4- (1,4-Diethylene dioxide)",HRV,NA,IRIS,IRIS
+122-66-7,"Diphenylhydrazine, 1,2-",NA,NA,NA,IRIS
+106-89-8,"Epichlorohydrin (l-Chloro-2,3-epoxypropane)",CAL EPA,PPRTV,IRIS,HRV
+106-88-7,"Epoxybutane, 1,2-",NA,NA,HRV,NA
+67-17-5,Ethanol,MDH ethanol specific,NA,MDH ethanol specific,NA
+110-80-5,"Ethoxyethanol, 2- (ethylene glycol monoethyl ether)",HRV,HRV,IRIS,NA
+141-78-6,Ethyl Acetate,MDH ethanol specific,PPRTV,MDH ethanol specific,NA
+140-88-5,Ethyl Acrylate,NA,PPRTV,PPRTV,NA
+100-41-4,Ethyl benzene,HRV,PPRTV,IRIS,CAL EPA
+51-79-6,Ethyl carbamate (Urethane),NA,NA,NA,CAL EPA
+75-00-3,Ethyl chloride (Chloroethane),HRV,PPRTV,IRIS,NA
+97-63-2,Ethyl Methacrylate,NA,PPRTV,PPRTV,NA
+106-93-4,Ethylene dibromide (Dibromoethane),NA,NA,IRIS,HRV
+107-06-2,"Ethylene dichloride (1,2-Dichloroethane)",NA,PPRTV,CAL EPA,IRIS
+107-21-1,Ethylene glycol,NA,NA,CAL EPA,NA
+75-21-8,Ethylene oxide,NA,NA,CAL EPA,IRIS
+96-45-7,Ethylene thiourea,NA,NA,NA,CAL EPA
+75-34-3,"Ethylidene dichloride (1,1-Dichloroethane)",NA,NA,NA,CAL EPA
+206-44-0,Fluoranthene,NA,NA,NA,MDH
+1101,Fluorides (except hydrogen fluoride),NA,NA,CAL EPA,NA
+50-00-0,Formaldehyde,HRV,NA,CAL EPA,MDH
+64-16-6,Formic Acid,MDH ethanol specific,PPRTV,NA,NA
+98-01-1,Furfural,MDH ethanol specific,NA,MDH ethanol specific,NA
+111-30-8,Glutaraldehyde,NA,NA,CAL EPA,NA
+0-01-2,Glycol ethers,HRV,HRV,IRIS,NA
+76-44-8,Heptachlor,NA,NA,NA,IRIS
+1024-57-3,Heptachlor epoxide,NA,NA,NA,IRIS
+35822-46-9,"Heptachlorodibenzo-p-dioxin, 1,2,3,4,6,7,8-",NA,NA,MPCA,MPCA
+00-08-5,"Heptachlorodibenzodioxin, All Isomers",NA,NA,MPCA,MPCA
+67562-39-4,"Heptachlorodibenzofuran, 1,2,3,4,6,7,8-",NA,NA,MPCA,MPCA
+55673-89-7,"Heptachlorodibenzofuran, 1,2,3,4,7,8,9-",NA,NA,MPCA,MPCA
+00-08-4,"Heptachlorodibenzofuran, All Isomers",NA,NA,MPCA,MPCA
+118-74-1,Hexachlorobenzene,NA,NA,NA,IRIS
+87-68-3,Hexachlorobutadiene,NA,NA,NA,IRIS
+608-73-1,Hexachlorocyclohexane (technical grade),NA,NA,NA,IRIS
+319-84-6,"Hexachlorocyclohexane, alpha-",NA,NA,NA,IRIS
+319-85-7,"Hexachlorocyclohexane, beta-1,2,3,4,5,6-",NA,NA,NA,IRIS
+77-47-4,Hexachlorocyclopentadiene,NA,NA,IRIS,NA
+39227-28-6,"Hexachlorodibenzo-p-dioxin, 1,2,3,4,7,8-",NA,NA,MPCA,MPCA
+57653-85-7,"Hexachlorodibenzo-p-dioxin, 1,2,3,6,7,8-",NA,NA,MPCA,IRIS
+19408-74-3,"Hexachlorodibenzo-p-dioxin, 1,2,3,7,8,9-",NA,NA,MPCA,IRIS
+00-08-3,"Hexachlorodibenzodioxins, All Isomers",NA,NA,MPCA,MPCA
+70648-26-9,"Hexachlorodibenzofuran, 1,2,3,4,7,8-",NA,NA,MPCA,MPCA
+57117-44-9,"Hexachlorodibenzofuran, 1,2,3,6,7,8-",NA,NA,MPCA,MPCA
+72918-21-9,"Hexachlorodibenzofuran, 1,2,3,7,8,9-",NA,NA,MPCA,MPCA
+60851-34-5,"Hexachlorodibenzofuran, 2,3,4,6,7,8-",NA,NA,MPCA,MPCA
+00-08-2,"Hexachlorodibenzofurans, All Isomers",NA,NA,MPCA,MPCA
+67-72-1,Hexachloroethane,NA,NA,IRIS,IRIS
+822-06-0,"Hexamethylene-1,6-diisocyanate",NA,NA,HRV,NA
+110-54-3,Hexane,NA,PPRTV,HRV,PPRTV
+591-78-6,Hexanone-2,NA,NA,IRIS,NA
+302-01-2,Hydrazine,NA,PPRTV,CAL EPA,HRV
+10034-93-2,Hydrazine sulfate,NA,NA,NA,HRV
+7647-01-0,Hydrochloric acid (hydrogen chloride),HRV,NA,HRV,NA
+74-90-8,Hydrogen cyanide,HRV,NA,HRV,NA
+7664-39-3,Hydrogen fluoride (Hydrofluoric acid),HRV,NA,CAL EPA,NA
+7783-07-5,Hydrogen selenide,CAL EPA,NA,NA,NA
+7783-06-4,Hydrogen sulfide,CAL EPA,HRV,IRIS,NA
+193-39-5,"Indeno(1,2,3-cd)pyrene",NA,NA,NA,MDH
+121-51-3,Isoamyl,MDH ethanol specific,NA,MDH ethanol specific,NA
+78-59-1,Isophorone,NA,NA,CAL EPA,NA
+67-63-0,Isopropyl alcohol,CAL EPA,PPRTV,CAL EPA,NA
+50-21-5,Lactic Acid,MDH ethanol specific,NA,MDH ethanol specific,NA
+7439-92-1,Lead,NA,NAAQS,NAAQS,CAL EPA
+7758-97-6,Lead Chromate,NA,HRV,IRIS,HRV
+0-01-3,Lead Compounds,NA,NAAQS,NAAQS,CAL EPA
+58-89-9,Lindane (all isomers),NA,NA,NA,CAL EPA
+00-07-8,m- and p-Xylenes,HRV,NA,IRIS,NA
+108-31-6,Maleic anhydride,NA,NA,CAL EPA,NA
+7439-96-5,Manganese,NA,NA,HRV,NA
+0-01-4,Manganese Compounds,NA,NA,HRV,NA
+1313-13-9,Manganese Dioxide,NA,NA,HRV,NA
+7439-97-6,Mercury (elemental),CAL EPA,NA,IRIS,NA
+0-02-3,Mercury Compounds,CAL EPA,NA,IRIS,NA
+126-98-7,Methacrylonitrile,NA,PPRTV,PPRTV,NA
+67-56-1,Methanol,HRV,NA,IRIS,NA
+109-86-4,"Methoxyethanol, 2- (ethylene glycol monomethyl ether EGME)",HRV,HRV,IRIS,NA
+96-33-3,Methyl acrylate,NA,PPRTV,PPRTV,NA
+74-83-9,Methyl bromide (Bromomethane),HRV,PPRTV,HRV,NA
+110-49-6,Methyl Cellosolve Acetate,NA,PPRTV,CAL EPA,NA
+74-87-3,Methyl chloride (Chloromethane),NA,PPRTV,IRIS,NA
+71-55-6,"Methyl chloroform (1,1,1-Trichloroethane)",HRV,IRIS,IRIS,NA
+78-93-3,Methyl ethyl ketone (2-Butanone),HRV,NA,IRIS,NA
+60-34-4,Methyl Hydrazine,NA,PPRTV,NA,NA
+108-10-1,Methyl isobutyl ketone (Hexone),NA,NA,IRIS,NA
+624-83-9,Methyl isocyanate,NA,NA,CAL EPA,NA
+80-62-6,Methyl methacrylate,NA,NA,HRV,NA
+1634-04-4,Methyl tert butyl ether,NA,NA,IRIS,CAL EPA
+56-49-5,"Methylcholanthrene, 3-",NA,NA,NA,MDH
+3697-24-3,"Methylchrysene, 5-",NA,NA,NA,MDH
+101-14-4,"Methylene bis(2-chloroaniline), 4,4-",NA,NA,NA,CAL EPA
+74-95-3,Methylene Bromide,NA,NA,NA,NA
+75-09-2,Methylene chloride (Dichloromethane),HRV,NA,IRIS,HRV
+101-68-8,Methylene diphenyl diisocyanate (MDI),NA,NA,HRV,NA
+101-77-9,"Methylenedianiline, 4,4-",NA,NA,CAL EPA,CAL EPA
+90-94-8,Michler's ketone,NA,NA,NA,CAL EPA
+10595-95-6,N- Nitrosomethylethylamine,NA,NA,NA,CAL EPA
+924-16-3,N-Nitrosodi-n-butylamine,NA,NA,NA,IRIS
+621-64-7,N-Nitrosodi-n-propylamine,NA,NA,NA,CAL EPA
+55-18-5,N-Nitrosodiethylamine,NA,NA,NA,IRIS
+62-75-9,N-Nitrosodimethylamine,NA,NA,NA,IRIS
+86-30-6,N-Nitrosodiphenylamine,NA,NA,NA,CAL EPA
+59-89-2,N-Nitrosomorpholine,NA,NA,NA,CAL EPA
+100-75-4,N-Nitrosopiperidine,NA,NA,NA,CAL EPA
+111-84-2,N-Nonane,NA,PPRTV,PPRTV,NA
+64724-95-6,"Naphtha, High Flash Aromatic (HFAN)",NA,PPRTV,PPRTV,NA
+91-20-3,Naphthalene,HBV,NA,HBV,MDH
+193-09-9,"Naphtho[2,3-e]pyrene",NA,NA,NA,MDH
+7440-02-0,Nickel,HRV,NA,CAL EPA,HRV
+0-01-5,Nickel Compounds,HRV,NA,CAL EPA,HRV
+1313-99-1,Nickel oxide,HRV,NA,CAL EPA,CAL EPA
+0-02-5,Nickel refinery dust from the pyrometallurgical process,HRV,NA,CAL EPA,IRIS
+12035-72-2,Nickel sulfide (NI3S2),HRV,NA,CAL EPA,HRV
+7697-37-2,Nitric acid,HRV,NA,NA,NA
+602-87-9,"Nitroacenaphthene, 5-",NA,NA,NA,MDH
+88-74-4,"Nitroaniline, 2-",NA,PPRTV,NA,NA
+100-01-6,"Nitroaniline, 4-",NA,PPRTV,PPRTV,NA
+98-95-3,Nitrobenzene,NA,NA,IRIS,IRIS
+7496-02-8,"Nitrochrysene, 6-",NA,NA,NA,MDH
+607-57-8,"Nitrofluorene, 2-",NA,NA,NA,MDH
+10102-44-0,Nitrogen dioxide (NO2),HBV,NA,NA,NA
+VARIOUS-NOx,Nitrogen oxides (NOx),HBV,NA,NA,NA
+75-52-5,Nitromethane,NA,PPRTV,PPRTV,PPRTV
+79-46-9,"Nitropropane, 2-",NA,NA,HRV,NA
+5522-43-0,"Nitropyrene, 1-",NA,NA,NA,MDH
+57835-92-4,"Nitropyrene, 4-",NA,NA,NA,MDH
+156-10-5,"Nitrosodiphenylamine, p-",NA,NA,NA,CAL EPA
+3268-87-9,"Octachlorodibenzo-p-dioxin, 1,2,3,4,6,7,8,9-",NA,NA,MPCA,MPCA
+39001-02-0,"Octachlorodibenzofuran, 1,2,3,4,6,7,8,9-",NA,NA,MPCA,MPCA
+10028-15-6,Ozone,CAL EPA,NA,NA,NA
+74472-37-0,"PCB 114 (2,3,4,4,5 Pentachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+31508-00-6,"PCB 118 (2,3,4,4,5 Pentachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+65510-44-3,"PCB 123 (2,3,4,4,5 Pentachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+57465-28-8,"PCB 126 (3,3,4,4,5 Pentachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+38380-0804,"PCB 156 (2,3,3,4,4,5 Hexachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+69782-90-7,"PCB 157 (2,3,3,4,4,5 Hexachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+52663-72-6,"PCB 167 (2,3,4,4,5,5 Hexachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+32774-16-6,"PCB 169 (3,3,4,4,5,5 Hexachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+39635-31-9,"PCB 189 (2,3,3,4,4,5,5 Heptachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+32598-13-3,"PCB 77 (3,3,4,4-Tetrachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+70362-50-4,"PCB 81 (3,4,4,5 Tetrachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+32598-14-4,"PCB105 (2,3,3,4,4 Pentachlorobiphenyl)",NA,NA,CAL EPA,Cal EPA
+40321-76-4,"Pentachlorodibenzo-p-dioxin, 1,2,3,7,8-",NA,NA,MPCA,MPCA
+00-08-1,"Pentachlorodibenzodioxins, All Isomers",NA,NA,MPCA,MPCA
+57117-41-6,"Pentachlorodibenzofuran, 1,2,3,7,8-",NA,NA,MPCA,MPCA
+57117-31-4,"Pentachlorodibenzofuran, 2,3,4,7,8-",NA,NA,MPCA,MPCA
+00-09-0,"Pentachlorodibenzofurans, All Isomers",NA,NA,MPCA,MPCA
+87-86-5,Pentachlorophenol,NA,NA,NA,CAL EPA
+109-66-0,"Pentane, n-",NA,PPRTV,PPRTV,NA
+00-07-7,"Petroleum Hydrocarbons, Aliphatic (C7 - C11)",NA,NA,HBV,PPRTV
+85-01-8,Phenanthrene,NA,NA,NA,NA
+108-95-2,Phenol,HRV,NA,CAL EPA,NA
+75-44-5,Phosgene,HRV,NA,IRIS,NA
+7803-51-2,Phosphine,NA,HRV,IRIS,NA
+7664-38-2,Phosphoric acid,NA,NA,IRIS,NA
+85-44-9,Phthalic anhydride,NA,NA,CAL EPA,NA
+1336-36-3,Polychlorinated biphenyls (Aroclors unspeciated),NA,NA,CAL EPA,IRIS
+00-08-0,"Polychlorinated Dibenzo-P-Dioxins And Furans, Total",NA,NA,CAL EPA,MPCA
+00-05-0,"Polychlorinated Dibenzodioxins, Total",NA,NA,CAL EPA,MPCA
+00-05-1,"Polychlorinated Dibenzofurans, Total",NA,NA,MPCA,MPCA
+130498-29-2,Polycyclic Aromatic Hydrocarbons (PAH),NA,NA,NA,MDH
+00-01-7,Polycyclic Organic Matter (POM),NA,NA,NA,MPCA/MDH
+9016-87-9,Polymeric diphenylmethane diisocyanate,NA,NA,HRV,NA
+7758-01-2,Potassium bromate,NA,NA,NA,CAL EPA
+1120-71-4,"Propane sultone, 1,3-",NA,NA,NA,CAL EPA
+71-23-8,Propanol,MDH ethanol specific,NA,MDH ethanol specific,NA
+123-38-6,Propionaldehyde,NA,NA,IRIS,NA
+79-09-4,Propionic Acid,MDH ethanol specific,NA,MDH ethanol specific,NA
+128-38-6,Proprionaldehyde,MDH ethanol specific,NA,MDH ethanol specific,NA
+115-07-1,Propylene,NA,NA,CAL EPA,NA
+78-87-5,"Propylene dichloride (1,2-Dichloropropane)",NA,HRV,IRIS,NA
+107-98-2,Propylene Glycol Monomethyl Ether,NA,HRV,IRIS,NA
+75-56-9,Propylene oxide,CAL EPA,NA,IRIS,HRV
+930-55-2,"Pyrrolidine, 1-Nitroso-",NA,NA,NA,IRIS
+7782-49-2,Selenium,NA,NA,CAL EPA,NA
+0-01-9,Selenium Compounds,NA,NA,CAL EPA,NA
+7631-86-9,"Silica (crystalline, respirable, PM4)",NA,NA,HBV,NA
+1310-73-2,Sodium hydroxide,HRV,NA,NA,NA
+7789-06-2,Strontium chromate,NA,HRV,IRIS,HRV
+100-42-5,Styrene,HRV,NA,HRV,NA
+14808-79-8,Sulfates,CAL EPA,NA,NA,NA
+126-33-0,Sulfolane,NA,PPRTV,NA,NA
+7446-09-5,Sulfur dioxide,CAL EPA,NA,NA,NA
+7664-93-9,Sulfuric acid (aerosol forms only),CAL EPA,NA,CAL EPA,NA
+8014-95-7,Sulfuric Acid mixture w. sulfur trioxide (oleum),CAL EPA,NA,NA,NA
+00-09-1,"TCDD Eqivalents, 2,3,7,8-",NA,NA,CAL EPA,MPCA
+1746-01-6,"Tetrachlorodibenzo-p-dioxin, 2,3,7,8-",NA,NA,CAL EPA,MPCA
+00-08-8,"Tetrachlorodibenzodioxins, All Isomers",NA,NA,CAL EPA,MPCA
+51207-31-9,"Tetrachlorodibenzofuran, 2,3,7,8-",NA,NA,MPCA,MPCA
+00-08-6,"Tetrachlorodibenzofurans, All Isomers",NA,NA,MPCA,MPCA
+630-20-6,"Tetrachloroethane, 1,1,1,2-",NA,NA,NA,IRIS
+79-34-5,"Tetrachloroethane, 1,1,2,2-",NA,NA,NA,IRIS
+127-18-4,Tetrachloroethylene (Perchloroethylene),HRV,NA,MDH,MDH
+811-97-2,"Tetrafluoroethane, 1,1,1,2-",NA,NA,IRIS,NA
+109-99-9,Tetrahydrofuran,NA,NA,IRIS,NA
+62-55-5,Thioacetamide,NA,NA,NA,CAL EPA
+108-88-3,Toluene,HRV,PPRTV,HRV,NA
+91-08-7,"Toluene-2,6-diisocyanate",NA,NA,CAL EPA,CAL EPA
+95-80-7,"Toluene diamine, 2,4-",NA,NA,NA,CAL EPA
+584-84-9,"Toluene diisocyanate, 2,4-",NA,NA,CAL EPA,CAL EPA
+26471-62-5,Toluenediisocyanate (mixed isomers),NA,NA,HRV,CAL EPA
+8001-35-2,Toxaphene (chlorinated camphene),NA,NA,NA,IRIS
+120-82-1,"Trichlorobenzene, 1,2,4-",NA,PPRTV,PPRTV,NA
+79-00-5,"Trichloroethane, 1,1,2-",NA,PPRTV,NA,IRIS
+79-01-6,Trichloroethylene,HRV,NA,MDH,MDH
+75-69-4,Trichlorofluoromethane (CFC-11),NA,PPRTV,NA,NA
+88-06-2,"Trichlorophenol, 2,4,6-",NA,NA,NA,IRIS
+96-18-4,"Trichloropropane, 1,2,3-",NA,NA,IRIS,NA
+96-19-5,"Trichloropropene, 1,2,3-",NA,PPRTV,PPRTV,NA
+121-44-8,Triethylamine,HRV,HRV,IRIS,NA
+526-73-8,"Trimethylbenzene, 1,2,3-",NA,PPRTV,IRIS,NA
+95-63-6,"Trimethylbenzene, 1,2,4-",NA,PPRTV,IRIS,NA
+1314-62-1,"Vanadium Pentoxide, (V2O5)",HRV,PPRTV,PPRTV,PPRTV
+108-05-4,Vinyl acetate,NA,NA,HRV,NA
+593-60-2,Vinyl bromide,NA,NA,IRIS,NA
+75-01-4,Vinyl chloride,CAL EPA,NA,IRIS,HRV
+1330-20-7,Xylenes,HRV,PPRTV,IRIS,NA
+108-38-3,"Xylenes, m-",HRV,PPRTV,IRIS,NA
+95-47-6,"Xylenes, o-",HRV,PPRTV,IRIS,NA
+106-42-3,"Xylenes, p-",HRV,PPRTV,IRIS,NA
+13530-65-9,Zinc chromate,NA,HRV,IRIS,HRV

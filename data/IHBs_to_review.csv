@@ -1,0 +1,6 @@
+CAS,Pollutant,Benchmark,Current_value_ug_m3,Notes
+"7440-02-0",Nickel,Acute,11,"Current value is 50X higher than CalEPA"
+"127-18-4","Tetrachloroethylene (Perc)",Acute,20000,"Current value is 500X higher than CalEPA"
+"75-01-4","Vinyl chloride",Acute,180000,"Current value is 140X higher than ATSDR"
+"107-02-8",Acrolein,"Chronic non-cancer",0.4,"Current value is 20X higher than IRIS"
+"50-00-0",Formaldehyde,"Chronic cancer",2,"Current value is 2.6X higher than IRIS"
