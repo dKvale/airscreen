@@ -173,26 +173,26 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 0-01-2,Glycol ethers,90,60,20,NA
 76-44-8,Heptachlor,NA,NA,NA,0.0077
 1024-57-3,Heptachlor epoxide,NA,NA,NA,0.0038
-35822-46-9,"Heptachlorodibenzo-p-dioxin, 1,2,3,4,6,7,8-",NA,NA,0.004,2e-6
-00-08-5,"Heptachlorodibenzodioxin, All Isomers",NA,NA,0.004,2e-6
-67562-39-4,"Heptachlorodibenzofuran, 1,2,3,4,6,7,8-",NA,NA,0.004,2e-6
-55673-89-7,"Heptachlorodibenzofuran, 1,2,3,4,7,8,9-",NA,NA,0.004,2e-6
-00-08-4,"Heptachlorodibenzofuran, All Isomers",NA,NA,0.004,2e-6
+35822-46-9,"Heptachlorodibenzo-p-dioxin, 1,2,3,4,6,7,8-",NA,NA,0.004,2.5e-6
+00-08-5,"Heptachlorodibenzodioxin, All Isomers",NA,NA,0.004,2.5e-6
+67562-39-4,"Heptachlorodibenzofuran, 1,2,3,4,6,7,8-",NA,NA,0.004,2.5e-6
+55673-89-7,"Heptachlorodibenzofuran, 1,2,3,4,7,8,9-",NA,NA,0.004,2.5e-6
+00-08-4,"Heptachlorodibenzofuran, All Isomers",NA,NA,0.004,2.5e-6
 118-74-1,Hexachlorobenzene,NA,NA,NA,0.022
 87-68-3,Hexachlorobutadiene,NA,NA,NA,0.45
 608-73-1,Hexachlorocyclohexane (technical grade),NA,NA,NA,0.02
 319-84-6,"Hexachlorocyclohexane, alpha-",NA,NA,NA,0.0056
 319-85-7,"Hexachlorocyclohexane, beta-1,2,3,4,5,6-",NA,NA,NA,0.019
 77-47-4,Hexachlorocyclopentadiene,NA,NA,0.2,NA
-39227-28-6,"Hexachlorodibenzo-p-dioxin, 1,2,3,4,7,8-",NA,NA,4e-4,2e-7
+39227-28-6,"Hexachlorodibenzo-p-dioxin, 1,2,3,4,7,8-",NA,NA,4e-4,2.5e-7
 57653-85-7,"Hexachlorodibenzo-p-dioxin, 1,2,3,6,7,8-",NA,NA,4e-4,7.7e-6
 19408-74-3,"Hexachlorodibenzo-p-dioxin, 1,2,3,7,8,9-",NA,NA,4e-4,7.7e-6
-00-08-3,"Hexachlorodibenzodioxins, All Isomers",NA,NA,4e-4,2e-7
-70648-26-9,"Hexachlorodibenzofuran, 1,2,3,4,7,8-",NA,NA,4e-4,2e-7
-57117-44-9,"Hexachlorodibenzofuran, 1,2,3,6,7,8-",NA,NA,4e-4,2e-7
-72918-21-9,"Hexachlorodibenzofuran, 1,2,3,7,8,9-",NA,NA,4e-4,2e-7
-60851-34-5,"Hexachlorodibenzofuran, 2,3,4,6,7,8-",NA,NA,4e-4,2e-7
-00-08-2,"Hexachlorodibenzofurans, All Isomers",NA,NA,7200,2e-7
+00-08-3,"Hexachlorodibenzodioxins, All Isomers",NA,NA,4e-4,2.5e-7
+70648-26-9,"Hexachlorodibenzofuran, 1,2,3,4,7,8-",NA,NA,4e-4,2.5e-7
+57117-44-9,"Hexachlorodibenzofuran, 1,2,3,6,7,8-",NA,NA,4e-4,2.5e-7
+72918-21-9,"Hexachlorodibenzofuran, 1,2,3,7,8,9-",NA,NA,4e-4,2.5e-7
+60851-34-5,"Hexachlorodibenzofuran, 2,3,4,6,7,8-",NA,NA,4e-4,2.5e-7
+00-08-2,"Hexachlorodibenzofurans, All Isomers",NA,NA,7200,2.5e-7
 67-72-1,Hexachloroethane,NA,NA,30,2.5
 822-06-0,"Hexamethylene-1,6-diisocyanate",NA,NA,0.01,NA
 110-54-3,Hexane,NA,2e3,2e3,50
@@ -273,8 +273,8 @@ VARIOUS-NOx,Nitrogen oxides (NOx),470,NA,NA,NA
 5522-43-0,"Nitropyrene, 1-",NA,NA,NA,0.06
 57835-92-4,"Nitropyrene, 4-",NA,NA,NA,0.06
 156-10-5,"Nitrosodiphenylamine, p-",NA,NA,NA,1.6
-3268-87-9,"Octachlorodibenzo-p-dioxin, 1,2,3,4,6,7,8,9-",NA,NA,0.13,8e-5
-39001-02-0,"Octachlorodibenzofuran, 1,2,3,4,6,7,8,9-",NA,NA,0.13,8e-5
+3268-87-9,"Octachlorodibenzo-p-dioxin, 1,2,3,4,6,7,8,9-",NA,NA,0.13,8.3e-5
+39001-02-0,"Octachlorodibenzofuran, 1,2,3,4,6,7,8,9-",NA,NA,0.13,8.3e-5
 10028-15-6,Ozone,180,NA,NA,NA
 74472-37-0,"PCB 114 (2,3,4,4,5 Pentachlorobiphenyl)",NA,NA,1.3,5.3e-4
 31508-00-6,"PCB 118 (2,3,4,4,5 Pentachlorobiphenyl)",NA,NA,1.3,0.0026
@@ -288,11 +288,11 @@ VARIOUS-NOx,Nitrogen oxides (NOx),470,NA,NA,NA
 32598-13-3,"PCB 77 (3,3,4,4-Tetrachlorobiphenyl)",NA,NA,0.4,0.0026
 70362-50-4,"PCB 81 (3,4,4,5 Tetrachlorobiphenyl)",NA,NA,0.13,0.0026
 32598-14-4,"PCB105 (2,3,3,4,4 Pentachlorobiphenyl)",NA,NA,1.3,0.0026
-40321-76-4,"Pentachlorodibenzo-p-dioxin, 1,2,3,7,8-",NA,NA,4e-5,2e-8
-00-08-1,"Pentachlorodibenzodioxins, All Isomers",NA,NA,4e-5,2e-8
-57117-41-6,"Pentachlorodibenzofuran, 1,2,3,7,8-",NA,NA,0.0013,8e-7
-57117-31-4,"Pentachlorodibenzofuran, 2,3,4,7,8-",NA,NA,1.3e-4,8e-8
-00-09-0,"Pentachlorodibenzofurans, All Isomers",NA,NA,1.3e-4,8e-8
+40321-76-4,"Pentachlorodibenzo-p-dioxin, 1,2,3,7,8-",NA,NA,4e-5,2.5e-8
+00-08-1,"Pentachlorodibenzodioxins, All Isomers",NA,NA,4e-5,2.5e-8
+57117-41-6,"Pentachlorodibenzofuran, 1,2,3,7,8-",NA,NA,0.0013,8.3e-7
+57117-31-4,"Pentachlorodibenzofuran, 2,3,4,7,8-",NA,NA,1.3e-4,8.3e-8
+00-09-0,"Pentachlorodibenzofurans, All Isomers",NA,NA,1.3e-4,8.3e-8
 87-86-5,Pentachlorophenol,NA,NA,NA,2
 109-66-0,"Pentane, n-",NA,1e4,1e3,NA
 00-07-7,"Petroleum Hydrocarbons, Aliphatic (C7 - C11)",NA,NA,5e3,2.5
@@ -303,11 +303,11 @@ VARIOUS-NOx,Nitrogen oxides (NOx),470,NA,NA,NA
 7664-38-2,Phosphoric acid,NA,NA,10,NA
 85-44-9,Phthalic anhydride,NA,NA,20,NA
 1336-36-3,Polychlorinated biphenyls (Aroclors unspeciated),NA,NA,4e-4,0.1
-00-08-0,"Polychlorinated Dibenzo-P-Dioxins And Furans, Total",NA,NA,4e-5,2e-8
-00-05-0,"Polychlorinated Dibenzodioxins, Total",NA,NA,4e-5,2e-8
-00-05-1,"Polychlorinated Dibenzofurans, Total",NA,NA,1.3e-4,8e-8
+00-08-0,"Polychlorinated Dibenzo-P-Dioxins And Furans, Total",NA,NA,4e-5,2.5e-8
+00-05-0,"Polychlorinated Dibenzodioxins, Total",NA,NA,4e-5,2.5e-8
+00-05-1,"Polychlorinated Dibenzofurans, Total",NA,NA,1.3e-4,8.3e-8
 130498-29-2,Polycyclic Aromatic Hydrocarbons (PAH),NA,NA,NA,0.006
-00-01-7,Polycyclic Organic Matter (POM),NA,NA,NA,0.1
+00-01-7,Polycyclic Organic Matter (POM),NA,NA,NA,0.11
 9016-87-9,Polymeric diphenylmethane diisocyanate,NA,NA,0.6,NA
 7758-01-2,Potassium bromate,NA,NA,NA,0.071
 1120-71-4,"Propane sultone, 1,3-",NA,NA,NA,0.014
@@ -331,11 +331,11 @@ VARIOUS-NOx,Nitrogen oxides (NOx),470,NA,NA,NA
 7446-09-5,Sulfur dioxide,660,NA,NA,NA
 7664-93-9,Sulfuric acid (aerosol forms only),120,NA,1,NA
 8014-95-7,Sulfuric Acid mixture w. sulfur trioxide (oleum),120,NA,NA,NA
-00-09-1,"TCDD Eqivalents, 2,3,7,8-",NA,NA,4e-5,2e-8
-1746-01-6,"Tetrachlorodibenzo-p-dioxin, 2,3,7,8-",NA,NA,4e-5,2e-8
-00-08-8,"Tetrachlorodibenzodioxins, All Isomers",NA,NA,4e-5,2e-8
-51207-31-9,"Tetrachlorodibenzofuran, 2,3,7,8-",NA,NA,4e-4,2e-7
-00-08-6,"Tetrachlorodibenzofurans, All Isomers",NA,NA,4e-4,2e-7
+00-09-1,"TCDD Eqivalents, 2,3,7,8-",NA,NA,4e-5,2.5e-8
+1746-01-6,"Tetrachlorodibenzo-p-dioxin, 2,3,7,8-",NA,NA,4e-5,2.5e-8
+00-08-8,"Tetrachlorodibenzodioxins, All Isomers",NA,NA,4e-5,2.5e-8
+51207-31-9,"Tetrachlorodibenzofuran, 2,3,7,8-",NA,NA,4e-4,2.5e-7
+00-08-6,"Tetrachlorodibenzofurans, All Isomers",NA,NA,4e-4,2.5e-7
 630-20-6,"Tetrachloroethane, 1,1,1,2-",NA,NA,NA,1.4
 79-34-5,"Tetrachloroethane, 1,1,2,2-",NA,NA,NA,0.17
 127-18-4,Tetrachloroethylene (Perchloroethylene),2e4,NA,15,2
