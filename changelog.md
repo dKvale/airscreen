@@ -6,7 +6,7 @@ Notable changes to this project are documented in this file.
 - Toxicity values for EPA Region 5 states
 
 ### Changed
-- MPSFs for Lead and Lead compounds updated to align with IRAP modeling results. Corrects for high default value assigned to the _Henry's Law constant_ of inorganic metals.
+- MPSFs for Lead and Lead compounds updated to align with IRAP modeling results. This corrects for the high default value assigned to the _Henry's Law constant_ for inorganic metals.
 - All inhalation health benchmarks rounded to 2 significant digits
 - All MDH chronic inhalation health benchmarks rounded to 1 significant digit, except for benzene
 - Tetrachloroethylene (Perchloroethylene) non-cancer IHB updated from 100 to 15 ug/m3 per MDH guidance dated (July 2014)
