@@ -69,6 +69,8 @@ fscreen[fscreen$Pollutant %in% ethanol, c(5,9)] <- "MDH ethanol specific"
 
 fscreen[fscreen$Pollutant == "Ethyl Acetate", ]$`Subchronic ref` <- "PPRTV"
 
+fscreen[fscreen$Pollutant == "Ethyl Acetate", ]$`Chronic Non-cancer Reference Conc (ug/m3)` <- 70
+
 fscreen[fscreen$Pollutant == "Formic Acid", 7] <- "PPRTV"
 
 fscreen[fscreen$Pollutant == "Formic Acid", 9] <- NA

@@ -29,7 +29,7 @@ rass <- read_excel("X:/Agency_Files/Outcomes/Risk_Eval_Air_Mod/_Air_Risk_Evaluat
 
 rass <- rass[ , -c(1,2)]
 
-names(rass)[1] <- "CAS"
+names(rass)[c(1,25)] <- c("CAS","Subchronic Ref Conc")
 
 rass$CAS <- str_trim(rass$CAS)
 
@@ -61,19 +61,24 @@ fscreen <- read_csv("https://raw.githubusercontent.com/dKvale/fair-screen/master
 
 
 # Join risk references to fair-screen pollutants
-fscreen <- left_join(fscreen, risk_vals)
+#fscreen <- left_join(fscreen, risk_vals)
 
+rass    <- rass[ , -c(3,4,6:12,14:17,19:24,26:32)]
+
+fscreen <- left_join(fscreen, rass)
 
 names(fscreen) <- c("CAS","Pollutant", 
                     "AcuteConc","SubchronConc",
                     "NoncancerConc", "CancerConc",
                     "Pollutant_acc", "Acute_acc",
-                    "Cancer_acc","Noncancer_acc") 
+                    "Cancer_acc","Noncancer_acc",
+                    "Subchronic_acc") 
 
 
 # Find tox value differences
 fscreen_comp <- mutate(fscreen, 
-                       acute_test     = abs(AcuteConc - signif(Acute_acc, 2)) <   Acute_acc * .01,
+                       acute_test     = abs(AcuteConc - signif(Acute_acc, 3)) <   Acute_acc * .01,
+                       subchron_test  = abs(SubchronConc - signif(Subchronic_acc, 3)) <   Subchronic_acc * .01,
                        cancer_test    = abs(CancerConc - signif(Cancer_acc, 2)) <   Cancer_acc * .01,
                        nonCancer_test = abs(NoncancerConc - signif(Noncancer_acc,2)) <   Noncancer_acc * .01)
 
