@@ -1,6 +1,6 @@
 CAS,Pollutant,Acute Reference Conc (ug/m3),Subchronic Non-cancer Reference Conc (ug/m3),Chronic Non-cancer Reference Conc (ug/m3),Chronic cancer risk of 1E-5 Air Conc (ug/m3)
 202-94-8,"11H-Benz[b,c]aceanthrylene",NA,NA,NA,0.1
-202-98-2,"4H-Cyclopenta[d,e,f]chrysene",NA,NA,NA,0.02
+202-98-2,"4H-Cyclopenta[d,e,f]chrysene",NA,NA,NA,0.018
 75-07-0,Acetaldehyde,470,NA,9,5
 60-35-5,Acetamide,NA,NA,NA,0.5
 64-19-7,Acetic Acid,700,NA,60,NA
@@ -20,7 +20,7 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 7664-41-7,Ammonia,3200,100,80,NA
 75-85-4,"Amyl Alcohol, tert-",NA,30,NA,NA
 62-53-3,Aniline,NA,NA,1,6.3
-191-26-4,Anthanthrene,NA,NA,NA,0.01
+191-26-4,Anthanthrene,NA,NA,NA,0.014
 7440-36-0,Antimony,NA,NA,0.2,NA
 0-00-1,Antimony Compounds,NA,NA,0.2,NA
 1309-64-4,Antimony trioxide,NA,0.2,0.2,NA
@@ -30,19 +30,19 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 1327-53-3,Arsenic Trioxide,0.2,NA,0.015,0.002
 7784-42-1,Arsine,200,0.1,0.05,0.002
 123-77-3,Azodicarbonamide,NA,0.007,0.007,NA
-199-54-2,Benz[e]aceanthrylene,NA,NA,NA,0.007
-202-33-5,Benz[j]aceanthryIene,NA,NA,NA,9e-5
-211-91-6,Benz[l]aceanthryIene,NA,NA,NA,0.001
+199-54-2,Benz[e]aceanthrylene,NA,NA,NA,0.0071
+202-33-5,Benz[j]aceanthryIene,NA,NA,NA,9.1e-5
+211-91-6,Benz[l]aceanthryIene,NA,NA,NA,0.0011
 100-52-7,Benzaldehyde,240,NA,20,NA
 71-43-2,Benzene,1e3,80,30,1.3
 92-87-5,Benzidine,NA,NA,NA,2e-4
-205-82-3,Benzo(j)fluoranthene,NA,NA,NA,0.02
-207-08-9,Benzo(k)fluoranthene,NA,NA,NA,0.2
-56-55-3,Benzo[a]anthracene,NA,NA,NA,0.03
-50-32-8,Benzo[a]pyrene,NA,NA,NA,0.006
-205-99-2,Benzo[b]fluoranthene,NA,NA,NA,0.007
-205-12-9,Benzo[c]fluorene,NA,NA,NA,3e-4
-191-24-2,"Benzo[g,h,i]perylene",NA,NA,NA,0.6
+205-82-3,Benzo(j)fluoranthene,NA,NA,NA,0.019
+207-08-9,Benzo(k)fluoranthene,NA,NA,NA,0.19
+56-55-3,Benzo[a]anthracene,NA,NA,NA,0.028
+50-32-8,Benzo[a]pyrene,NA,NA,NA,0.0056
+205-99-2,Benzo[b]fluoranthene,NA,NA,NA,0.0071
+205-12-9,Benzo[c]fluorene,NA,NA,NA,2.8e-4
+191-24-2,"Benzo[g,h,i]perylene",NA,NA,NA,0.63
 100-44-7,Benzyl chloride,240,4,1,0.2
 7440-41-7,Beryllium,NA,NA,0.02,0.004
 0-00-3,Beryllium Compounds,NA,NA,0.02,0.004
@@ -88,7 +88,7 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 7440-47-3,Chromium,NA,0.02,0.008,8e-4
 18540-29-9,Chromium (Hexavalent) (particulate),NA,1,0.1,8e-4
 0-00-5,Chromium Compounds,NA,0.02,0.008,8e-4
-218-01-9,Chrysene (Benzo(a)phenanthrene),NA,NA,NA,0.06
+218-01-9,Chrysene (Benzo(a)phenanthrene),NA,NA,NA,0.056
 8007-45-2,Coal Tar,NA,NA,NA,0.02
 7440-48-4,Cobalt,NA,0.02,0.006,0.0011
 0-00-7,Coke Oven Emissions,NA,NA,NA,0.02
@@ -105,19 +105,19 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 0-00-8,Cyanide Compounds,700,NA,3,NA
 110-82-7,Cyclohexane,NA,18e3,6e3,NA
 109-94-1,Cyclohexanone,NA,7e3,700,NA
-27208-37-3,"Cyclopenta[c,d]pyrene",NA,NA,NA,0.01
+27208-37-3,"Cyclopenta[c,d]pyrene",NA,NA,NA,0.014
 50-29-3,DDT,NA,NA,NA,0.1
 615-05-4,"Diaminoanisole, 2,4-",NA,NA,NA,1.5
 103-33-3,"Diazene, Diphenyl",NA,NA,NA,0.32
-226-36-8,"Dibenz(a,h)acridine",NA,NA,NA,0.06
-224-42-0,"Dibenz(a,j)acridine",NA,NA,NA,0.06
-53-70-3,"Dibenz[a,h]anthracene",NA,NA,NA,6e-4
-192-65-4,"Dibenzo(a,e)pyrene",NA,NA,NA,0.01
-189-64-0,"Dibenzo(a,h)pyrene",NA,NA,NA,0.006
-191-30-0,"Dibenzo(a,l)pyrene",NA,NA,NA,2e-4
-194-59-2,"Dibenzo(c,g)carbazole, 7H-",NA,NA,NA,0.006
-5385-75-1,"Dibenzo[a,e]fluoranthene",NA,NA,NA,0.006
-189-55-9,"Dibenzo[a,i]pyrene",NA,NA,NA,0.009
+226-36-8,"Dibenz(a,h)acridine",NA,NA,NA,0.056
+224-42-0,"Dibenz(a,j)acridine",NA,NA,NA,0.056
+53-70-3,"Dibenz[a,h]anthracene",NA,NA,NA,5.6e-4
+192-65-4,"Dibenzo(a,e)pyrene",NA,NA,NA,0.014
+189-64-0,"Dibenzo(a,h)pyrene",NA,NA,NA,0.0062
+191-30-0,"Dibenzo(a,l)pyrene",NA,NA,NA,1.9e-4
+194-59-2,"Dibenzo(c,g)carbazole, 7H-",NA,NA,NA,0.0056
+5385-75-1,"Dibenzo[a,e]fluoranthene",NA,NA,NA,0.0062
+189-55-9,"Dibenzo[a,i]pyrene",NA,NA,NA,0.0091
 96-12-8,"Dibromo-3-chloropropane, 1,2-",NA,2,0.2,0.005
 764-41-0,"Dichloro-2-butene, 1,4-",NA,NA,NA,0.0024
 1476-11-5,"Dichloro-2-butene, cis-1,4-",NA,NA,NA,0.0024
@@ -143,8 +143,8 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 108-01-0,"Dimethylamino ethanol, 2-",NA,70,NA,NA
 57-97-6,"Dimethylbenz[a]anthracene, 7,12-",NA,NA,NA,NA
 57-14-7,"Dimethylhydrazine, 1,1-",NA,0.008,NA,NA
-42397-64-8,"Dinitropyrene, 1,6- (BaP)",NA,NA,NA,6e-4
-42397-65-9,"Dinitropyrene, 1,8- (BaP)",NA,NA,NA,0.006
+42397-64-8,"Dinitropyrene, 1,6- (BaP)",NA,NA,NA,5.6e-4
+42397-65-9,"Dinitropyrene, 1,8- (BaP)",NA,NA,NA,0.0056
 121-14-2,"Dinitrotoluene, 2,4-",NA,NA,NA,0.11
 123-91-1,"Dioxane, 1,4- (1,4-Diethylene dioxide)",3e3,NA,30,2
 122-66-7,"Diphenylhydrazine, 1,2-",NA,NA,NA,0.045
@@ -164,7 +164,7 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 75-21-8,Ethylene oxide,NA,NA,30,0.0033
 96-45-7,Ethylene thiourea,NA,NA,NA,0.77
 75-34-3,"Ethylidene dichloride (1,1-Dichloroethane)",NA,NA,NA,6.3
-206-44-0,Fluoranthene,NA,NA,NA,0.07
+206-44-0,Fluoranthene,NA,NA,NA,0.071
 1101,Fluorides (except hydrogen fluoride),NA,NA,13,NA
 50-00-0,Formaldehyde,94,NA,9,2
 64-16-6,Formic Acid,270,0.9,NA,NA
@@ -204,7 +204,7 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 7664-39-3,Hydrogen fluoride (Hydrofluoric acid),240,NA,14,NA
 7783-07-5,Hydrogen selenide,5,NA,NA,NA
 7783-06-4,Hydrogen sulfide,42,10,2,NA
-193-39-5,"Indeno(1,2,3-cd)pyrene",NA,NA,NA,0.08
+193-39-5,"Indeno(1,2,3-cd)pyrene",NA,NA,NA,0.077
 121-51-3,Isoamyl,10200,NA,860,NA
 78-59-1,Isophorone,NA,NA,2e3,NA
 67-63-0,Isopropyl alcohol,3200,7e3,7e3,NA
@@ -235,7 +235,7 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 80-62-6,Methyl methacrylate,NA,NA,700,NA
 1634-04-4,Methyl tert butyl ether,NA,NA,3e3,38
 56-49-5,"Methylcholanthrene, 3-",NA,NA,NA,0.001
-3697-24-3,"Methylchrysene, 5-",NA,NA,NA,0.006
+3697-24-3,"Methylchrysene, 5-",NA,NA,NA,0.0056
 101-14-4,"Methylene bis(2-chloroaniline), 4,4-",NA,NA,NA,0.023
 74-95-3,Methylene Bromide,NA,NA,NA,NA
 75-09-2,Methylene chloride (Dichloromethane),1e4,NA,600,20
@@ -253,25 +253,25 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),NA,NA,100,NA
 111-84-2,N-Nonane,NA,200,20,NA
 64724-95-6,"Naphtha, High Flash Aromatic (HFAN)",NA,1e3,100,NA
 91-20-3,Naphthalene,200,NA,9,9
-193-09-9,"Naphtho[2,3-e]pyrene",NA,NA,NA,0.02
+193-09-9,"Naphtho[2,3-e]pyrene",NA,NA,NA,0.019
 7440-02-0,Nickel,11,NA,0.014,0.02
 0-01-5,Nickel Compounds,11,NA,0.014,0.02
 1313-99-1,Nickel oxide,11,NA,0.02,0.038
 0-02-5,Nickel refinery dust from the pyrometallurgical process,11,NA,0.014,0.04
 12035-72-2,Nickel sulfide (NI3S2),11,NA,0.014,0.02
 7697-37-2,Nitric acid,130,NA,NA,NA
-602-87-9,"Nitroacenaphthene, 5-",NA,NA,NA,0.3
+602-87-9,"Nitroacenaphthene, 5-",NA,NA,NA,0.28
 88-74-4,"Nitroaniline, 2-",NA,0.4,NA,NA
 100-01-6,"Nitroaniline, 4-",NA,20,6,NA
 98-95-3,Nitrobenzene,NA,NA,9,0.25
-7496-02-8,"Nitrochrysene, 6-",NA,NA,NA,6e-4
-607-57-8,"Nitrofluorene, 2-",NA,NA,NA,0.6
+7496-02-8,"Nitrochrysene, 6-",NA,NA,NA,5.6e-4
+607-57-8,"Nitrofluorene, 2-",NA,NA,NA,0.56
 10102-44-0,Nitrogen dioxide (NO2),470,NA,NA,NA
 VARIOUS-NOx,Nitrogen oxides (NOx),470,NA,NA,NA
 75-52-5,Nitromethane,NA,4,5,1.1
 79-46-9,"Nitropropane, 2-",NA,NA,20,NA
-5522-43-0,"Nitropyrene, 1-",NA,NA,NA,0.06
-57835-92-4,"Nitropyrene, 4-",NA,NA,NA,0.06
+5522-43-0,"Nitropyrene, 1-",NA,NA,NA,0.056
+57835-92-4,"Nitropyrene, 4-",NA,NA,NA,0.056
 156-10-5,"Nitrosodiphenylamine, p-",NA,NA,NA,1.6
 3268-87-9,"Octachlorodibenzo-p-dioxin, 1,2,3,4,6,7,8,9-",NA,NA,0.13,8.3e-5
 39001-02-0,"Octachlorodibenzofuran, 1,2,3,4,6,7,8,9-",NA,NA,0.13,8.3e-5
@@ -306,7 +306,7 @@ VARIOUS-NOx,Nitrogen oxides (NOx),470,NA,NA,NA
 00-08-0,"Polychlorinated Dibenzo-P-Dioxins And Furans, Total",NA,NA,4e-5,2.5e-8
 00-05-0,"Polychlorinated Dibenzodioxins, Total",NA,NA,4e-5,2.5e-8
 00-05-1,"Polychlorinated Dibenzofurans, Total",NA,NA,1.3e-4,8.3e-8
-130498-29-2,Polycyclic Aromatic Hydrocarbons (PAH),NA,NA,NA,0.006
+130498-29-2,Polycyclic Aromatic Hydrocarbons (PAH),NA,NA,NA,0.0056
 00-01-7,Polycyclic Organic Matter (POM),NA,NA,NA,0.11
 9016-87-9,Polymeric diphenylmethane diisocyanate,NA,NA,0.6,NA
 7758-01-2,Potassium bromate,NA,NA,NA,0.071
