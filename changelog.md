@@ -22,7 +22,6 @@ Notable changes to this project are documented in this file.
 - Formic Acid (ethanol facility) CAS# changed to _64-18-6_
 - Ethylene dibromide (Dibromoethane) changed to _Ethylene dibromide (1,2-Dibromoethane)_
 - Methylene Bromide CAS# 74-95-3 changed to _Dibromomethane (Methylene Bromide) CAS# 74-95-3_
-- Diesel exhaust CAS# changed to _MDPM25_
 
 ## 0.0.1  ::  2016-02-09
 ### Added
