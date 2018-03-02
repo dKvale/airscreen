@@ -320,10 +320,10 @@ VARIOUS,Aliphatic Hydrocarbon Streams (Midrange),0,0,0,0,0,0
 8014-95-7,Sulfuric Acid mixture w. sulfur trioxide (oleum),0,0,0,0,0,0
 7446-09-5,Sulfur dioxide,0,0,0,0,0,0
 00-09-1,"TCDD Eqivalents, 2,3,7,8-",60,3,50,2,3420,200
-00-08-8,"Tetrachlorodibenzodioxins, All Isomers",60,3,50,2,3420,200
-51207-31-9,"Tetrachlorodibenzofuran, 2,3,7,8-",130,6,120,4,4280,250
-00-08-6,"Tetrachlorodibenzofurans, All Isomers",130,6,120,4,4280,250
-1746-01-6,"Tetrachlorodibenzo-p-dioxin, 2,3,7,8-",60,3,50,2,3420,200
+00-08-8,"Tetrachlorodibenzodioxins, All Isomers",50,2,60,3,3420,200
+51207-31-9,"Tetrachlorodibenzofuran, 2,3,7,8-",120,4,130,6,4280,250
+00-08-6,"Tetrachlorodibenzofurans, All Isomers",120,4,130,6,4280,250
+1746-01-6,"Tetrachlorodibenzo-p-dioxin, 2,3,7,8-",50,2,60,3,3420,200
 630-20-6,"Tetrachloroethane, 1,1,1,2-",0,0,0,0,0,0
 79-34-5,"Tetrachloroethane, 1,1,2,2-",0,0,0,0,0,0
 127-18-4,Tetrachloroethylene (Perchloroethylene),NA,NA,NA,NA,NA,NA
